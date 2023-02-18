@@ -3,18 +3,15 @@ const express =  require('express')
 const app = express()
 const mongoose = require('mongoose');
 require('dotenv/config')
-
-
 mongoose.set('strictQuery', false);
-mongoose.connect(process.env.DB_CONNECTION, () => {
-    console.log('Connected to Mongo DB Cloud');
-}, (e)=>{
-    console.log(e)
-});
-
+mongoose.connect(`${process.env.DB_PROTOCOL}//${process.env.DB_USERNAME}:${process.env.DB_PASSSOWRD}@${process.env.DB_HOST}/${process.env.DB_NAME}?${process.env.DB_OPTIONS}`)
+.then(()=>{
+    console.log("Connected to MongoDB Cloud")
+})
+.catch(error => console.log(error));
 
 app.get('/', (req,res) => {
-    res.send("we are on home");
+    res.send("Home of Gladiators API");
 });
 
 app.listen(3000);
