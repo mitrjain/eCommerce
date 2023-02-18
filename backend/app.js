@@ -10,6 +10,11 @@ mongoose.connect(`${process.env.DB_PROTOCOL}//${process.env.DB_USERNAME}:${proce
 })
 .catch(error => console.log(error));
 
+app.use(express.json())
+
+const productsRouter = require("./routes/products")
+app.use("/products",productsRouter)
+
 app.get('/', (req,res) => {
     res.send("Home of Gladiators API");
 });
