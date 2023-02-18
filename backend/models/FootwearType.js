@@ -6,6 +6,6 @@ const footwearTypeSchema = mongoose.Schema({
         required:true
     },
     products:[mongoose.SchemaTypes.ObjectId]
-});
+},{collection:"footwearTypes"});
 
 module.exports = mongoose.model("FootwearModel", footwearTypeSchema)

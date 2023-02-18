@@ -6,6 +6,6 @@ const materialSchema = mongoose.Schema({
         required:true
     },
     products:[mongoose.SchemaTypes.ObjectId]
-});
+},{collection:"materials"});
 
 module.exports = mongoose.model("MaterialModel", materialSchema)

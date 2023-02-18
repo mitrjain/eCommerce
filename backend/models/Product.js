@@ -77,6 +77,6 @@ const productSchema = mongoose.Schema({
     }
 
     
-})
+},{collection:"products"})
 
 module.exports=mongoose.model('ProductModel',productSchema)

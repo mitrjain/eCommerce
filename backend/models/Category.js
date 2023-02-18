@@ -12,6 +12,6 @@ const categorySchema = mongoose.Schema({
     products:[
         mongoose.SchemaTypes.ObjectId
     ]
-})
+},{collection:"categories"})
 
 module.exports=mongoose.model('CategoryModel',categorySchema)

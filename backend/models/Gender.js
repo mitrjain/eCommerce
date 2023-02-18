@@ -6,6 +6,6 @@ const genderSchema = mongoose.Schema({
         required:true
     },
     products:[mongoose.SchemaTypes.ObjectId]
-})
+},{collection:"genders"})
 
 module.exports = mongoose.model("GenderModel",genderSchema);
