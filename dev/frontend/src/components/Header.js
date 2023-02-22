@@ -10,7 +10,7 @@ function Header() {
 		<div className="row">
 			<div className="col-sm-7 col-md-9">
 				<div id="colorlib-logo">
-					<Link to="/">Footwear</Link>
+					<Link to="/">Bamboo & Ivy</Link>
 				</div>
 			</div>
 			{/* This is the search bar */}
