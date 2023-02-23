@@ -15,7 +15,10 @@ const brandSchema = mongoose.Schema({
     },
     about:{
         type:String
-    }
+    },
+    products: [
+        mongoose.SchemaTypes.ObjectId
+    ]
 
 },{collection:"brands"});
 
