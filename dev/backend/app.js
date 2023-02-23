@@ -13,7 +13,9 @@ mongoose.connect(`${process.env.DB_PROTOCOL}//${process.env.DB_USERNAME}:${proce
 app.use(express.json())
 
 const productsRouter = require("./routes/products")
+const brandsRouter = require("./routes/brands")
 app.use("/products",productsRouter)
+app.use("/brands", brandsRouter)
 
 app.get('/', (req,res) => {
     res.send("Home of Gladiators API");

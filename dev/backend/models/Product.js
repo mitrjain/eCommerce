@@ -31,8 +31,21 @@ const sizeSchema = mongoose.Schema({
         type:Number,
         required:true
     },
-    color:[inventorySchema]
+    colors:[inventorySchema]
 })
+
+// const ratingSchema = mongoose.Schema({
+//     stars:{
+//         type:Number,
+//         required:true
+//     },
+//     review:{
+//         type:String
+//     },
+//     images:{
+//         type: [String]
+//     }
+// })
 
 const productSchema = mongoose.Schema({
     brandId:{
@@ -55,29 +68,25 @@ const productSchema = mongoose.Schema({
         type:Number,
         required:true
     },
-    style:{
-        type:mongoose.SchemaTypes.ObjectId
-    },
-    material:{
-        type:mongoose.SchemaTypes.ObjectId
-    },
-    size:[sizeSchema],
-    rating:{
-        stars:{
-            type:Number,
-            required:true
-        },
-        review:{
-            type:String
-        },
-        images:{
-            type: [String]
-        }  
+    sizes:[sizeSchema],
+    // rating:{
+    //     type:
+    //     stars:{
+    //         type:Number,
+    //         required:true
+    //     },
+    //     review:{
+    //         type:String
+    //     },
+    //     images:{
+    //         type: [String]
+    //     }  
 
-    },
+    // },
     gender:{
         type:mongoose.SchemaTypes.ObjectId
-    }
+    },
+    categories:[mongoose.SchemaTypes.ObjectId]
 
     
 },{collection:"products"})
