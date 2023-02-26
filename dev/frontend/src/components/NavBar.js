@@ -42,6 +42,9 @@ function NavBar() {
 					<li>
 						<Link to="/contact">Contact</Link>
 					</li>
+					<li>
+						<Link to="/seller">Seller</Link>
+					</li>
 					<li className="cart">
 						<Link to="/cart">
 							<i className="icon-shopping-cart" /> Cart [0]
