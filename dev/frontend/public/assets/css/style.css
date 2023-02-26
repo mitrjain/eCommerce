@@ -92,7 +92,10 @@ hr {
 	overflow: visible;
 }
 
-h1,
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
 h2,
 h3,
 h4,

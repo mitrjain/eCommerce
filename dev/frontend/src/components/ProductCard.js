@@ -7,5 +7,5 @@ import { Link } from 'react-router-dom';
  * This will be a clickable card that navigates to the Product Details page, which will contain more detailed information regarding the product. 
  */
 function ProductCard() {
-    return ()
+    return (<div></div>);
 }
