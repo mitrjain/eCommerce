@@ -153,7 +153,7 @@ function men() {
 									<span>
 										<Link to="/">Home</Link>
 									</span>{' '}
-									/ <span>Women</span>
+									/ <span>Men</span>
 								</p>
 							</div>
 						</div>
@@ -166,7 +166,7 @@ function men() {
 								<div
 									className="breadcrumbs-img"
 									style={{ backgroundImage: 'url(assets/images/cover-img-1.jpg)' }}>
-									<h2>Women's</h2>
+									<h2>Men's</h2>
 								</div>
 								<div className="menu text-center">
 									<p>

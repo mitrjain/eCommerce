@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -10,6 +11,9 @@ import Footer from '../components/Footer';
  * Users can also add this product to the cart and proceed to checkout.
  */
 function ProductDetail() {
+	const [ cartItemCount, setCartItemCount ] = useState(0);
+	// const { id } = useParams();
+	// console.log(id);
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -19,7 +23,7 @@ function ProductDetail() {
 					<div className="top-menu">
 						<div className="container">
 							<Header />
-							<NavBar />
+							<NavBar cartItemCount={cartItemCount} />
 						</div>
 					</div>
 					<Sale />
@@ -48,7 +52,7 @@ function ProductDetail() {
 									<div className="product-entry border">
 										<a href="#" className="prod-img">
 											<img
-												src="assets/images/item-1.jpg"
+												src="/assets/images/item-1.jpg"
 												className="img-fluid"
 												alt="Free html5 bootstrap 4 template"
 											/>
@@ -216,7 +220,10 @@ function ProductDetail() {
 									<div className="row">
 										<div className="col-sm-12 text-center">
 											<p className="addtocart">
-												<a href="cart.html" className="btn btn-primary btn-addtocart">
+												<a
+													href="#"
+													className="btn btn-primary btn-addtocart"
+													onClick={() => setCartItemCount(cartItemCount + 1)}>
 													<i className="icon-shopping-cart" /> Add to Cart
 												</a>
 											</p>

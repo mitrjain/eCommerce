@@ -5,7 +5,7 @@ import Men from './pages/Men';
 import Women from './pages/Women';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
-import Seller from './pages/Seller'
+import Seller from './pages/Seller';
 import ProductDetail from './pages/ProductDetail';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 

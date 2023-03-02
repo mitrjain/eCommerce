@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 /**
  * This is the navigation bar for the website. It contains links to other pages in the site. 
  */
-function NavBar() {
+function NavBar({ cartItemCount }) {
 	return (
 		// These are the links to the different pages in the website
 		<div className="row">
@@ -47,7 +47,7 @@ function NavBar() {
 					</li>
 					<li className="cart">
 						<Link to="/cart">
-							<i className="icon-shopping-cart" /> Cart [0]
+							<i className="icon-shopping-cart" /> Cart [{cartItemCount ? cartItemCount : 0}]
 						</Link>
 					</li>
 				</ul>
