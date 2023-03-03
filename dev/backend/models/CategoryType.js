@@ -11,3 +11,5 @@ const categoryTypeSchema = mongoose.Schema({
     categories :[ mongoose.SchemaTypes.ObjectId ]
 
 },{collection:"categoryTypes"})
+
+module.exports=mongoose.model('CategoryTypeModel',categoryTypeSchema)

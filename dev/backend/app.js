@@ -14,8 +14,14 @@ app.use(express.json())
 
 const productsRouter = require("./routes/products")
 const brandsRouter = require("./routes/brands")
-app.use("/products",productsRouter)
+const genderRouter = require("./routes/genders")
+const categoryTypesRouter = require("./routes/categoryTypes")
+
+
+ app.use("/products",productsRouter)
 app.use("/brands", brandsRouter)
+app.use("/genders", genderRouter)
+app.use("/categoryTypes", categoryTypesRouter)
 
 app.get('/', (req,res) => {
     res.send("Home of Gladiators API");
