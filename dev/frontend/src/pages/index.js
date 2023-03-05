@@ -26,7 +26,9 @@ function Index() {
 				<aside id="colorlib-hero">
 					<div className="flexslider">
 						<ul className="slides">
-							<li style={{ backgroundImage: 'url(assets/images/img_bg_1.jpg)' }}>
+							<li
+								style={{ backgroundImage: 'url(assets/images/img_bg_1.jpg)' }}
+								className="flex-active-slide">
 								<div className="overlay" />
 								<div className="container-fluid">
 									<div className="row">

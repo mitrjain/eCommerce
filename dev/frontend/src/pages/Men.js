@@ -409,12 +409,13 @@ function men() {
 							<div className="col-lg-9 col-xl-9">
 								<div className="row row-pb-md">
 									{/* Loops through the product details and displays them as a ProductCard component */}
-									{products.map((product) => (
+									{products.map((product, idx) => (
 										<ProductCard
 											smallImgTile={product.smallImgTile}
 											name={product.name}
 											price={product.price}
-											key={product.productId}
+											key={idx}
+											productId={product.productId}
 										/>
 									))}
 								</div>

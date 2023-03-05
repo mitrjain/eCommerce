@@ -12,8 +12,8 @@ import Footer from '../components/Footer';
  */
 function ProductDetail() {
 	const [ cartItemCount, setCartItemCount ] = useState(0);
-	// const { id } = useParams();
-	// console.log(id);
+	const { id } = useParams();
+	console.log(id);
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -52,7 +52,8 @@ function ProductDetail() {
 									<div className="product-entry border">
 										<a href="#" className="prod-img">
 											<img
-												src="/assets/images/item-1.jpg"
+												// src="/assets/images/item-1.jpg"
+												src={`/assets/images/item-${id}.jpg`}
 												className="img-fluid"
 												alt="Free html5 bootstrap 4 template"
 											/>
