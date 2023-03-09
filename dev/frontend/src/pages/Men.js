@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -6,9 +6,11 @@ import Sale from '../components/Sale';
 import Footer from '../components/Footer';
 import TrustedPartners from '../components/TrustedPartners';
 import ProductCard from '../components/ProductCard';
+import axios from 'axios';
 
-function men() {
+function Men() {
 	// Contains the product details for the products rendered on this page
+
 	const products = [
 		{
 			productId: '1',
@@ -131,6 +133,11 @@ function men() {
 			price: 139
 		}
 	];
+
+	useEffect(() => {
+		axios.get('http://localhost:3001/genders').then((res) => console.log(res.data));
+	}, []);
+
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -492,4 +499,4 @@ function men() {
 	);
 }
 
-export default men;
+export default Men;
