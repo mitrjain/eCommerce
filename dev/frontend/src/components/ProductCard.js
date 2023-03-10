@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
  * This component takes in product details as props. This component will be used to display all the available products in any page on the website. 
  * @returns a ProductCard component using details in the props. 
  */
-function ProductCard({ smallImgTile, name, price, productId }) {
+function ProductCard({ smallImgTile, name, price, productId, genderId }) {
 	return (
-		<Link className="col-lg-4 mb-4 text-center" to={`/product-detail/${productId}`}>
+		<Link className="col-lg-4 mb-4 text-center" to={`/product-detail/${genderId}/${productId}`}>
 			<div>
 				<div className="product-entry border">
 					<a href="#" className="prod-img">

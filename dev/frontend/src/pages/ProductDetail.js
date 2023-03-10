@@ -1,10 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import Sale from '../components/Sale';
 import Footer from '../components/Footer';
+import { CartContext } from '../contexts/CartContext';
+import axios from 'axios';
 
 /**
  * This is the individual product page that gives details on a selected product. 
@@ -12,8 +14,21 @@ import Footer from '../components/Footer';
  */
 function ProductDetail() {
 	const [ cartItemCount, setCartItemCount ] = useState(0);
-	const { id } = useParams();
-	console.log(id);
+	const [ currentItem, setCurrentItem ] = useState({});
+	const { gender, id } = useParams();
+
+	const { cartItems, setCartItems } = useContext(CartContext);
+
+	useEffect(() => {
+		axios
+			.get(`http://localhost:3001/products?gender=${gender}`)
+			.then((res) => res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : '')));
+	}, []);
+
+	const handleAddToCartClick = () => {
+		setCartItemCount(cartItemCount + 1);
+		setCartItems((cartItems) => [ ...cartItems, currentItem ]);
+	};
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -53,7 +68,7 @@ function ProductDetail() {
 										<a href="#" className="prod-img">
 											<img
 												// src="/assets/images/item-1.jpg"
-												src={`/assets/images/item-${id}.jpg`}
+												src={`/assets/images/item-10.jpg`}
 												className="img-fluid"
 												alt="Free html5 bootstrap 4 template"
 											/>
@@ -224,7 +239,7 @@ function ProductDetail() {
 												<a
 													href="#"
 													className="btn btn-primary btn-addtocart"
-													onClick={() => setCartItemCount(cartItemCount + 1)}>
+													onClick={handleAddToCartClick}>
 													<i className="icon-shopping-cart" /> Add to Cart
 												</a>
 											</p>

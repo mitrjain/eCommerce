@@ -1,4 +1,6 @@
 // import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import Index from './pages/index';
 import About from './pages/About';
 import Men from './pages/Men';
@@ -7,23 +9,26 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Seller from './pages/Seller';
 import ProductDetail from './pages/ProductDetail';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartContext } from './contexts/CartContext';
 
 function App() {
+	const [ cartItems, setCartItems ] = useState([]);
 	return (
 		<div className="App">
-			<Router>
-				<Routes>
-					<Route path="/" element={<Index />} />
-					<Route path="/about" element={<About />} />
-					<Route path="/men" element={<Men />} />
-					<Route path="/women" element={<Women />} />
-					<Route path="/contact" element={<Contact />} />
-					<Route path="/cart" element={<Cart />} />
-					<Route path="/product-detail/:id" element={<ProductDetail />} />
-					<Route path="/seller" element={<Seller />} />
-				</Routes>
-			</Router>
+			<CartContext.Provider value={{ cartItems, setCartItems }}>
+				<Router>
+					<Routes>
+						<Route path="/" element={<Index />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/men" element={<Men />} />
+						<Route path="/women" element={<Women />} />
+						<Route path="/contact" element={<Contact />} />
+						<Route path="/cart" element={<Cart />} />
+						<Route path="/product-detail/:gender/:id" element={<ProductDetail />} />
+						<Route path="/seller" element={<Seller />} />
+					</Routes>
+				</Router>
+			</CartContext.Provider>
 		</div>
 	);
 }

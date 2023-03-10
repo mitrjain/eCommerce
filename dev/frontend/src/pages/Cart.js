@@ -1,11 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import Sale from '../components/Sale';
 import Footer from '../components/Footer';
+import { CartContext } from '../contexts/CartContext';
+import CartItem from '../components/CartItem';
 
 function Cart() {
+	const { cartItems } = useContext(CartContext);
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -81,124 +84,14 @@ function Cart() {
 										<span>Remove</span>
 									</div>
 								</div>
-								<div className="product-cart d-flex">
-									<div className="one-forth">
-										<div
-											className="product-img"
-											style={{ backgroundImage: 'url(assets/images/item-6.jpg)' }}
-										/>
-										<div className="display-tc">
-											<h3>Product Name</h3>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<span className="price">$68.00</span>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<input
-												type="text"
-												id="quantity"
-												name="quantity"
-												className="form-control input-number text-center"
-												value="1"
-												min="1"
-												max="100"
-											/>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<span className="price">$120.00</span>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<a href="#" className="closed" />
-										</div>
-									</div>
-								</div>
-								<div className="product-cart d-flex">
-									<div className="one-forth">
-										<div
-											className="product-img"
-											style={{ backgroundImage: 'url(assets/images/item-7.jpg)' }}
-										/>
-										<div className="display-tc">
-											<h3>Product Name</h3>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<span className="price">$68.00</span>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<form action="#">
-												<input
-													type="text"
-													name="quantity"
-													className="form-control input-number text-center"
-													value="1"
-													min="1"
-													max="100"
-												/>
-											</form>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<span className="price">$120.00</span>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<a href="#" className="closed" />
-										</div>
-									</div>
-								</div>
-								<div className="product-cart d-flex">
-									<div className="one-forth">
-										<div
-											className="product-img"
-											style={{ backgroundImage: 'url(assets/images/item-8.jpg)' }}
-										/>
-										<div className="display-tc">
-											<h3>Product Name</h3>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<span className="price">$68.00</span>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<input
-												type="text"
-												id="quantity"
-												name="quantity"
-												className="form-control input-number text-center"
-												value="1"
-												min="1"
-												max="100"
-											/>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<span className="price">$120.00</span>
-										</div>
-									</div>
-									<div className="one-eight text-center">
-										<div className="display-tc">
-											<a href="#" className="closed" />
-										</div>
-									</div>
-								</div>
+								{cartItems.map((cartItem, idx) => (
+									<CartItem
+										image="assets/images/item-6.jpg"
+										productName={cartItem.productName}
+										price={cartItem.price}
+										key={cartItem.productId}
+									/>
+								))}
 							</div>
 						</div>
 						<div className="row row-pb-lg">

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -6,131 +6,27 @@ import Sale from '../components/Sale';
 import Footer from '../components/Footer';
 import TrustedPartners from '../components/TrustedPartners';
 import ProductCard from '../components/ProductCard';
+import axios from 'axios';
 
-function women() {
+function Women() {
 	// Contains the product details for the products rendered on this page
-	const products = [
-		{
-			productId: '1',
-			smallImgTile: 'assets/images/item-1.jpg',
-			name: "Women's Boots Shoes Maca",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139.0
-		},
-		{
-			productId: '2',
-			smallImgTile: 'assets/images/item-2.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '3',
-			smallImgTile: 'assets/images/item-3.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '4',
-			smallImgTile: 'assets/images/item-4.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '5',
-			smallImgTile: 'assets/images/item-5.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '6',
-			smallImgTile: 'assets/images/item-6.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '7',
-			smallImgTile: 'assets/images/item-7.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '8',
-			smallImgTile: 'assets/images/item-8.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '9',
-			smallImgTile: 'assets/images/item-9.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '10',
-			smallImgTile: 'assets/images/item-10.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '11',
-			smallImgTile: 'assets/images/item-11.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '12',
-			smallImgTile: 'assets/images/item-12.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '13',
-			smallImgTile: 'assets/images/item-13.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '14',
-			smallImgTile: 'assets/images/item-14.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		},
-		{
-			productId: '15',
-			smallImgTile: 'assets/images/item-15.jpg',
-			name: "Women's Minam Meaghan",
-			brandName: 'Nike',
-			brandId: '42897sadfasd',
-			price: 139
-		}
+	const [ products, setProducts ] = useState([]);
+	const images = [
+		'assets/images/item-1.jpg',
+		'assets/images/item-2.jpg',
+		'assets/images/item-3.jpg',
+		'assets/images/item-4.jpg',
+		'assets/images/item-5.jpg',
+		'assets/images/item-6.jpg',
+		'assets/images/item-7.jpg'
 	];
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f')
+			.then((res) => setProducts(res.data));
+	}, []);
+
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -388,22 +284,6 @@ function women() {
 											</ul>
 										</div>
 									</div>
-									<div className="col-sm-12">
-										<div className="side border mb-1">
-											<h3>Technologies</h3>
-											<ul>
-												<li>
-													<a href="#">BioBevel</a>
-												</li>
-												<li>
-													<a href="#">Groove</a>
-												</li>
-												<li>
-													<a href="#">FlexBevel</a>
-												</li>
-											</ul>
-										</div>
-									</div>
 								</div>
 							</div>
 							<div className="col-lg-9 col-xl-9">
@@ -411,11 +291,12 @@ function women() {
 									{/* Loops through the product details and displays them as a ProductCard component */}
 									{products.map((product, idx) => (
 										<ProductCard
-											smallImgTile={product.smallImgTile}
-											name={product.name}
+											smallImgTile={images[idx]}
+											name={product.productName}
 											price={product.price}
 											key={idx}
 											productId={product.productId}
+											genderId="63f40017c36bbddba5ec9b3f" // ! hardcoded value
 										/>
 									))}
 								</div>
@@ -492,4 +373,4 @@ function women() {
 	);
 }
 
-export default women;
+export default Women;
