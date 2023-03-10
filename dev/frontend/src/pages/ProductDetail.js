@@ -13,21 +13,27 @@ import axios from 'axios';
  * Users can also add this product to the cart and proceed to checkout.
  */
 function ProductDetail() {
-	const [ cartItemCount, setCartItemCount ] = useState(0);
 	const [ currentItem, setCurrentItem ] = useState({});
 	const { gender, id } = useParams();
 
 	const { cartItems, setCartItems } = useContext(CartContext);
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:3001/products?gender=${gender}`)
-			.then((res) => res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : '')));
+		const getProducts = async () => {
+			await axios
+				.get(`http://localhost:3001/products?gender=${gender}`)
+				.then((res) =>
+					res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
+				);
+		};
+		getProducts();
 	}, []);
 
 	const handleAddToCartClick = () => {
-		setCartItemCount(cartItemCount + 1);
-		setCartItems((cartItems) => [ ...cartItems, currentItem ]);
+		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem)) {
+			console.log(currentItem);
+			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
+		}
 	};
 	return (
 		<Fragment>
@@ -38,7 +44,7 @@ function ProductDetail() {
 					<div className="top-menu">
 						<div className="container">
 							<Header />
-							<NavBar cartItemCount={cartItemCount} />
+							<NavBar />
 						</div>
 					</div>
 					<Sale />
@@ -75,52 +81,6 @@ function ProductDetail() {
 										</a>
 									</div>
 								</div>
-								{/* <div className="owl-carousel">
-									<div className="item">
-										<div className="product-entry border">
-											<a href="#" className="prod-img">
-												<img
-													src="assets/images/item-1.jpg"
-													className="img-fluid"
-													alt="Free html5 bootstrap 4 template"
-												/>
-											</a>
-										</div>
-									</div>
-									<div className="item">
-										<div className="product-entry border">
-											<a href="#" className="prod-img">
-												<img
-													src="assets/images/item-2.jpg"
-													className="img-fluid"
-													alt="Free html5 bootstrap 4 template"
-												/>
-											</a>
-										</div>
-									</div>
-									<div className="item">
-										<div className="product-entry border">
-											<a href="#" className="prod-img">
-												<img
-													src="assets/images/item-3.jpg"
-													className="img-fluid"
-													alt="Free html5 bootstrap 4 template"
-												/>
-											</a>
-										</div>
-									</div>
-									<div className="item">
-										<div className="product-entry border">
-											<a href="#" className="prod-img">
-												<img
-													src="assets/images/item-4.jpg"
-													className="img-fluid"
-													alt="Free html5 bootstrap 4 template"
-												/>
-											</a>
-										</div>
-									</div>
-								</div> */}
 							</div>
 							<div className="col-sm-4">
 								<div className="product-desc">

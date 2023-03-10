@@ -22,9 +22,12 @@ function Women() {
 	];
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f')
-			.then((res) => setProducts(res.data));
+		const getWomensProducts = async () => {
+			await axios
+				.get('http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f')
+				.then((res) => setProducts(res.data));
+		};
+		getWomensProducts();
 	}, []);
 
 	return (

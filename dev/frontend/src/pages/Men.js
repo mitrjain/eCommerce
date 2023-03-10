@@ -144,9 +144,12 @@ function Men() {
 	// ];
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e')
-			.then((res) => setProducts(res.data));
+		const getMensProducts = async () => {
+			await axios
+				.get('http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e')
+				.then((res) => setProducts(res.data));
+		};
+		getMensProducts();
 	}, []);
 
 	return (

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../contexts/CartContext';
 
 /**
  * This is the navigation bar for the website. It contains links to other pages in the site. 
  */
-function NavBar({ cartItemCount }) {
+function NavBar() {
+	const { cartItems } = useContext(CartContext);
 	return (
 		// These are the links to the different pages in the website
 		<div className="row">
@@ -47,7 +49,7 @@ function NavBar({ cartItemCount }) {
 					</li>
 					<li className="cart">
 						<Link to="/cart">
-							<i className="icon-shopping-cart" /> Cart [{cartItemCount ? cartItemCount : 0}]
+							<i className="icon-shopping-cart" /> Cart [{cartItems ? cartItems.length : 0}]
 						</Link>
 					</li>
 				</ul>

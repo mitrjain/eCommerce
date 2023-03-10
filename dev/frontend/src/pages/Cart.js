@@ -84,14 +84,20 @@ function Cart() {
 										<span>Remove</span>
 									</div>
 								</div>
-								{cartItems.map((cartItem, idx) => (
-									<CartItem
-										image="assets/images/item-6.jpg"
-										productName={cartItem.productName}
-										price={cartItem.price}
-										key={cartItem.productId}
-									/>
-								))}
+								{cartItems.map(
+									(cartItem, idx) =>
+										cartItem ? (
+											<CartItem
+												image="assets/images/item-6.jpg"
+												productName={cartItem.productName}
+												price={cartItem.price}
+												key={cartItem.productId}
+												productId={cartItem.productId}
+											/>
+										) : (
+											''
+										)
+								)}
 							</div>
 						</div>
 						<div className="row row-pb-lg">

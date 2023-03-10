@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { CartContext } from '../contexts/CartContext';
 
-const CartItem = ({ image, productName, price }) => {
+/**
+ * This component is the individual items that are on the cart. It is stored in a list of items that are currently in the cart. 
+ * @param {*} Takes props from Cart and renders out the component based on the props.  
+ */
+const CartItem = ({ image, productName, price, productId }) => {
+	const { cartItems, setCartItems } = useContext(CartContext);
+	const removeItem = () => {
+		setCartItems((current) => current.filter((item) => item.productId !== productId));
+	};
+
 	return (
 		<div className="product-cart d-flex">
 			<div className="one-forth">
@@ -34,7 +44,7 @@ const CartItem = ({ image, productName, price }) => {
 			</div>
 			<div className="one-eight text-center">
 				<div className="display-tc">
-					<a href="#" className="closed" />
+					<a href="#" className="closed" onClick={removeItem} />
 				</div>
 			</div>
 		</div>
