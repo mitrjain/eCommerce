@@ -6,7 +6,7 @@ import { CartContext } from '../contexts/CartContext';
  * @param {*} Takes props from Cart and renders out the component based on the props.  
  */
 const CartItem = ({ image, productName, price, productId }) => {
-	const { cartItems, setCartItems } = useContext(CartContext);
+	const { cartItems, setCartItems, quantity, setQuantity } = useContext(CartContext);
 	const removeItem = () => {
 		setCartItems((current) => current.filter((item) => item.productId !== productId));
 	};
@@ -31,7 +31,9 @@ const CartItem = ({ image, productName, price, productId }) => {
 						id="quantity"
 						name="quantity"
 						className="form-control input-number text-center"
-						value="1"
+						// value={quantity}
+						onChange={(e) => (e.target.value ? setQuantity(e.target.value) : '')}
+						placeholder={quantity}
 						min="1"
 						max="100"
 					/>
@@ -39,7 +41,7 @@ const CartItem = ({ image, productName, price, productId }) => {
 			</div>
 			<div className="one-eight text-center">
 				<div className="display-tc">
-					<span className="price">$120.00</span>
+					<span className="price">${parseInt(quantity) * price}</span>
 				</div>
 			</div>
 			<div className="one-eight text-center">

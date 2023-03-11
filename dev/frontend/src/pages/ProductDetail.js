@@ -14,9 +14,10 @@ import axios from 'axios';
  */
 function ProductDetail() {
 	const [ currentItem, setCurrentItem ] = useState({});
+	// const [ quantity, setQuantity ] = useState('1');
 	const { gender, id } = useParams();
 
-	const { cartItems, setCartItems } = useContext(CartContext);
+	const { cartItems, setCartItems, quantity, setQuantity } = useContext(CartContext);
 
 	useEffect(() => {
 		const getProducts = async () => {
@@ -35,6 +36,16 @@ function ProductDetail() {
 			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
 		}
 	};
+
+	const handleQuantityChange = (e) => {
+		// console.log(e.target.value);
+		if (e.target.value) {
+			setQuantity(e.target.value);
+		} else {
+			setQuantity('');
+		}
+	};
+
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -179,7 +190,9 @@ function ProductDetail() {
 											id="quantity"
 											name="quantity"
 											className="form-control input-number"
-											value="1"
+											value={quantity}
+											placeholder={quantity ? '' : '1'}
+											onChange={handleQuantityChange}
 											min="1"
 											max="100"
 										/>
