@@ -10,7 +10,20 @@ exports.findAll = async (req, res) => {
                 message: `No Brands found`
             })
         }else{
-            res.status(200).json(data);
+
+
+            const result =[]
+            for(i=0;i<data.length;i++){
+
+                brands = []
+
+                brandTypeObj = {
+                    brandId : data[i]._id,
+                    name : data[i].name
+                }
+                result.push(brandTypeObj);
+            }
+            res.json(result)
         }
     }catch(e){
         console.log(e);
