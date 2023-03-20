@@ -297,3 +297,16 @@ exports.fetch = async(req,res)=>{
         console.log({err:e});
     }
 }
+
+exports.fetchSingleProduct = async (req, res)=>{
+    try{
+        console.log(req)
+        const productId = req.params["id"]
+        
+        const product = await ProductModel.findById(productId)
+        res.json(product)
+    }
+    catch(e){
+        console.log(e)
+    }
+}
