@@ -1,14 +1,14 @@
-const express =  require('express')
+const express = require('express')
 
 const app = express()
 const mongoose = require('mongoose');
 require('dotenv/config')
 mongoose.set('strictQuery', false);
 mongoose.connect(`${process.env.DB_PROTOCOL}//${process.env.DB_USERNAME}:${process.env.DB_PASSSOWRD}@${process.env.DB_HOST}/${process.env.DB_NAME}?${process.env.DB_OPTIONS}`)
-.then(()=>{
-    console.log("Connected to MongoDB Cloud")
-})
-.catch(error => console.log(error));
+    .then(() => {
+        console.log("Connected to MongoDB Cloud")
+    })
+    .catch(error => console.log(error));
 
 app.use(express.json())
 
@@ -18,12 +18,12 @@ const genderRouter = require("./routes/genders")
 const categoryTypesRouter = require("./routes/categoryTypes")
 
 
- app.use("/products",productsRouter)
+app.use("/products", productsRouter)
 app.use("/brands", brandsRouter)
 app.use("/genders", genderRouter)
 app.use("/categoryTypes", categoryTypesRouter)
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.send("Home of Gladiators API");
 });
 
