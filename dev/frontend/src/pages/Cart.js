@@ -91,7 +91,7 @@ function Cart() {
 												image="assets/images/item-6.jpg"
 												productName={cartItem.productName}
 												price={cartItem.price}
-												key={cartItem.productId}
+												key={idx}
 												productId={cartItem.productId}
 											/>
 										) : (

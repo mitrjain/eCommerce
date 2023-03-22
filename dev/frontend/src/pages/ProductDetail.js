@@ -17,7 +17,7 @@ function ProductDetail() {
 	// const [ quantity, setQuantity ] = useState('1');
 	const { gender, id } = useParams();
 
-	const { cartItems, setCartItems, quantity, setQuantity } = useContext(CartContext);
+	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
 
 	useEffect(() => {
 		const getProducts = async () => {
@@ -34,6 +34,10 @@ function ProductDetail() {
 		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem)) {
 			console.log(currentItem);
 			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
+
+			let obj = {};
+			obj[currentItem.productId] = quantity;
+			setQuantityArray((items) => [ ...items, obj ]);
 		}
 	};
 
