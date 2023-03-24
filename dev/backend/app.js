@@ -16,12 +16,14 @@ const productsRouter = require("./routes/products")
 const brandsRouter = require("./routes/brands")
 const genderRouter = require("./routes/genders")
 const categoryTypesRouter = require("./routes/categoryTypes")
+const cartRouter = require("./routes/cart")
 
 
 app.use("/products", productsRouter)
 app.use("/brands", brandsRouter)
 app.use("/genders", genderRouter)
 app.use("/categoryTypes", categoryTypesRouter)
+app.use("/cart", cartRouter);
 
 app.get('/', (req, res) => {
     res.send("Home of Gladiators API");
