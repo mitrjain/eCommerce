@@ -7,4 +7,6 @@ const categoryTypesController = require("../controllers/categoryTypes.controller
 //Get all categoryTypes and its sub categories
 router.route('/').get(categoryTypesController.fetchAll);
 
+router.route('/:id').get(categoryTypesController.fetchSingle)
+
 module.exports=router 

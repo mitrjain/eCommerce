@@ -39,3 +39,32 @@ exports.fetchAll = async (req, res) => {
         res.json({error : e});
     }
 }
+
+exports.fetchSingle = async (req, res) => {
+    try{
+        const categoryTypeId = req.params.id;
+        const categoryTypeDoc = await CategoryTypeModel.findById(categoryTypeId);
+        if(!categoryTypeDoc){
+            res.status(200).send({
+                message: `No categoryType found matching the provided id`
+            })
+        }else{
+            const result =[]
+            categories=categoryTypeDoc.categories;
+            for( j=0;j<categories.length;j++){
+                categoryDoc = await CategoryModel.findById(categories[j]);
+                categoryObj = {
+                    categoryId : categoryDoc._id,
+                    name : categoryDoc.name
+                }
+                result.push(categoryObj);
+
+            }
+            res.json(result)
+        }
+    }catch(e){
+        res.status(500)
+        console.log(e);
+        res.json({error : e});
+    }
+}
