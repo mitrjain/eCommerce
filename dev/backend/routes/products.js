@@ -11,8 +11,8 @@ router.route('/')
 router.route('/:id')
 .delete(productsController.delete) //delete a product
 
-router.route(':/id')
-.get(productsController.fetchSingleProduct) //get a single product specified by id
+router.route('/:id')
+.get(productsController.fetchSingle) //get a single product specified by id
 
 
 module.exports=router

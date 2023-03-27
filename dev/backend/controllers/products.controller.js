@@ -298,10 +298,10 @@ exports.fetch = async(req,res)=>{
     }
 }
 
-exports.fetchSingleProduct = async (req, res)=>{
+exports.fetchSingle = async (req, res)=>{
     try{
-        console.log(req)
-        const productId = req.params["id"]
+        // console.log(req)
+        const productId = req.params.id
         
         const product = await ProductModel.findById(productId)
         res.json(product)
