@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 
@@ -15,13 +14,20 @@ export default class Seller extends React.Component {
             specsDiv: [],
             checked: [],
             sizeArray: ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
-            categories: []
+            categories: {},
+            categoriesDiv: []
         }
     }
 
     setSpecsDiv(specsDivParam) {
         this.setState({
             specsDiv: specsDivParam
+        })
+    }
+
+    setCategoriesDiv(categoriesDivParam) {
+        this.setState({
+            categoriesDiv: categoriesDivParam
         })
     }
 
@@ -45,17 +51,30 @@ export default class Seller extends React.Component {
 
     setSelectedCategoryType = (input) => {
         this.setState({
-            selectedCategoryType: input.label,
-            categories: []
+            selectedCategoryType: input.label
         })
-        let categoriesArray = [];
-        for (let i = 0; i < input.categories.length; i++) {
-            categoriesArray.push({ label: input.categories[i].name, value: input.categories[i].name })
+        if (!this.state.categories.hasOwnProperty(input.label)) {
+            var categories = [];
+            axios.get('http://localhost:3001/categoryTypes/' + input.value)
+                .then((res) => {
+                    if (res.data.length !== 0) {
+                        for (let i = 0; i < res.data.length; i++) {
+                            var category = { label: res.data[i].name, value: res.data[i].categoryId }
+                            categories.push(category);
+                        }
+                        this.state.categories[input.label] = categories;
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
         }
+    }
+
+    setCategories = (categoriesParam) => {
         this.setState({
-            categories: categoriesArray
+            categories: categoriesParam
         })
-        console.log(input);
     }
 
     componentDidMount() {
@@ -74,13 +93,12 @@ export default class Seller extends React.Component {
 
         axios.get('http://localhost:3001/categoryTypes')
             .then((res) => {
-                let categoryTypes = [];
+                var categoryTypes = [];
                 for (var i = 0; i < res.data.length; i++) {
-                    var categoryType = { label: res.data[i].name, value: res.data[i].name, categories: res.data[i].categories }
+                    var categoryType = { label: res.data[i].name, value: res.data[i].categoryTypeId }
                     categoryTypes.push(categoryType);
                 }
                 this.setCategoryTypes(categoryTypes);
-                this.setSelectedCategoryType(categoryTypes[0]);
             })
             .catch((err) => {
                 console.log(err);
@@ -151,8 +169,47 @@ export default class Seller extends React.Component {
         }
     }
 
-    removeDivFromSpecsDiv() {
-        this.setSpecsDiv(this.specsDiv.filter(item => this.specsDiv.indexOf(item) !== this.specsDiv.length - 1));
+    addDivToCategoriesDiv = () => {
+        if (this.state.categoriesDiv.length == 0) {
+            this.setCategoriesDiv([{
+                category:
+                    <div>
+                        <span className="form-inline">
+                            <label htmlFor="categoryTypeId" className="col-md-2"> Category Type: </label>
+                            <Select id="categoryTypeId" options={this.state.categoryTypes} className="col-md-7 px-3 py-2" onChange={this.setSelectedCategoryTypes} />
+                        </span>
+                        <span className="form-inline">
+                            <label htmlFor="category" className="col-md-2"> {this.state.selectedCategoryType} </label>
+                            <Select id="category" options={this.state.categories[this.state.selectedCategoryType]} className="col-md-7 px-3 py-2 my-4" />
+                        </span>
+                    </div>
+            }])
+        } else {
+            this.setCategoriesDiv(this.state.categoriesDiv.concat([{
+                category:
+                    <div>
+                        <span className="form-inline">
+                            <label htmlFor="categoryTypeId" className="col-md-2"> Category Type: </label>
+                            <Select id="categoryTypeId" options={this.state.categoryTypes || []} className="col-md-7 px-3 py-2" onChange={this.setSelectedCategoryType} />
+                        </span>
+                        <span className="form-inline">
+                            <label htmlFor="category" className="col-md-2"> {this.state.selectedCategoryType} </label>
+                            <Select id="category" options={this.state.categories[this.selectedCategoryType]} className="col-md-7 px-3 py-2 my-4" />
+                        </span>
+                    </div>
+
+            }]))
+        }
+    }
+
+    removeDivFromCategoriesDiv = () => {
+        const categoriesDivParam = this.state.categoriesDiv.filter(item => this.state.categoriesDiv.indexOf(item) !== this.state.categoriesDiv.length - 1);
+        this.setCategoriesDiv(categoriesDivParam);
+    }
+
+    removeDivFromSpecsDiv = () => {
+        const specsDivParam = this.state.specsDiv.filter(item => this.state.specsDiv.indexOf(item) !== this.state.specsDiv.length - 1);
+        this.setSpecsDiv(specsDivParam);
     }
 
     render() {
@@ -179,7 +236,11 @@ export default class Seller extends React.Component {
                                         <input type="text" id="desc" className="col-md-7 px-3 py-2 my-4" placeholder="Enter description of the product" />
                                     </span>
                                     <span className="form-inline">
-                                        <label htmlFor="maxqty" className="col-md-2"> Maximum Quantity: </label>
+                                        <label htmlFor="maxqty" className="col-md-2"> Maximum Quantity Limit: </label>
+                                        <input type="number" id="maxqty" className="col-md-7 px-3 py-2 my-4" />
+                                    </span>
+                                    <span className="form-inline">
+                                        <label htmlFor="qty" className="col-md-2"> Quantity to sell: </label>
                                         <input type="number" id="maxqty" className="col-md-7 px-3 py-2 my-4" />
                                     </span>
                                     <div>
@@ -205,14 +266,26 @@ export default class Seller extends React.Component {
                                             }
                                         </div>
                                     </div>
-                                    <span className="form-inline">
-                                        <label htmlFor="categoryTypeId" className="col-md-2"> Category Type: </label>
-                                        <Select id="categoryTypeId" options={this.state.categoryTypes} className="col-md-7 px-3 py-2" value={this.state?.categoryTypes[0]} placeholder={this.state.categoryTypes.placeholder} onChange={this.setSelectedCategoryType} />
-                                    </span>
-                                    <span className="form-inline">
-                                        <label htmlFor="category" className="col-md-2"> {this.state.selectedCategoryType} </label>
-                                        <Select id="category" value={this.state?.categories[0]} options={this.state.categories} className="col-md-7 px-3 py-2 my-4" />
-                                    </span>
+                                    <div>
+                                        <div className="row">
+                                            <h4 className="text-left">Category Types and Categories: </h4>
+                                            <div>
+                                                <button className="mx-2" onClick={this.addDivToCategoriesDiv}> Add </button>
+                                                <button onClick={this.removeDivFromCategoriesDiv}> Remove </button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {
+                                                this.state.categoriesDiv.map((item, index) => {
+                                                    return (
+                                                        <div>
+                                                            {item.category}
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
