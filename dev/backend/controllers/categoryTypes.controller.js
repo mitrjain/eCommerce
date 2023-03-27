@@ -12,22 +12,22 @@ exports.fetchAll = async (req, res) => {
             const result =[]
             for(i=0;i<categoryTypes.length;i++){
 
-                categoriesArr = []
-                categories=categoryTypes[i].categories;
+                // categoriesArr = []
+                // categories=categoryTypes[i].categories;
                 // console.log(categories);
-                for( j=0;j<categories.length;j++){
-                    categoryDoc = await CategoryModel.findById(categories[j]);
-                    // console.log(categoryDoc)
-                    categoryObj = {
-                        categoryId : categoryDoc._id,
-                        name : categoryDoc.name
-                    }
-                    categoriesArr.push(categoryObj);
-                }
+                // for( j=0;j<categories.length;j++){
+                //     categoryDoc = await CategoryModel.findById(categories[j]);
+                //     // console.log(categoryDoc)
+                //     categoryObj = {
+                //         categoryId : categoryDoc._id,
+                //         name : categoryDoc.name
+                //     }
+                //     categoriesArr.push(categoryObj);
+                // }
                 categoryTypeObj = {
                     categoryTypeId : categoryTypes[i]._id,
                     name : categoryTypes[i].name,
-                    categories : categoriesArr
+                    // categories : categoriesArr
                 }
                 result.push(categoryTypeObj);
             }
