@@ -11,7 +11,7 @@ const CartItem = ({ image, productName, price, productId }) => {
 		setCartItems((current) => current.filter((item) => item.productId !== productId));
 	};
     
-    // Testing github
+    // Testing git push command
 
 	return (
 		<div className="product-cart d-flex">
