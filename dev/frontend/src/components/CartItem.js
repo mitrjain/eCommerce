@@ -10,6 +10,8 @@ const CartItem = ({ image, productName, price, productId }) => {
 	const removeItem = () => {
 		setCartItems((current) => current.filter((item) => item.productId !== productId));
 	};
+    
+    // Testing github
 
 	return (
 		<div className="product-cart d-flex">
