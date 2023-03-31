@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-
+        ENV_FILE = credentials('env')
     }
     stages{
         stage("pre-build"){
@@ -20,9 +20,21 @@ pipeline{
             }
 
         }
+        stage('write') {
+           steps {
+            dir('/var/jenkins_home/workspace/test-pipeline_jenkins-test/dev/backend/'){
+                script {
+                   writeFile(file: '.env', text: ENV_FILE)
+                   sh "ls -l"
+               }
+            }
+               
+           }
+       }
         stage("build"){
             steps{
                 echo 'running server'
+                
                 nodejs('Node-19.8.1'){
                     sh 'cd dev/backend'
                     sh 'npm run start'
