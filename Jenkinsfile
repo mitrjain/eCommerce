@@ -3,13 +3,21 @@ pipeline{
     stages{
         stage("pre-build"){
             steps{
-                echo 'make environment ready'
+                echo 'using npm to download depedencies'
+                nodejs('Node-19.8.1'){
+                    sh 'cd dev/backend'
+                    sh 'npm ci'
+                }
             }
 
         }
         stage("build"){
             steps{
-                echo 'build project'
+                echo 'running server'
+                nodejs('Node-19.8.1'){
+                    sh 'cd dev/backend'
+                    sh 'npm run start'
+                }
             }
 
         }
