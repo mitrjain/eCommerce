@@ -14,21 +14,59 @@ import axios from 'axios';
  */
 function ProductDetail() {
 	const [ currentItem, setCurrentItem ] = useState({});
-	// const [ quantity, setQuantity ] = useState('1');
+	const [ apiData, setApiData ] = useState({});
+	const [ selectedSize, setSelectedSize ] = useState(null);
 	const { gender, id } = useParams();
 
 	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
 
+	// useEffect(() => {
+	// 	const getProducts = async () => {
+	// 		await axios
+	// 			.get(`http://localhost:3001/products?gender=${gender}`)
+	// 			.then((res) =>
+	// 				res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
+	// 			);
+	// 	};
+	// 	getProducts();
+	// }, []);
+
 	useEffect(() => {
 		const getProducts = async () => {
-			await axios
-				.get(`http://localhost:3001/products?gender=${gender}`)
-				.then((res) =>
-					res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
-				);
+			await axios.get(`http://localhost:3001/products/${id}`).then((res) =>
+				// res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
+				setApiData(res.data)
+			);
 		};
 		getProducts();
 	}, []);
+
+	useEffect(
+		() => {
+			const setCurrObj = () => {
+				if (Object.keys(apiData).length === 0) {
+					console.log('Hello World');
+				} else {
+					const obj = {
+						productName: apiData.name,
+						productId: apiData._id,
+						brandId: apiData.brandId,
+						genderId: apiData.gender,
+						productDesc: apiData.desc,
+						image: apiData.sizes[0].colors[0].productDetail.smallImgTile,
+						price: apiData.sizes[0].colors[0].productDetail.price,
+						sizes: apiData.sizes,
+						selectedSize: selectedSize
+					};
+
+					setCurrentItem(obj);
+				}
+			};
+
+			setCurrObj();
+		},
+		[ apiData, selectedSize ]
+	);
 
 	const handleAddToCartClick = () => {
 		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem)) {
@@ -41,12 +79,15 @@ function ProductDetail() {
 		}
 	};
 
-	const handleQuantityChange = (e) => {
-		// console.log(e.target.value);
-		if (e.target.value) {
-			setQuantity(e.target.value);
-		} else {
-			setQuantity('');
+	const handleQuantityPlusClick = () => {
+		if (quantity < apiData.maxQtyLmt) {
+			setQuantity(quantity + 1);
+		}
+	};
+
+	const handleQuantityMinusClick = () => {
+		if (quantity > 1) {
+			setQuantity(quantity - 1);
 		}
 	};
 
@@ -99,9 +140,9 @@ function ProductDetail() {
 							</div>
 							<div className="col-sm-4">
 								<div className="product-desc">
-									<h3>Women's Boots Shoes Maca</h3>
+									<h3>{currentItem.productName}</h3>
 									<p className="price">
-										<span>$68.00</span>
+										<span>${currentItem.price}</span>
 										<span className="rate">
 											<i className="icon-star-full" />
 											<i className="icon-star-full" />
@@ -111,60 +152,20 @@ function ProductDetail() {
 											(74 Rating)
 										</span>
 									</p>
-									<p>
-										Even the all-powerful Pointing has no control about the blind texts it is an
-										almost unorthographic life One day however a small line of blind text by the
-										name of Lorem Ipsum decided to leave for the far World of Grammar.
-									</p>
+									<p>{currentItem.productDesc}</p>
 									<div className="size-wrap">
 										<div className="block-26 mb-2">
 											<h4>Size</h4>
 											<ul>
-												<li>
-													<a href="#">7</a>
-												</li>
-												<li>
-													<a href="#">7.5</a>
-												</li>
-												<li>
-													<a href="#">8</a>
-												</li>
-												<li>
-													<a href="#">8.5</a>
-												</li>
-												<li>
-													<a href="#">9</a>
-												</li>
-												<li>
-													<a href="#">9.5</a>
-												</li>
-												<li>
-													<a href="#">10</a>
-												</li>
-												<li>
-													<a href="#">10.5</a>
-												</li>
-												<li>
-													<a href="#">11</a>
-												</li>
-												<li>
-													<a href="#">11.5</a>
-												</li>
-												<li>
-													<a href="#">12</a>
-												</li>
-												<li>
-													<a href="#">12.5</a>
-												</li>
-												<li>
-													<a href="#">13</a>
-												</li>
-												<li>
-													<a href="#">13.5</a>
-												</li>
-												<li>
-													<a href="#">14</a>
-												</li>
+												{Object.keys(currentItem).length !== 0 ? (
+													currentItem.sizes.map((product, idx) => (
+														<li key={idx} onClick={() => setSelectedSize(product.size)}>
+															<a href="#">{product.size}</a>
+														</li>
+													))
+												) : (
+													''
+												)}
 											</ul>
 										</div>
 										<div className="block-26 mb-4">
@@ -183,6 +184,7 @@ function ProductDetail() {
 										<span className="input-group-btn">
 											<button
 												type="button"
+												onClick={handleQuantityMinusClick}
 												className="quantity-left-minus btn"
 												data-type="minus"
 												data-field="">
@@ -195,14 +197,13 @@ function ProductDetail() {
 											name="quantity"
 											className="form-control input-number"
 											value={quantity}
-											placeholder={quantity ? '' : '1'}
-											onChange={handleQuantityChange}
 											min="1"
 											max="100"
 										/>
 										<span className="input-group-btn ml-1">
 											<button
 												type="button"
+												onClick={handleQuantityPlusClick}
 												className="quantity-right-plus btn"
 												data-type="plus"
 												data-field="">

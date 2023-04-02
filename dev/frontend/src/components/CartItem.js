@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../contexts/CartContext';
+import axios from 'axios';
 
 /**
  * This component is the individual items that are on the cart. It is stored in a list of items that are currently in the cart. 
@@ -7,8 +8,30 @@ import { CartContext } from '../contexts/CartContext';
  */
 const CartItem = ({ image, productName, price, productId }) => {
 	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
-	const removeItem = () => {
+
+	// Removes item from cart
+	const removeItem = async () => {
+		cartItems.map(
+			async (item) =>
+				item.productId === productId
+					? await axios.post('http://localhost:3001/cart', {
+							productId: item.productId,
+							brandId: item.brandId,
+							name: item.productName,
+							desc: item.productDesc,
+							sellerId: '1',
+							qty: 0,
+							size: 8,
+							color: 'red',
+							price: item.price,
+							smallImgTile: item.image,
+							genderId: item.genderId
+						})
+					: ''
+		);
 		setCartItems((current) => current.filter((item) => item.productId !== productId));
+
+		// POST request to add to cart
 	};
     
     // Testing git push command
@@ -28,17 +51,7 @@ const CartItem = ({ image, productName, price, productId }) => {
 			</div>
 			<div className="one-eight text-center">
 				<div className="display-tc">
-					<input
-						type="text"
-						id="quantity"
-						name="quantity"
-						className="form-control input-number text-center"
-						// value={quantity}
-						onChange={(e) => (e.target.value ? setQuantity(e.target.value) : '')}
-						placeholder={quantityArray.map((item) => (item[productId] ? item[productId] : ''))}
-						min="1"
-						max="100"
-					/>
+					<span className="price">{quantityArray.map((item) => item[productId])}</span>
 				</div>
 			</div>
 			<div className="one-eight text-center">

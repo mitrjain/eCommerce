@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -6,9 +6,69 @@ import Sale from '../components/Sale';
 import Footer from '../components/Footer';
 import { CartContext } from '../contexts/CartContext';
 import CartItem from '../components/CartItem';
+import axios from 'axios';
 
 function Cart() {
-	const { cartItems } = useContext(CartContext);
+	const { cartItems, setCartItems, quantityArray } = useContext(CartContext);
+	// const [ subtotal, setSubtotal ] = useState(0);
+	let subtotal = 0;
+
+	// const calculateSubtotal = () => {
+	// 	cartItems.map((item) => setSubtotal(subtotal + Number(quantityArray[item.productId]) * item.price));
+	// };
+
+	const handleCheckoutClick = async () => {
+		console.log('QUANTITY', quantityArray['63f6dd8511972f074964d184']);
+		// Send POST request to add to cart api
+		// const item = cartItems[0];
+		// console.log('Inside Handle Checkout', item)
+		if (cartItems) {
+			cartItems.map(
+				async (item) =>
+					await axios
+						.post('http://localhost:3001/cart', {
+							productId: item.productId,
+							brandId: item.brandId,
+							name: item.productName,
+							desc: item.productDesc,
+							sellerId: '1',
+							qty: 1,
+							size: 8,
+							color: 'red',
+							price: item.price,
+							smallImgTile: item.image,
+							genderId: item.genderId
+						})
+						.then(
+							async (res) =>
+								await axios
+									.get('http://localhost:3001/cart')
+									.then((res) => console.log('Get all cart', res.data))
+						)
+						.catch((err) => console.log('AXIOS ERROR PROBLEM'))
+			);
+
+			// await axios.get('http://localhost:3001/cart').then((res) => console.log('Get all cart', res.data));
+		}
+
+		// axios.post('http://localhost:3001/cart',
+		// {
+		//     "productId": "63f6e2baed2ad423ad59491d",
+		//     "brandId":"63f3fb6ec36bbddba5ec9b3d",
+		//     "name":"adidas Predator Freak .3 Firm Ground Soccer Shoe Mens",
+		//     "desc":"adidas mens Predator Freak .5 Firm Ground Soccer Shoe",
+		//     "sellerId":"1",
+		//     "qty":0,
+		//     "size":8,
+		//     "color":"red",
+		//     "price":60,
+		//     "smallImgTile" : "/imageUrl/",
+		//     "genderId" : "63f3ff99c36bbddba5ec9b3e"
+
+		// }
+
+		// ).then(res => console.log(res)).catch((err) => console.log('AXIOS ERROR PROBLEM'))
+	};
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}
@@ -99,6 +159,14 @@ function Cart() {
 										)
 								)}
 							</div>
+							<div className="col-sm-3">
+								<input
+									onClick={handleCheckoutClick}
+									type="submit"
+									value="Checkout"
+									className="btn btn-primary"
+								/>
+							</div>
 						</div>
 						<div className="row row-pb-lg">
 							<div className="col-md-12">
@@ -129,7 +197,7 @@ function Cart() {
 											<div className="total">
 												<div className="sub">
 													<p>
-														<span>Subtotal:</span> <span>$200.00</span>
+														<span>Subtotal:</span> <span>$0</span>
 													</p>
 													<p>
 														<span>Delivery:</span> <span>$0.00</span>
