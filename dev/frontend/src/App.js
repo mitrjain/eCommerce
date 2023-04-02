@@ -13,14 +13,21 @@ import { CartContext } from './contexts/CartContext';
 
 function App() {
 	const [ cartItems, setCartItems ] = useState([]);
-	const [ quantity, setQuantity ] = useState('1');
+	const [ quantity, setQuantity ] = useState(1);
 
 	// A quantity array that maps productId: quantity
 	const [ quantityArray, setQuantityArray ] = useState([]);
 	return (
 		<div className="App">
 			<CartContext.Provider
-				value={{ cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray }}>
+				value={{
+					cartItems,
+					setCartItems,
+					quantity,
+					setQuantity,
+					quantityArray,
+					setQuantityArray
+				}}>
 				<Router>
 					<Routes>
 						<Route path="/" element={<Index />} />
