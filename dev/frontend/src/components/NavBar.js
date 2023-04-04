@@ -48,6 +48,11 @@ function NavBar() {
 						<Link to="/seller">Seller</Link>
 					</li>
 					<li className="cart">
+						<Link style={{ color: '#88c8bc', fontWeight: 'bold' }} to="/login">
+							Login/Signup
+						</Link>
+					</li>
+					<li className="cart">
 						<Link to="/cart">
 							<i className="icon-shopping-cart" /> Cart [{cartItems ? cartItems.length : 0}]
 						</Link>
