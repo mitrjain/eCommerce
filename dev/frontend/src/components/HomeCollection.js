@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * This component contains the Men's and Women's collection images displayed on the Home page. 
@@ -11,8 +12,8 @@ function HomeCollection() {
 				<div className="row">
 					<div className="col-sm-6 text-center">
 						<div className="featured">
-							<a
-								href="#"
+							<Link
+								to="/men"
 								className="featured-img"
 								style={{ backgroundImage: 'url(assets/images/men.jpg)' }}
 							/>
@@ -25,8 +26,8 @@ function HomeCollection() {
 					</div>
 					<div className="col-sm-6 text-center">
 						<div className="featured">
-							<a
-								href="#"
+							<Link
+								to="/women"
 								className="featured-img"
 								style={{ backgroundImage: 'url(assets/images/women.jpg)' }}
 							/>
