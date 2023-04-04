@@ -11,8 +11,6 @@ import HomeCollection from '../components/HomeCollection';
 function Index() {
 	return (
 		<Fragment>
-			{/* <div className="colorlib-loader" /> */}
-
 			<div id="page">
 				<nav className="colorlib-nav" role="navigation">
 					<div className="top-menu">

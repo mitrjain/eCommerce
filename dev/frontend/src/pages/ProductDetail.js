@@ -72,7 +72,7 @@ function ProductDetail() {
 	);
 
 	const handleAddToCartClick = () => {
-		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem)) {
+		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem) && selectedSize) {
 			console.log(currentItem);
 			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
 
@@ -92,6 +92,12 @@ function ProductDetail() {
 		if (quantity > 1) {
 			setQuantity(quantity - 1);
 		}
+	};
+
+	const handleSizeClick = (e, inputSize) => {
+		e.currentTarget.classList.toggle('active');
+		setSelectedSize(inputSize);
+		console.log('CLasslist', e.currentTarget.classList);
 	};
 
 	return (
@@ -162,7 +168,10 @@ function ProductDetail() {
 											<ul>
 												{Object.keys(currentItem).length !== 0 ? (
 													currentItem.sizes.map((product, idx) => (
-														<li key={idx} onClick={() => setSelectedSize(product.size)}>
+														<li
+															className=""
+															key={idx}
+															onClick={(e) => handleSizeClick(e, product.size)}>
 															<a href="#">{product.size}</a>
 														</li>
 													))
