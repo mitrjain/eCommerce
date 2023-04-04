@@ -9,6 +9,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Seller from './pages/Seller';
 import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
 import { CartContext } from './contexts/CartContext';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
 						<Route path="/cart" element={<Cart />} />
 						<Route path="/product-detail/:gender/:id" element={<ProductDetail />} />
 						<Route path="/seller" element={<Seller />} />
+						<Route path="/checkout" element={<Checkout />} />
 					</Routes>
 				</Router>
 			</CartContext.Provider>

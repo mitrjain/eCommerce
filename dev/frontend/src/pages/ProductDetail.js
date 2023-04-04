@@ -47,6 +47,8 @@ function ProductDetail() {
 				if (Object.keys(apiData).length === 0) {
 					console.log('Hello World');
 				} else {
+					// const quantityToPass = apiData._id;
+					// console.log('QUANTITY TO PASS: ' + quantityToPass);
 					const obj = {
 						productName: apiData.name,
 						productId: apiData._id,
@@ -56,7 +58,8 @@ function ProductDetail() {
 						image: apiData.sizes[0].colors[0].productDetail.smallImgTile,
 						price: apiData.sizes[0].colors[0].productDetail.price,
 						sizes: apiData.sizes,
-						selectedSize: selectedSize
+						selectedSize: selectedSize,
+						quantityToPass: quantity
 					};
 
 					setCurrentItem(obj);
@@ -65,7 +68,7 @@ function ProductDetail() {
 
 			setCurrObj();
 		},
-		[ apiData, selectedSize ]
+		[ apiData, selectedSize, quantity ]
 	);
 
 	const handleAddToCartClick = () => {
@@ -168,7 +171,7 @@ function ProductDetail() {
 												)}
 											</ul>
 										</div>
-										<div className="block-26 mb-4">
+										{/* <div className="block-26 mb-4">
 											<h4>Width</h4>
 											<ul>
 												<li>
@@ -178,7 +181,7 @@ function ProductDetail() {
 													<a href="#">W</a>
 												</li>
 											</ul>
-										</div>
+										</div> */}
 									</div>
 									<div className="input-group mb-4">
 										<span className="input-group-btn">

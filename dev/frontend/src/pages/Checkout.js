@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-function checkout() {
-	return <Fragment>Checkout</Fragment>;
+function Checkout() {
+	return <Fragment>This is the checkout page!</Fragment>;
 }
 
-export default checkout;
+export default Checkout;
