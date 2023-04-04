@@ -14,7 +14,7 @@ function Header() {
 				</div>
 			</div>
 			{/* This is the search bar */}
-			<div className="col-sm-5 col-md-3">
+			{/* <div className="col-sm-5 col-md-3">
 				<form action="#" className="search-wrap">
 					<div className="form-group">
 						<input type="search" className="form-control search" placeholder="Search" />
@@ -23,7 +23,7 @@ function Header() {
 						</button>
 					</div>
 				</form>
-			</div>
+			</div> */}
 		</div>
 	);
 }

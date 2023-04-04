@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -10,11 +10,29 @@ import axios from 'axios';
 
 function Cart() {
 	const { cartItems, setCartItems, quantityArray } = useContext(CartContext);
-	// const [ subtotal, setSubtotal ] = useState(0);
-	let subtotal = 0;
+	const [ subtotal, setSubtotal ] = useState(0);
+	const [ deliveryCharge, setDeliveryCharge ] = useState(7);
+	const [ discount, setDiscount ] = useState(0);
+
+	useEffect(
+		() => {
+			const calculateSubtotal = () => {
+				let total = 0;
+				if (cartItems) {
+					cartItems.map((item) => (total += item.price * item.quantityToPass));
+					console.log('Total', total);
+					setSubtotal(total);
+					setDiscount(subtotal * 0.2);
+				}
+			};
+
+			calculateSubtotal();
+		},
+		[ cartItems, subtotal ]
+	);
 
 	// const calculateSubtotal = () => {
-	// 	cartItems.map((item) => setSubtotal(subtotal + Number(quantityArray[item.productId]) * item.price));
+	// 	cartItems.map((item) => setSubtotal(subtotal + item.price));
 	// };
 
 	const handleCheckoutClick = async () => {
@@ -29,7 +47,7 @@ function Cart() {
 							desc: item.productDesc,
 							sellerId: '1',
 							qty: item.quantityToPass,
-							size: 8,
+							size: item.selectedSize,
 							color: 'red',
 							price: item.price,
 							smallImgTile: item.image,
@@ -51,8 +69,6 @@ function Cart() {
 	};
 	return (
 		<Fragment>
-			{/* <div className="colorlib-loader" /> */}
-
 			<div id="page">
 				<nav className="colorlib-nav" role="navigation">
 					<div className="top-menu">
@@ -155,38 +171,20 @@ function Cart() {
 							<div className="col-md-12">
 								<div className="total-wrap">
 									<div className="row">
-										<div className="col-sm-8">
-											<form action="#">
-												<div className="row form-group">
-													<div className="col-sm-9">
-														<input
-															type="text"
-															name="quantity"
-															className="form-control input-number"
-															placeholder="Your Coupon Number..."
-														/>
-													</div>
-													<div className="col-sm-3">
-														<input
-															type="submit"
-															value="Apply Coupon"
-															className="btn btn-primary"
-														/>
-													</div>
-												</div>
-											</form>
-										</div>
 										<div className="col-sm-4 text-center">
 											<div className="total">
 												<div className="sub">
 													<p>
-														<span>Subtotal:</span> <span>$0</span>
+														<span>Subtotal:</span> <span>${subtotal.toFixed(2)}</span>
 													</p>
 													<p>
-														<span>Delivery:</span> <span>$0.00</span>
+														<span>Delivery:</span>{' '}
+														<span>
+															${cartItems.length > 0 ? deliveryCharge.toFixed(2) : '0.00'}
+														</span>
 													</p>
 													<p>
-														<span>Discount:</span> <span>$45.00</span>
+														<span>Discount:</span> <span>${discount.toFixed(2)}</span>
 													</p>
 												</div>
 												<div className="grand-total">
@@ -194,7 +192,13 @@ function Cart() {
 														<span>
 															<strong>Total:</strong>
 														</span>{' '}
-														<span>$450.00</span>
+														<span>
+															${cartItems.length > 0 ? (
+																(subtotal + deliveryCharge + discount).toFixed(2)
+															) : (
+																'0.00'
+															)}
+														</span>
 													</p>
 												</div>
 											</div>
