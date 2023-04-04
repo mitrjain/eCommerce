@@ -37,15 +37,17 @@ const Login = () => {
 					<div className="col-md-0">
 						<div className="product-name d-flex">
 							<div className="one-eight text-center px-4">
-								<span>Login</span>
+								<span style={{ color: '#88c8bc', fontWeight: 'bold' }}>Login</span>
 							</div>
 							<div className="one-eight text-center px-4">
-								<span>Signup</span>
+								<span>
+									<Link to="/signup">Signup</Link>
+								</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<form action="#" style={{ marginLeft: '30rem' }}>
+				<form action="#" style={{ marginLeft: '29.5%' }}>
 					<span className="form-inline">
 						<label htmlFor="productName" className="col-md-2">
 							{' '}
@@ -68,7 +70,7 @@ const Login = () => {
 							placeholder="Enter Password"
 						/>
 					</span>
-					<div className="col-sm-3" style={{ marginLeft: '24%' }}>
+					<div className="col-sm-3" style={{ marginLeft: '23.5%' }}>
 						<input type="submit" value="Submit" className="btn btn-primary" />
 					</div>
 				</form>
