@@ -18,10 +18,6 @@ function Cart() {
 	// };
 
 	const handleCheckoutClick = async () => {
-		console.log('QUANTITY', quantityArray['63f6dd8511972f074964d184']);
-		// Send POST request to add to cart api
-		// const item = cartItems[0];
-		// console.log('Inside Handle Checkout', item)
 		if (cartItems) {
 			cartItems.map(
 				async (item) =>
@@ -32,7 +28,7 @@ function Cart() {
 							name: item.productName,
 							desc: item.productDesc,
 							sellerId: '1',
-							qty: 1,
+							qty: item.quantityToPass,
 							size: 8,
 							color: 'red',
 							price: item.price,
@@ -48,26 +44,10 @@ function Cart() {
 						.catch((err) => console.log('AXIOS ERROR PROBLEM'))
 			);
 
-			// await axios.get('http://localhost:3001/cart').then((res) => console.log('Get all cart', res.data));
+			await axios
+				.get('http://localhost:3001/cart')
+				.then((res) => console.log('Get all cart (Outside)', res.data));
 		}
-
-		// axios.post('http://localhost:3001/cart',
-		// {
-		//     "productId": "63f6e2baed2ad423ad59491d",
-		//     "brandId":"63f3fb6ec36bbddba5ec9b3d",
-		//     "name":"adidas Predator Freak .3 Firm Ground Soccer Shoe Mens",
-		//     "desc":"adidas mens Predator Freak .5 Firm Ground Soccer Shoe",
-		//     "sellerId":"1",
-		//     "qty":0,
-		//     "size":8,
-		//     "color":"red",
-		//     "price":60,
-		//     "smallImgTile" : "/imageUrl/",
-		//     "genderId" : "63f3ff99c36bbddba5ec9b3e"
-
-		// }
-
-		// ).then(res => console.log(res)).catch((err) => console.log('AXIOS ERROR PROBLEM'))
 	};
 	return (
 		<Fragment>
@@ -160,12 +140,15 @@ function Cart() {
 								)}
 							</div>
 							<div className="col-sm-3">
-								<input
+								{/* <input
 									onClick={handleCheckoutClick}
 									type="submit"
 									value="Checkout"
 									className="btn btn-primary"
-								/>
+								/> */}
+								<Link to="/checkout" className="btn btn-primary" onClick={handleCheckoutClick}>
+									Checkout
+								</Link>
 							</div>
 						</div>
 						<div className="row row-pb-lg">
