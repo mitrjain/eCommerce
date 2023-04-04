@@ -10,6 +10,7 @@ import Cart from './pages/Cart';
 import Seller from './pages/Seller';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
+import Login from './pages/Login';
 import { CartContext } from './contexts/CartContext';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
 						<Route path="/product-detail/:gender/:id" element={<ProductDetail />} />
 						<Route path="/seller" element={<Seller />} />
 						<Route path="/checkout" element={<Checkout />} />
+						<Route path="/login" element={<Login />} />
 					</Routes>
 				</Router>
 			</CartContext.Provider>
