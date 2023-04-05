@@ -11,6 +11,7 @@ import axios from 'axios';
 function Men() {
 	// Contains the product details for the products rendered on this page
 	const [ products, setProducts ] = useState([]);
+	const [ showAll, setShowAll ] = useState(false);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -21,7 +22,6 @@ function Men() {
 		'assets/images/item-7.jpg'
 	];
 
-
 	useEffect(() => {
 		const getMensProducts = async () => {
 			await axios
@@ -31,10 +31,23 @@ function Men() {
 		getMensProducts();
 	}, []);
 
+	const handleBrandClick = async (brandName) => {
+		// Get brands
+		let brands;
+		await axios.get('http://localhost:3001/brands').then((res) => (brands = res.data));
+
+		brands.map(
+			async (brand) =>
+				brand.name == brandName
+					? await axios
+							.get(`http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`)
+							.then((res) => setProducts(res.data))
+					: ''
+		);
+	};
+
 	return (
 		<Fragment>
-			{/* <div className="colorlib-loader" /> */}
-
 			<div id="page">
 				<nav className="colorlib-nav" role="navigation">
 					<div className="top-menu">
@@ -133,31 +146,50 @@ function Men() {
 								<div className="row">
 									<div className="col-sm-12">
 										<div className="side border mb-1">
+											<a
+												href="#"
+												style={{ color: '#88c8bc', fontWeight: 'bold' }}
+												onClick={() => window.location.reload(true)}>
+												Show All
+											</a>
+										</div>
+									</div>
+									<div className="col-sm-12">
+										<div className="side border mb-1">
 											<h3>Brand</h3>
 											<ul>
 												<li>
-													<a href="#">Nike</a>
+													<a href="#" onClick={() => handleBrandClick('Nike')}>
+														Nike
+													</a>
 												</li>
 												<li>
-													<a href="#">Adidas</a>
+													<a href="#" onClick={() => handleBrandClick('Addidas')}>
+														Adidas
+													</a>
 												</li>
 												<li>
-													<a href="#">Merrel</a>
+													<a href="#" onClick={() => handleBrandClick('Merrel')}>
+														Merrel
+													</a>
 												</li>
 												<li>
-													<a href="#">Gucci</a>
+													<a href="#" onClick={() => handleBrandClick('Gucci')}>
+														Gucci
+													</a>
 												</li>
 												<li>
-													<a href="#">Skechers</a>
+													<a href="#" onClick={() => handleBrandClick('Sketchers')}>
+														Skechers
+													</a>
 												</li>
 											</ul>
 										</div>
 									</div>
 									<div className="col-sm-12">
 										<div className="side border mb-1">
-											<h3>Size/Width</h3>
+											<h3>Size</h3>
 											<div className="block-26 mb-2">
-												<h4>Size</h4>
 												<ul>
 													<li>
 														<a href="#">7</a>
@@ -203,17 +235,6 @@ function Men() {
 													</li>
 													<li>
 														<a href="#">14</a>
-													</li>
-												</ul>
-											</div>
-											<div className="block-26">
-												<h4>Width</h4>
-												<ul>
-													<li>
-														<a href="#">M</a>
-													</li>
-													<li>
-														<a href="#">W</a>
 													</li>
 												</ul>
 											</div>
@@ -300,7 +321,7 @@ function Men() {
 											price={product.price}
 											key={idx}
 											productId={product.productId}
-											genderId="63f3ff99c36bbddba5ec9b3e" // ! Hardcoded value
+											genderId="63f3ff99c36bbddba5ec9b3e"
 										/>
 									))}
 								</div>

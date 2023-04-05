@@ -49,18 +49,25 @@ function About() {
 							</div>
 							<div className="col-sm-6">
 								<div className="about-wrap">
-									<h2>Footwear the leading eCommerce Store around the Globe</h2>
+									<h2>Bamboo & Ivy the leading eCommerce Store around the Globe</h2>
 									<p>
-										The Big Oxmox advised her not to do so, because there were thousands of bad
-										Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
-										didn’t listen. She packed her seven versalia, put her initial into the belt and
-										made herself on the way.
+										Here at Bamboo & Ivy, we realize that style and prosperity begin with the
+										correct shoes. We likewise understand that effectively finding the size and
+										style to meet your requirements is vital to your web-based shopping knowledge.
+										Since beginning our web-based business website in 2022, we’ve been endeavoring
+										to present to you that perfect shopping experience.
+									</p>
+
+									<p>
+										This is the reason we take a stab at 100% consumer loyalty, offer a 105% value
+										coordinate guarantee and additionally free delivery and returns.
 									</p>
 									<p>
-										When she reached the first hills of the Italic Mountains, she had a last view
-										back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet
-										Village and the subline of her own road, the Line Lane. Pityful a rethoric
-										question ran over her cheek, then she continued her way.
+										Next time you require another match of kicks for this experience we call life,
+										our group is here to ensure that you get the execution that you require from
+										your apparatus. Regardless of whether you are difficult to fit or have explicit
+										requirements, let Bamboo & Ivy enable you to make progress toward your
+										objective.
 									</p>
 								</div>
 							</div>

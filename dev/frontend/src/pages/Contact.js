@@ -8,8 +8,6 @@ import Footer from '../components/Footer';
 function Contact() {
 	return (
 		<Fragment>
-			{/* <div className="colorlib-loader" /> */}
-
 			<div id="page">
 				<nav className="colorlib-nav" role="navigation">
 					<div className="top-menu">
@@ -63,7 +61,7 @@ function Contact() {
 											<span>
 												<i className="icon-paperplane" />
 											</span>{' '}
-											<a href="mailto:info@yoursite.com">info@yoursite.com</a>
+											<a href="mailto:info@bambooandivy.com">info@bambooandivy.com</a>
 										</p>
 									</div>
 									<div className="col-md-3">
@@ -71,7 +69,7 @@ function Contact() {
 											<span>
 												<i className="icon-globe" />
 											</span>{' '}
-											<a href="#">yoursite.com</a>
+											<a href="#">bambooandivy.com</a>
 										</p>
 									</div>
 								</div>
@@ -146,11 +144,14 @@ function Contact() {
 											<div className="w-100" />
 											<div className="col-sm-12">
 												<div className="form-group">
-													<input
+													{/* <input
 														type="submit"
 														value="Send Message"
 														className="btn btn-primary"
-													/>
+													/> */}
+													<Link to="/thankyou" className="btn btn-primary">
+														Send Message
+													</Link>
 												</div>
 											</div>
 										</div>

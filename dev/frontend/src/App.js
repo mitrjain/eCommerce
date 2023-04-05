@@ -12,6 +12,7 @@ import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ThankYou from './pages/ThankYou';
 import { CartContext } from './contexts/CartContext';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
 						<Route path="/checkout" element={<Checkout />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
+						<Route path="/thankyou" element={<ThankYou />} />
 					</Routes>
 				</Router>
 			</CartContext.Provider>
