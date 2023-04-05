@@ -1,12 +1,23 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import Sale from '../components/Sale';
 import Select from 'react-select';
+import validator from 'validator';
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
 	const options = [ { value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' } ];
+	const [ username, setUsername ] = useState('');
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ confirmPassword, setConfirmPassword ] = useState('');
+	const [ seller, setSeller ] = useState('');
+
+	const handleSelectionChange = (input) => {
+		setSeller(input.value);
+	};
+
 	return (
 		<div id="page">
 			<nav className="colorlib-nav" role="navigation">
@@ -50,46 +61,64 @@ const Signup = () => {
 					</div>
 				</div>
 			</div>
-			<form action="#" style={{ marginLeft: '29.5%' }}>
+			<form style={{ marginLeft: '29.5%' }}>
 				<span className="form-inline">
-					<label htmlFor="productName" className="col-md-2">
-						{' '}
+					<label htmlFor="username" className="col-md-2">
+						{'Enter Username: '}
 					</label>
 					<input
 						type="text"
-						id="productName"
+						id="username"
 						className="col-md-3 px-3 py-2 my-2"
 						placeholder="Enter Username"
+						onChange={(e) => setUsername(e.target.value)}
 					/>
 				</span>
 				<span className="form-inline">
-					<label htmlFor="productName" className="col-md-2">
-						{' '}
-					</label>
-					<input type="text" id="productName" className="col-md-3 px-3 py-2 my-4" placeholder="Enter Email" />
-				</span>
-				<span className="form-inline">
-					<label htmlFor="productName" className="col-md-2">
-						{' '}
+					<label htmlFor="email" className="col-md-2">
+						{'Enter email:'}
 					</label>
 					<input
-						type="text"
-						id="productName"
+						type="email"
+						id="email"
+						className="col-md-3 px-3 py-2 my-4"
+						placeholder="Enter Email"
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+				</span>
+				<span className="form-inline">
+					<label htmlFor="password" className="col-md-2">
+						{'Enter Password: '}
+					</label>
+					<input
+						type="password"
+						id="password"
 						className="col-md-3 px-3 py-2 my-2"
 						placeholder="Enter Password"
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+				</span>
+				<span className="form-inline">
+					<label htmlFor="confirm-password" className="col-md-2">
+						{'Confirm Password: '}
+					</label>
+					<input
+						type="password"
+						id="confirm-password"
+						className="col-md-3 px-3 py-2 my-4"
+						placeholder="Confirm Password"
+						onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
 				</span>
 				<span className="form-inline">
 					<label htmlFor="sellerSelect" className="col-md-2">
-						{' '}
-						Are you a seller?{' '}
+						{'Are you a seller?'}
 					</label>
 					<Select
 						id="sellerSelect"
 						className="col-md-3 px-0 py-2"
 						options={options}
-						// value="value"
-						// placeholder="Select brand name: "
+						onChange={handleSelectionChange}
 					/>
 				</span>
 				<div className="col-sm-3" style={{ marginLeft: '23.5%' }}>

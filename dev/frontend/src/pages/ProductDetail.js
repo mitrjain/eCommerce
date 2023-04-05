@@ -16,20 +16,10 @@ function ProductDetail() {
 	const [ currentItem, setCurrentItem ] = useState({});
 	const [ apiData, setApiData ] = useState({});
 	const [ selectedSize, setSelectedSize ] = useState(null);
+	const [ selectedColor, setSelectedColor ] = useState(null);
 	const { gender, id } = useParams();
 
 	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
-
-	// useEffect(() => {
-	// 	const getProducts = async () => {
-	// 		await axios
-	// 			.get(`http://localhost:3001/products?gender=${gender}`)
-	// 			.then((res) =>
-	// 				res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
-	// 			);
-	// 	};
-	// 	getProducts();
-	// }, []);
 
 	useEffect(() => {
 		const getProducts = async () => {
@@ -59,6 +49,7 @@ function ProductDetail() {
 						price: apiData.sizes[0].colors[0].productDetail.price,
 						sizes: apiData.sizes,
 						selectedSize: selectedSize,
+						selectedColor: selectedColor,
 						quantityToPass: quantity
 					};
 
@@ -97,6 +88,11 @@ function ProductDetail() {
 	const handleSizeClick = (e, inputSize) => {
 		e.currentTarget.classList.toggle('active');
 		setSelectedSize(inputSize);
+	};
+
+	const handleColorClick = (e, inputColor) => {
+		e.currentTarget.classList.toggle('active');
+		setSelectedColor(inputColor);
 		console.log('CLasslist', e.currentTarget.classList);
 	};
 
@@ -180,17 +176,25 @@ function ProductDetail() {
 												)}
 											</ul>
 										</div>
-										{/* <div className="block-26 mb-4">
-											<h4>Width</h4>
+										<div className="block-26 mb-2">
+											<h4>Color</h4>
 											<ul>
-												<li>
-													<a href="#">M</a>
-												</li>
-												<li>
-													<a href="#">W</a>
-												</li>
+												{Object.keys(currentItem).length !== 0 ? (
+													currentItem.sizes.map((products) =>
+														products.colors.map((item, idx) => (
+															<li
+																className=""
+																key={idx}
+																onClick={(e) => handleColorClick(e, item.color)}>
+																<a href="#">{item.color}</a>
+															</li>
+														))
+													)
+												) : (
+													''
+												)}
 											</ul>
-										</div> */}
+										</div>
 									</div>
 									<div className="input-group mb-4">
 										<span className="input-group-btn">
