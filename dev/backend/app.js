@@ -22,6 +22,7 @@ const brandsRouter = require('./routes/brands');
 const genderRouter = require('./routes/genders');
 const categoryTypesRouter = require('./routes/categoryTypes');
 const cartRouter = require('./routes/cart');
+const authRouter = require("./routes/auth");
 
 app.use(cors());
 
@@ -30,6 +31,7 @@ app.use('/brands', brandsRouter);
 app.use('/genders', genderRouter);
 app.use('/categoryTypes', categoryTypesRouter);
 app.use('/cart', cartRouter);
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
 	res.send('Home of Gladiators API');

@@ -15,8 +15,8 @@ const addressSchema = mongoose.Schema({
         required:true
     },
     state:{
-        type:String,
-        required:TextTrackCue,
+        type:String, 
+        required:true,
     },
     postalCode:{
         type:Number,
@@ -79,6 +79,10 @@ const userSchema = mongoose.Schema({
         type:mongoose.SchemaTypes.Email,
         required:true
     },
+    pwdHash:{
+        type:String,
+        required:true
+    },
     contact:{
         type:String,
         required:false
@@ -107,4 +111,7 @@ const userSchema = mongoose.Schema({
         type:tokenSchema,
         required:false
     }
-})
+},
+{collection:"users"})
+
+module.exports=mongoose.model('UserModel',userSchema)
