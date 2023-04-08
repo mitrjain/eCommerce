@@ -7,7 +7,7 @@ import Men from './pages/Men';
 import Women from './pages/Women';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
-import Seller from './pages/Seller';
+import SellerPage from './pages/SellerPage';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
@@ -16,11 +16,11 @@ import ThankYou from './pages/ThankYou';
 import { CartContext } from './contexts/CartContext';
 
 function App() {
-	const [ cartItems, setCartItems ] = useState([]);
-	const [ quantity, setQuantity ] = useState(1);
+	const [cartItems, setCartItems] = useState([]);
+	const [quantity, setQuantity] = useState('1');
 
 	// A quantity array that maps productId: quantity
-	const [ quantityArray, setQuantityArray ] = useState([]);
+	const [quantityArray, setQuantityArray] = useState([]);
 	return (
 		<div className="App">
 			<CartContext.Provider
@@ -41,15 +41,15 @@ function App() {
 						<Route path="/contact" element={<Contact />} />
 						<Route path="/cart" element={<Cart />} />
 						<Route path="/product-detail/:gender/:id" element={<ProductDetail />} />
-						<Route path="/seller" element={<Seller />} />
+						<Route path="/seller" element={<SellerPage />} />
 						<Route path="/checkout" element={<Checkout />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
 						<Route path="/thankyou" element={<ThankYou />} />
-					</Routes>
-				</Router>
-			</CartContext.Provider>
-		</div>
+					</Routes >
+				</Router >
+			</CartContext.Provider >
+		</div >
 	);
 }
 
