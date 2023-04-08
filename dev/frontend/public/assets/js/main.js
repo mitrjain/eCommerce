@@ -1,31 +1,32 @@
-(function() {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.6.3/jquery.flexslider-min.js"></script>
+(function () {
 	'use strict';
 
 	var isMobile = {
-		Android: function() {
+		Android: function () {
 			return navigator.userAgent.match(/Android/i);
 		},
-		BlackBerry: function() {
+		BlackBerry: function () {
 			return navigator.userAgent.match(/BlackBerry/i);
 		},
-		iOS: function() {
+		iOS: function () {
 			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
 		},
-		Opera: function() {
+		Opera: function () {
 			return navigator.userAgent.match(/Opera Mini/i);
 		},
-		Windows: function() {
+		Windows: function () {
 			return navigator.userAgent.match(/IEMobile/i);
 		},
-		any: function() {
+		any: function () {
 			return (
 				isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows()
 			);
 		}
 	};
 
-	var mobileMenuOutsideClick = function() {
-		$(document).click(function(e) {
+	var mobileMenuOutsideClick = function () {
+		$(document).click(function (e) {
 			var container = $('#colorlib-offcanvas, .js-colorlib-nav-toggle');
 			if (!container.is(e.target) && container.has(e.target).length === 0) {
 				if ($('body').hasClass('offcanvas')) {
@@ -36,7 +37,7 @@
 		});
 	};
 
-	var offcanvasMenu = function() {
+	var offcanvasMenu = function () {
 		$('#page').prepend('<div id="colorlib-offcanvas" />');
 		$('#page').prepend(
 			'<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle colorlib-nav-white"><i></i></a>'
@@ -51,17 +52,17 @@
 
 		// Hover dropdown menu on mobile
 		$('.offcanvas-has-dropdown')
-			.mouseenter(function() {
+			.mouseenter(function () {
 				var $this = $(this);
 
 				$this.addClass('active').find('ul').slideDown(500, 'easeOutExpo');
 			})
-			.mouseleave(function() {
+			.mouseleave(function () {
 				var $this = $(this);
 				$this.removeClass('active').find('ul').slideUp(500, 'easeOutExpo');
 			});
 
-		$(window).resize(function() {
+		$(window).resize(function () {
 			if ($('body').hasClass('offcanvas')) {
 				$('body').removeClass('offcanvas');
 				$('.js-colorlib-nav-toggle').removeClass('active');
@@ -69,8 +70,8 @@
 		});
 	};
 
-	var burgerMenu = function() {
-		$('body').on('click', '.js-colorlib-nav-toggle', function(event) {
+	var burgerMenu = function () {
+		$('body').on('click', '.js-colorlib-nav-toggle', function (event) {
 			var $this = $(this);
 
 			if ($('body').hasClass('overflow offcanvas')) {
@@ -83,19 +84,19 @@
 		});
 	};
 
-	var contentWayPoint = function() {
+	var contentWayPoint = function () {
 		var i = 0;
 		$('.animate-box').waypoint(
-			function(direction) {
+			function (direction) {
 				if (direction === 'down' && !$(this.element).hasClass('animated-fast')) {
 					i++;
 
 					$(this.element).addClass('item-animate');
-					setTimeout(function() {
-						$('body .animate-box.item-animate').each(function(k) {
+					setTimeout(function () {
+						$('body .animate-box.item-animate').each(function (k) {
 							var el = $(this);
 							setTimeout(
-								function() {
+								function () {
 									var effect = el.data('animate-effect');
 									if (effect === 'fadeIn') {
 										el.addClass('fadeIn animated-fast');
@@ -120,21 +121,21 @@
 		);
 	};
 
-	var dropdown = function() {
+	var dropdown = function () {
 		$('.has-dropdown')
-			.mouseenter(function() {
+			.mouseenter(function () {
 				var $this = $(this);
 				$this.find('.dropdown').css('display', 'block').addClass('animated-fast fadeInUpMenu');
 			})
-			.mouseleave(function() {
+			.mouseleave(function () {
 				var $this = $(this);
 
 				$this.find('.dropdown').css('display', 'none').removeClass('animated-fast fadeInUpMenu');
 			});
 	};
 
-	var goToTop = function() {
-		$('.js-gotop').on('click', function(event) {
+	var goToTop = function () {
+		$('.js-gotop').on('click', function (event) {
 			event.preventDefault();
 
 			$('html, body').animate(
@@ -148,7 +149,7 @@
 			return false;
 		});
 
-		$(window).scroll(function() {
+		$(window).scroll(function () {
 			var $win = $(window);
 			if ($win.scrollTop() > 200) {
 				$('.js-top').addClass('active');
@@ -163,23 +164,23 @@
 	// };
 
 	// Loading page
-	var loaderPage = function() {
+	var loaderPage = function () {
 		$('.colorlib-loader').fadeOut('slow');
 	};
 
-	var sliderMain = function() {
+	var sliderMain = function () {
 		$('#colorlib-hero .flexslider').flexslider({
 			animation: 'fade',
 			slideshowSpeed: 5000,
 			directionNav: true,
-			start: function() {
-				setTimeout(function() {
+			start: function () {
+				setTimeout(function () {
 					$('.slider-text').removeClass('animated fadeInUp');
 					$('.flex-active-slide').find('.slider-text').addClass('animated fadeInUp');
 				}, 500);
 			},
-			before: function() {
-				setTimeout(function() {
+			before: function () {
+				setTimeout(function () {
 					$('.slider-text').removeClass('animated fadeInUp');
 					$('.flex-active-slide').find('.slider-text').addClass('animated fadeInUp');
 				}, 500);
@@ -188,7 +189,7 @@
 	};
 
 	// Owl Carousel
-	var owlCrouselFeatureSlide = function() {
+	var owlCrouselFeatureSlide = function () {
 		var owl = $('.owl-carousel');
 		owl.owlCarousel({
 			animateOut: 'fadeOut',
@@ -226,7 +227,7 @@
 		});
 	};
 
-	var parallax = function() {
+	var parallax = function () {
 		if (!isMobile.any()) {
 			$(window).stellar({
 				horizontalScrolling: false,
@@ -236,7 +237,7 @@
 		}
 	};
 
-	var datePicker = function() {
+	var datePicker = function () {
 		// jQuery('#time').timepicker();
 		jQuery('.date').datepicker({
 			format: 'm/d/yyyy',
@@ -244,7 +245,7 @@
 		});
 	};
 
-	$(function() {
+	$(function () {
 		mobileMenuOutsideClick();
 		offcanvasMenu();
 		burgerMenu();

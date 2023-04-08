@@ -1,0 +1,21 @@
+.tag {
+    align-items: center;
+    margin: 7px 0;
+    margin-right: 10px;
+    padding: 0 10px;
+    padding-right: 5px;
+    border: 1px solid orange;
+    border-radius: 5px;
+    background-color: orange;
+    white-space: nowrap;
+    color: white;
+}
+
+.btn-text-only {
+    background: none;
+    border: none;
+}
+
+button:focus {
+    outline: none;
+}
