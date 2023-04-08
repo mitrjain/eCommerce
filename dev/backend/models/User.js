@@ -88,7 +88,7 @@ const userSchema = mongoose.Schema({
         required:false
     },
     createdAt:{
-        type:String,
+        type:Number,
         required:true
     },
     lastActiveAt:{
