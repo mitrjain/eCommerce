@@ -9,6 +9,7 @@ require('dotenv/config');
 const saltRounds = 10
 
 const UserModel = require("../models/User");
+const { userInfo } = require('os');
 
 const validPwd = async (pwdPlainText,pwdHash)=>{
     isValid =  await bcrypt.compare(pwdPlainText,pwdHash)
@@ -23,21 +24,21 @@ const generateTokens = async(userId)=>{
         console.log(e)
         return e,e
     }
-    return accessToken, refreshToken
+    return {accessToken: accessToken, refreshToken: refreshToken}
 }
 
 const generateToken = async(type, userId) => {
     var privateKey  = fs.readFileSync("/Users/spartan/Desktop/SJSU_Spring_23/CS_161/eCommerce/dev/backend/serverSigningKey", 'utf8');
     if(type == "access"){
-        exp = Math.floor( (Date.now() / 1000 ) + (1 * 60) ) //Access token expiry 1/2hr
+        exp = 30 * 60 //Access token expiry 1/2hr
     }
     else if(type == "refresh"){
-        exp = Math.floor( (Date.now() / 1000) + (120 * 60) ) //Refresh token expiry 2hrs
+        exp = 120 * 60 //Refresh token expiry 2hrs
     }
 
     payload = {
         type:type,
-        iat: Math.floor(Date.now() / 1000),
+        iat: Math.floor(Date.now() / 1000)
     }
     var options = {
         issuer: "Gladdiators",
@@ -79,7 +80,7 @@ exports.loginWithToken = async (req,res) =>{
     isIssuedByUs = verifyToken(refreshToken);
     if(!isIssuedByUs){
         res.status(401)
-        res.json("Invalid refresh token")
+        res.json({message: "Invalid token"})
         return;
     }
 
@@ -87,29 +88,47 @@ exports.loginWithToken = async (req,res) =>{
     payload = JSON.parse(decodedPayload)
     exp = payload.exp
     userId = payload.sub
+    type = payload.type
 
     //Check 2: check if token is not expired
     currTimestamp = Math.floor(Date.now()/1000)
     if(exp <= currTimestamp){
         res.status(401)
-        res.json("Refresh token has expired")
+        res.json({message:"Token has expired"})
         return;
     }
 
-    //Check 3: check if user exists in database
+    //Check 3: check if token is a refresh token
+    if(type != 'refresh'){
+        res.status(401)
+        res.json({message: "Invalid token"})
+        return;
+    }
+
+
+    //Check 4: check if user exists in database
     try{
         userDoc = await UserModel.findById(userId)
         if(!userDoc){
             res.status(401).json({
-                message: `Invalid refresh token.`
+                message: `Invalid token.`
             });
             return
         }
+    //Check 5: check if refresh token exists in db for this user
+
+    if(userDoc.tokens.refresh != refreshToken){
+        res.status(401).json({
+            message: `Invalid token.`
+        });
+        return
+    }
+
     
-    //Check 4: check if last activity of this user was within 30 mins from now
+    //Check 6: check if last activity of this user was within 30 mins from now
         lastActiveTimestamp = userDoc.lastActiveAt
 
-        if( currTimestamp-lastActiveTimestamp <= (30*60)){
+        if( currTimestamp-lastActiveTimestamp > (30*60)){
             res.status(401).json({
                 message: `User session expired.`
             });
@@ -125,7 +144,9 @@ exports.loginWithToken = async (req,res) =>{
     }
 
     // Generate fresh tokens
-    accessToken, refreshToken = generateTokens(userDoc._id.toString());
+    tokensObj = await generateTokens(userDoc._id.toString())
+    accessToken = tokensObj.accessToken
+    refreshToken = tokensObj.refreshToken
 
     //Update tokens in user object in db
     try{
@@ -194,7 +215,9 @@ exports.loginWithCredentials = async (req,res) =>{
             if(createNewTokens){
                 //access token either never created or expired
 
-                accessToken, refreshToken = await generateTokens(userDoc._id.toString())
+                tokensObj = await generateTokens(userDoc._id.toString())
+                accessToken = tokensObj.accessToken
+                refreshToken = tokensObj.refreshToken
                 
                 if(accessToken == null || refreshToken == null || accessToken instanceof Error || refreshToken instanceof Error ){
                     throw new Error("Unable to create token")
@@ -259,7 +282,9 @@ exports.signup = async(req,res) =>{
 
         const savedUserDoc = await userDoc.save();
 
-        accessToken, refreshToken = await generateTokens(savedUserDoc._id.toString())
+        tokensObj = await generateTokens(savedUserDoc._id.toString())
+        accessToken = tokensObj.accessToken
+        refreshToken = tokensObj.refreshToken
         
         if(accessToken == null || refreshToken == null || accessToken instanceof Error || refreshToken instanceof Error){
             throw new Error("Unable to create token")
