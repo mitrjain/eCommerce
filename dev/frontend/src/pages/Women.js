@@ -11,6 +11,7 @@ import axios from 'axios';
 function Women() {
 	// Contains the product details for the products rendered on this page
 	const [ products, setProducts ] = useState([]);
+	const [ sports, setSports ] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -29,6 +30,29 @@ function Women() {
 		};
 		getWomensProducts();
 	}, []);
+
+	useEffect(() => {
+		const getSports = async () => {
+			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
+			products.map(
+				async (product) =>
+					await axios
+						.get(`http://localhost:3001/products/${product.productId}`)
+						.then(
+							async (res) =>
+								(await res.data.categories.includes('63f40179c36bbddba5ec9b44')) && sports.length === 0
+									? setSports((oldArray) => [ ...oldArray, product ])
+									: ''
+						)
+			);
+		};
+
+		getSports();
+	});
+
+	const handleSportsClick = (input) => {
+		setProducts(input);
+	};
 
 	const handleBrandClick = async (brandName) => {
 		// Get brands
@@ -130,7 +154,10 @@ function Women() {
 										style={{ backgroundImage: 'url(assets/images/item-11.jpg)' }}>
 										<h2>Sports</h2>
 										<p>
-											<a href="#" className="btn btn-primary btn-lg">
+											<a
+												onClick={() => handleSportsClick(sports)}
+												href="#"
+												className="btn btn-primary btn-lg">
 												Shop now
 											</a>
 										</p>
