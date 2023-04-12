@@ -12,6 +12,8 @@ function Women() {
 	// Contains the product details for the products rendered on this page
 	const [ products, setProducts ] = useState([]);
 	const [ sports, setSports ] = useState([]);
+	const [ dress, setDress ] = useState([]);
+	const [ casuals, setCasuals ] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -47,10 +49,42 @@ function Women() {
 			);
 		};
 
+		const getDress = async () => {
+			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
+			products.map(
+				async (product) =>
+					await axios
+						.get(`http://localhost:3001/products/${product.productId}`)
+						.then(
+							async (res) =>
+								(await res.data.categories.includes('dressID')) && dress.length === 0
+									? setDress((oldArray) => [ ...oldArray, product ])
+									: ''
+						)
+			);
+		};
+
+		const getCasuals = async () => {
+			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
+			products.map(
+				async (product) =>
+					await axios
+						.get(`http://localhost:3001/products/${product.productId}`)
+						.then(
+							async (res) =>
+								(await res.data.categories.includes('casualID')) && casuals.length === 0
+									? setCasuals((oldArray) => [ ...oldArray, product ])
+									: ''
+						)
+			);
+		};
+
 		getSports();
+		getDress();
+		getCasuals();
 	});
 
-	const handleSportsClick = (input) => {
+	const handleOccasionClick = (input) => {
 		setProducts(input);
 	};
 
@@ -126,7 +160,10 @@ function Women() {
 										style={{ backgroundImage: 'url(assets/images/img_bg_2.jpg)' }}>
 										<h2>Casuals</h2>
 										<p>
-											<a href="#" className="btn btn-primary btn-lg">
+											<a
+												onClick={() => handleOccasionClick(casuals)}
+												href="#"
+												className="btn btn-primary btn-lg">
 												Shop now
 											</a>
 										</p>
@@ -140,7 +177,10 @@ function Women() {
 										style={{ backgroundImage: 'url(assets/images/women.jpg)' }}>
 										<h2>Dress</h2>
 										<p>
-											<a href="#" className="btn btn-primary btn-lg">
+											<a
+												onClick={() => handleOccasionClick(dress)}
+												href="#"
+												className="btn btn-primary btn-lg">
 												Shop now
 											</a>
 										</p>
@@ -155,7 +195,7 @@ function Women() {
 										<h2>Sports</h2>
 										<p>
 											<a
-												onClick={() => handleSportsClick(sports)}
+												onClick={() => handleOccasionClick(sports)}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
