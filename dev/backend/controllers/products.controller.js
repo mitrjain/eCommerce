@@ -7,21 +7,51 @@ const CategoryModel = require("../models/Category");
 
 exports.create = async (req,res) => {
     try{
-        const product = new ProductModel(
-            req.body
-        );
-    
+
+        let newProduct = {
+            "brandId" : req.body.data.brandId,
+            "name" : req.body.data.name,
+            "desc" : req.body.data.desc,
+            "sellerId" : req.body.data.sellerId,
+            "maxQtyLmt" : req.body.data.maxQtyLimit,
+            "gender" : req.body.data.gender,
+            "categories" : req.body.data.categories
+        }
+        let colors = [];
+        newProduct.sizes = [];
+
+        for(j=0; j< req.body.data.productDetails.length; j++){
+            let item = req.body.data.productDetails[j];
+            let obj = {
+                "color" : item.color,
+                "productDetail": {
+                    "price" : item.price,
+                    "qty" : item.qty,
+                    "smallImgTile" : item.url,
+                    "images" : item.images
+                }
+            }
+            for(let i=0; i<item.sizes.length;i++){
+                newProduct.sizes.push({"size" : item.sizes[i],
+                "colors" : [obj]
+            });
+            }
+        }
+
+        console.log(newProduct);
+        
+        let product = new ProductModel(newProduct);
         const savedProduct = await product.save();
         
-        const genderDoc = await GenderModel.findById(req.body.gender);
+        const genderDoc = await GenderModel.findById(req.body.data.gender);
         genderDoc.products.push(product.id);
         await genderDoc.save();
     
-        const brandDoc = await BrandModel.findById(req.body.brandId);
+        const brandDoc = await BrandModel.findById(req.body.data.brandId);
         brandDoc.products.push(product.id);
         await brandDoc.save();
     
-        req.body.categories.forEach(async element => {
+        req.body.data.categories.forEach(async element => {
             const categoryDoc = await CategoryModel.findById(element);
             categoryDoc.products.push(product.id);
             await categoryDoc.save();

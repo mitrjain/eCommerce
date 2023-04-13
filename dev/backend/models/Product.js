@@ -16,11 +16,11 @@ const inventorySchema = mongoose.Schema({
         },
         smallImgTile:{
             type:String,
-            required:true
+            // required:true
         },
         images:{
             type: [String],
-            required: true
+            // required: true
         }   
     }
 
