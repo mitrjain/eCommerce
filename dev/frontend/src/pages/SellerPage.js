@@ -4,6 +4,11 @@ import Select from 'react-select';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import '../styles/seller.css';
+import { uploadFile } from 'react-s3';
+import { Buffer } from "buffer";
+
+Buffer.from("anything", "base64");
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function SellerPage() {
     const [selectedCategoryType, setSelectedCategoryType] = useState("");
@@ -62,16 +67,35 @@ function SellerPage() {
     const [price, setPrice] = useState(0);
     const [selectedGender, setSelectedGender] = useState('');
     const [specsObjs, setSpecsObjs] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [smallTileLocation, setSmallTileLocation] = useState('');
+    const [multipleFileImages, setMultipleFileImages] = useState([]);
+
+
+    const fileInput = React.useRef();
+
+    const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
+    const REGION = process.env.REACT_APP_REGION;
+    const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
+
+    const config = {
+        bucketName: S3_BUCKET,
+        region: REGION,
+        accessKeyId: ACCESS_KEY,
+        secretAccessKey: SECRET_ACCESS_KEY,
+    }
 
     useEffect(() => {
         const handleSpecBlur = () => {
             if (color !== '' && price !== 0 && quantity !== 0 && checked.length !== 0) {
-                console.log('yes');
                 if (specsObjs.length === 0) {
                     let specObj = {
                         color: color,
                         sizes: checked,
                         qty: quantity,
+                        smallImgTile: smallTileLocation,
+                        images: multipleFileImages,
                         price: price
                     };
                     setSpecsObjs([...specsObjs, specObj]);
@@ -90,7 +114,9 @@ function SellerPage() {
                                 color: color,
                                 sizes: checked,
                                 qty: quantity,
-                                price: price
+                                price: price,
+                                smallImgTile: smallTileLocation,
+                                images: multipleFileImages
                             };
                             specsCopy.push(specObj);
                             setSpecsObjs(specsCopy);
@@ -101,17 +127,20 @@ function SellerPage() {
                                 color: color,
                                 sizes: checked,
                                 qty: quantity,
-                                price: price
+                                price: price,
+                                smallImgTile: smallTileLocation,
+                                images: multipleFileImages
                             };
                             specsCopy.push(specObj);
                             setSpecsObjs(specsCopy);
-                            console.log('2', specObj, specsObjs);
                         } else {
                             let specObj = {
                                 color: color,
                                 sizes: checked,
                                 qty: quantity,
-                                price: price
+                                price: price,
+                                smallImgTile: smallTileLocation,
+                                images: multipleFileImages
                             };
                             setSpecsObjs([...specsObjs, specObj]);
                         }
@@ -120,7 +149,7 @@ function SellerPage() {
             }
         }
         handleSpecBlur();
-    }, [price, quantity, color, checked])
+    }, [price, quantity, color, checked, multipleFileImages])
 
     useEffect(() => {
         const getBrands = async () => {
@@ -181,6 +210,34 @@ function SellerPage() {
         }
     }
 
+    const handleFileInput = (e) => {
+        setSelectedFile(e.target.files[0]);
+    }
+
+    const handleUpload = async (file) => {
+        uploadFile(file, config)
+            .then(data => {
+                setSmallTileLocation(data.location);
+            })
+            .catch(err => console.error(err))
+    }
+
+    const handleMultipleFileUpload = async (file) => {
+        uploadFile(file, config)
+            .then(data => {
+                setMultipleFileImages(oldMulFiles => [...oldMulFiles, data.location]);
+            })
+            .catch(err => console.error(err))
+    }
+
+    const handleMultipleFileInput = (e) => {
+        e.preventDefault();
+        let files = fileInput.current.files;
+        for (let i = 0; i < files.length; i++) {
+            handleMultipleFileUpload(files[i]);
+        }
+    }
+
     const addDivToSpecsDiv = () => {
         if (specsDiv.length === 0) {
             setSpecsDiv([{
@@ -201,6 +258,11 @@ function SellerPage() {
                                 ))
                             }
                         </span >
+                        <span className="form-inline py-4">
+                            <label htmlFor="images" className="col-md-4"> Upload the images for this color: </label>
+                            <input type="file" multiple ref={fileInput} />
+                            <button onClick={handleMultipleFileInput}> Upload Image</button>
+                        </span>
                         <span className="form-inline">
                             <label htmlFor="qty" className="col-md-2"> Quantity to sell: </label>
                             <input type="number" id="qty" className="col-md-7 px-3 py-2 my-4" onBlur={updateQuantity} />
@@ -216,6 +278,7 @@ function SellerPage() {
             setPrice(0);
             setQuantity(0);
             setColor('');
+            setMultipleFileImages([]);
             setSpecsDiv(specsDiv.concat([{
                 spec:
                     <div>
@@ -233,6 +296,11 @@ function SellerPage() {
                                     </div>
                                 ))
                             }
+                        </span>
+                        <span className="form-inline py-4">
+                            <label htmlFor="images" className="col-md-4"> Upload the images for this color: </label>
+                            <input type="file" multiple ref={fileInput} />
+                            <button onClick={handleMultipleFileInput}> Upload Image</button>
                         </span>
                         <span className="form-inline">
                             <label htmlFor="qty" className="col-md-2"> Quantity to sell: </label>
@@ -334,7 +402,11 @@ function SellerPage() {
             }
         })
             .then((res) => {
-                console.log(res);
+                if (res.status === 201) {
+                    alert("Your product has been uploaded!");
+                    console.log(res);
+                    window.location.reload(false);
+                }
             })
             .catch((err) => {
                 console.error(err);
@@ -367,6 +439,11 @@ function SellerPage() {
                                     <span className="form-inline">
                                         <label htmlFor="maxqty" className="col-md-2"> Maximum Quantity Limit: </label>
                                         <input type="number" id="maxqty" className="col-md-7 px-3 py-2 my-4" onChange={updateMaxQtyLimit} />
+                                    </span>
+                                    <span className="form-inline py-4">
+                                        <label htmlFor="smallImgTile" className="col-md-4"> Upload the small image tile to be displayed: </label>
+                                        <input type="file" onChange={handleFileInput} />
+                                        <button onClick={() => handleUpload(selectedFile)}> Upload Image</button>
                                     </span>
                                     <div>
                                         <div className="row">
