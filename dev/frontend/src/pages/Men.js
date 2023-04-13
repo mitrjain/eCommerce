@@ -15,6 +15,9 @@ function Men() {
 	const [ sports, setSports ] = useState([]);
 	const [ dress, setDress ] = useState([]);
 	const [ casuals, setCasuals ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -31,7 +34,27 @@ function Men() {
 				.get('http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e')
 				.then((res) => setProducts(res.data));
 		};
+
+		const getBrands = async () => {
+			await axios.get('http://localhost:3001/brands').then((res) => setBrands(res.data));
+		};
+
+		const getStyles = async () => {
+			await axios
+				.get('http://localhost:3001/categoryTypes/63f400e6c36bbddba5ec9b41')
+				.then((res) => setStyles(res.data));
+		};
+
+		const getMaterial = async () => {
+			await axios
+				.get('http://localhost:3001/categoryTypes/63f40129c36bbddba5ec9b42')
+				.then((res) => setMaterial(res.data));
+		};
+
 		getMensProducts();
+		getBrands();
+		getStyles();
+		getMaterial();
 	}, []);
 
 	const handleBrandClick = async (brandName) => {
@@ -43,75 +66,82 @@ function Men() {
 			async (brand) =>
 				brand.name == brandName
 					? await axios
-							.get(`http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`)
+							.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`)
 							.then((res) => setProducts(res.data))
 					: ''
 		);
 	};
 
-	useEffect(() => {
-		const getSports = async () => {
-			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-			products.map(
-				async (product) =>
-					await axios
-						.get(`http://localhost:3001/products/${product.productId}`)
-						.then(
-							async (res) =>
-								(await res.data.categories.includes('63f40179c36bbddba5ec9b44')) && sports.length === 0
-									? setSports((oldArray) => [ ...oldArray, product ])
-									: ''
-						)
-			);
-		};
-
-		const getDress = async () => {
-			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-			products.map(
-				async (product) =>
-					await axios
-						.get(`http://localhost:3001/products/${product.productId}`)
-						.then(
-							async (res) =>
-								(await res.data.categories.includes('dressID')) && dress.length === 0
-									? setDress((oldArray) => [ ...oldArray, product ])
-									: ''
-						)
-			);
-		};
-
-		const getCasuals = async () => {
-			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-			products.map(
-				async (product) =>
-					await axios
-						.get(`http://localhost:3001/products/${product.productId}`)
-						.then(
-							async (res) =>
-								(await res.data.categories.includes('casualID')) && casuals.length === 0
-									? setCasuals((oldArray) => [ ...oldArray, product ])
-									: ''
-						)
-			);
-		};
-
-		getSports();
-		getDress();
-		getCasuals();
-	});
-
-	const handleOccasionClick = (input) => {
-		setProducts(input);
+	const handleStyleClick = async (categoryId) => {
+		await axios
+			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&style=${categoryId}`)
+			.then((res) => setProducts(res.data));
 	};
-	// const handleSportsClick = (input) => {
-	// 	setProducts(input);
-	// };
 
-	// const handleDressClick = (input) => {
-	// 	setProducts(input);
-	// };
+	const handleMaterialClick = async (categoryId) => {
+		await axios
+			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`)
+			.then((res) => setProducts(res.data));
+	};
 
-	// const handleClick = (input) => {
+	const handleOccasionClick = async (categoryId) => {
+		await axios
+			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`)
+			.then((res) => setProducts(res.data));
+	};
+
+	// useEffect(() => {
+	// 	const getSports = async () => {
+	// 		// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
+	// 		products.map(
+	// 			async (product) =>
+	// 				await axios
+	// 					.get(`http://localhost:3001/products/${product.productId}`)
+	// 					.then(
+	// 						async (res) =>
+	// 							(await res.data.categories.includes('63f40179c36bbddba5ec9b44')) && sports.length === 0
+	// 								? setSports((oldArray) => [ ...oldArray, product ])
+	// 								: ''
+	// 					)
+	// 		);
+	// 	};
+
+	// 	const getDress = async () => {
+	// 		// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
+	// 		products.map(
+	// 			async (product) =>
+	// 				await axios
+	// 					.get(`http://localhost:3001/products/${product.productId}`)
+	// 					.then(
+	// 						async (res) =>
+	// 							(await res.data.categories.includes('dressID')) && dress.length === 0
+	// 								? setDress((oldArray) => [ ...oldArray, product ])
+	// 								: ''
+	// 					)
+	// 		);
+	// 	};
+
+	// 	const getCasuals = async () => {
+	// 		// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
+	// 		products.map(
+	// 			async (product) =>
+	// 				await axios
+	// 					.get(`http://localhost:3001/products/${product.productId}`)
+	// 					.then(
+	// 						async (res) =>
+	// 							(await res.data.categories.includes('casualID')) && casuals.length === 0
+	// 								? setCasuals((oldArray) => [ ...oldArray, product ])
+	// 								: ''
+	// 					)
+	// 		);
+	// 	};
+
+	// 	// getSports();
+	// 	// getDress();
+	// 	// getCasuals();
+	// });
+
+	// const handleOccasionClick = (input) => {
 	// 	setProducts(input);
 	// };
 
@@ -150,12 +180,7 @@ function Men() {
 									style={{ backgroundImage: 'url(assets/images/cover-img-1.jpg)' }}>
 									<h2>Men's</h2>
 								</div>
-								<div className="menu text-center">
-									<p>
-										<a href="#">New Arrivals</a> <a href="#">Best Sellers</a>{' '}
-										<a href="#">Extended Widths</a> <a href="#">Sale</a>
-									</p>
-								</div>
+								<br />
 							</div>
 						</div>
 					</div>
@@ -171,7 +196,7 @@ function Men() {
 										<h2>Casuals</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick(casuals)}
+												onClick={() => handleOccasionClick('643758287e6ecce0c965a249')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -188,7 +213,7 @@ function Men() {
 										<h2>Dress</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick(dress)}
+												onClick={() => handleOccasionClick('643757277e6ecce0c965a248')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -206,7 +231,7 @@ function Men() {
 										<p>
 											<a
 												href="#"
-												onClick={() => handleOccasionClick(sports)}
+												onClick={() => handleOccasionClick('63f40179c36bbddba5ec9b44')}
 												className="btn btn-primary btn-lg">
 												Shop now
 											</a>
@@ -236,31 +261,13 @@ function Men() {
 										<div className="side border mb-1">
 											<h3>Brand</h3>
 											<ul>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Nike')}>
-														Nike
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Addidas')}>
-														Adidas
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Merrel')}>
-														Merrel
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Gucci')}>
-														Gucci
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Sketchers')}>
-														Skechers
-													</a>
-												</li>
+												{brands.map((brand, idx) => (
+													<li key={idx}>
+														<a href="#" onClick={() => handleBrandClick(brand.name)}>
+															{brand.name}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 									</div>
@@ -322,21 +329,13 @@ function Men() {
 										<div className="side border mb-1">
 											<h3>Style</h3>
 											<ul>
-												<li>
-													<a href="#">Slip Ons</a>
-												</li>
-												<li>
-													<a href="#">Boots</a>
-												</li>
-												<li>
-													<a href="#">Sandals</a>
-												</li>
-												<li>
-													<a href="#">Lace Ups</a>
-												</li>
-												<li>
-													<a href="#">Oxfords</a>
-												</li>
+												{styles.map((style, idx) => (
+													<li key={idx}>
+														<a onClick={() => handleStyleClick(style.categoryId)} href="#">
+															{style.name}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 									</div>
@@ -378,12 +377,15 @@ function Men() {
 										<div className="side border mb-1">
 											<h3>Material</h3>
 											<ul>
-												<li>
-													<a href="#">Leather</a>
-												</li>
-												<li>
-													<a href="#">Suede</a>
-												</li>
+												{material.map((item, idx) => (
+													<li key={idx}>
+														<a
+															onClick={() => handleMaterialClick(item.categoryId)}
+															href="#">
+															{item.name}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 									</div>

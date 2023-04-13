@@ -14,6 +14,9 @@ function Women() {
 	const [ sports, setSports ] = useState([]);
 	const [ dress, setDress ] = useState([]);
 	const [ casuals, setCasuals ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -30,8 +33,34 @@ function Women() {
 				.get('http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f')
 				.then((res) => setProducts(res.data));
 		};
+
+		const getBrands = async () => {
+			await axios.get('http://localhost:3001/brands').then((res) => setBrands(res.data));
+		};
+
+		const getStyles = async () => {
+			await axios
+				.get('http://localhost:3001/categoryTypes/63f400e6c36bbddba5ec9b41')
+				.then((res) => setStyles(res.data));
+		};
+
+		const getMaterial = async () => {
+			await axios
+				.get('http://localhost:3001/categoryTypes/63f40129c36bbddba5ec9b42')
+				.then((res) => setMaterial(res.data));
+		};
+
 		getWomensProducts();
+		getBrands();
+		getStyles();
+		getMaterial();
 	}, []);
+
+	const handleOccasionClick = async (categoryId) => {
+		await axios
+			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`)
+			.then((res) => setProducts(res.data));
+	};
 
 	useEffect(() => {
 		const getSports = async () => {
@@ -79,14 +108,14 @@ function Women() {
 			);
 		};
 
-		getSports();
-		getDress();
-		getCasuals();
+		// getSports();
+		// getDress();
+		// getCasuals();
 	});
 
-	const handleOccasionClick = (input) => {
-		setProducts(input);
-	};
+	// const handleOccasionClick = (input) => {
+	// 	setProducts(input);
+	// };
 
 	const handleBrandClick = async (brandName) => {
 		// Get brands
@@ -101,6 +130,18 @@ function Women() {
 							.then((res) => setProducts(res.data))
 					: ''
 		);
+	};
+
+	const handleStyleClick = async (categoryId) => {
+		await axios
+			.get(`http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e&style=${categoryId}`)
+			.then((res) => setProducts(res.data));
+	};
+
+	const handleMaterialClick = async (categoryId) => {
+		await axios
+			.get(`http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e&material=${categoryId}`)
+			.then((res) => setProducts(res.data));
 	};
 
 	return (
@@ -140,12 +181,7 @@ function Women() {
 									style={{ backgroundImage: 'url(assets/images/cover-img-1.jpg)' }}>
 									<h2>Women's</h2>
 								</div>
-								<div className="menu text-center">
-									<p>
-										<a href="#">New Arrivals</a> <a href="#">Best Sellers</a>{' '}
-										<a href="#">Extended Widths</a> <a href="#">Sale</a>
-									</p>
-								</div>
+								<br />
 							</div>
 						</div>
 					</div>
@@ -161,7 +197,7 @@ function Women() {
 										<h2>Casuals</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick(casuals)}
+												onClick={() => handleOccasionClick('643758287e6ecce0c965a249')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -178,7 +214,7 @@ function Women() {
 										<h2>Dress</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick(dress)}
+												onClick={() => handleOccasionClick('643757277e6ecce0c965a248')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -195,7 +231,7 @@ function Women() {
 										<h2>Sports</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick(sports)}
+												onClick={() => handleOccasionClick('63f40179c36bbddba5ec9b44')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -226,31 +262,13 @@ function Women() {
 										<div className="side border mb-1">
 											<h3>Brand</h3>
 											<ul>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Nike')}>
-														Nike
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Addidas')}>
-														Adidas
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Merrel')}>
-														Merrel
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Gucci')}>
-														Gucci
-													</a>
-												</li>
-												<li>
-													<a href="#" onClick={() => handleBrandClick('Sketchers')}>
-														Skechers
-													</a>
-												</li>
+												{brands.map((brand, idx) => (
+													<li key={idx}>
+														<a href="#" onClick={() => handleBrandClick(brand.name)}>
+															{brand.name}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 									</div>
@@ -312,21 +330,13 @@ function Women() {
 										<div className="side border mb-1">
 											<h3>Style</h3>
 											<ul>
-												<li>
-													<a href="#">Slip Ons</a>
-												</li>
-												<li>
-													<a href="#">Boots</a>
-												</li>
-												<li>
-													<a href="#">Sandals</a>
-												</li>
-												<li>
-													<a href="#">Lace Ups</a>
-												</li>
-												<li>
-													<a href="#">Oxfords</a>
-												</li>
+												{styles.map((style, idx) => (
+													<li key={idx}>
+														<a onClick={() => handleStyleClick(style.categoryId)} href="#">
+															{style.name}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 									</div>
@@ -368,12 +378,15 @@ function Women() {
 										<div className="side border mb-1">
 											<h3>Material</h3>
 											<ul>
-												<li>
-													<a href="#">Leather</a>
-												</li>
-												<li>
-													<a href="#">Suede</a>
-												</li>
+												{material.map((item, idx) => (
+													<li key={idx}>
+														<a
+															onClick={() => handleMaterialClick(item.categoryId)}
+															href="#">
+															{item.name}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 									</div>
@@ -389,7 +402,7 @@ function Women() {
 											price={product.price}
 											key={idx}
 											productId={product.productId}
-											genderId="63f40017c36bbddba5ec9b3f" // ! hardcoded value
+											genderId="63f40017c36bbddba5ec9b3f"
 										/>
 									))}
 								</div>
