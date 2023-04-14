@@ -13,17 +13,17 @@ import axios from 'axios';
  * Users can also add this product to the cart and proceed to checkout.
  */
 function ProductDetail() {
-	const [ currentItem, setCurrentItem ] = useState({});
-	const [ apiData, setApiData ] = useState({});
-	const [ selectedSize, setSelectedSize ] = useState(null);
-	const [ selectedColor, setSelectedColor ] = useState(null);
+	const [currentItem, setCurrentItem] = useState({});
+	const [apiData, setApiData] = useState({});
+	const [selectedSize, setSelectedSize] = useState(null);
+	const [selectedColor, setSelectedColor] = useState(null);
 	const { gender, id } = useParams();
 
 	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
 
 	useEffect(() => {
 		const getProducts = async () => {
-			await axios.get(`http://localhost:3001/products/${id}`).then((res) =>
+			await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${id}`).then((res) =>
 				// res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
 				setApiData(res.data)
 			);
@@ -59,17 +59,17 @@ function ProductDetail() {
 
 			setCurrObj();
 		},
-		[ apiData, selectedSize, quantity ]
+		[apiData, selectedSize, quantity]
 	);
 
 	const handleAddToCartClick = () => {
 		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem) && selectedSize) {
 			console.log(currentItem);
-			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
+			setCartItems((cartItems) => [...cartItems, currentItem]);
 
 			let obj = {};
 			obj[currentItem.productId] = quantity;
-			setQuantityArray((items) => [ ...items, obj ]);
+			setQuantityArray((items) => [...items, obj]);
 		}
 	};
 

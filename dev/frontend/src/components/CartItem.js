@@ -14,27 +14,27 @@ const CartItem = ({ image, productName, price, productId }) => {
 		cartItems.map(
 			async (item) =>
 				item.productId === productId
-					? await axios.post('http://localhost:3001/cart', {
-							productId: item.productId,
-							brandId: item.brandId,
-							name: item.productName,
-							desc: item.productDesc,
-							sellerId: '1',
-							qty: 0,
-							size: 8,
-							color: 'red',
-							price: item.price,
-							smallImgTile: item.image,
-							genderId: item.genderId
-						})
+					? await axios.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`, {
+						productId: item.productId,
+						brandId: item.brandId,
+						name: item.productName,
+						desc: item.productDesc,
+						sellerId: '1',
+						qty: 0,
+						size: 8,
+						color: 'red',
+						price: item.price,
+						smallImgTile: item.image,
+						genderId: item.genderId
+					})
 					: ''
 		);
 		setCartItems((current) => current.filter((item) => item.productId !== productId));
 
 		// POST request to add to cart
 	};
-    
-    // Testing git push command
+
+	// Testing git push command
 
 	return (
 		<div className="product-cart d-flex">
