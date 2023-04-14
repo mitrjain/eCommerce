@@ -10,14 +10,14 @@ import axios from 'axios';
 
 function Men() {
 	// Contains the product details for the products rendered on this page
-	const [ products, setProducts ] = useState([]);
-	const [ showAll, setShowAll ] = useState(false);
-	const [ sports, setSports ] = useState([]);
-	const [ dress, setDress ] = useState([]);
-	const [ casuals, setCasuals ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
+	const [products, setProducts] = useState([]);
+	const [showAll, setShowAll] = useState(false);
+	const [sports, setSports] = useState([]);
+	const [dress, setDress] = useState([]);
+	const [casuals, setCasuals] = useState([]);
+	const [brands, setBrands] = useState([]);
+	const [styles, setStyles] = useState([]);
+	const [material, setMaterial] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -31,23 +31,23 @@ function Men() {
 	useEffect(() => {
 		const getMensProducts = async () => {
 			await axios
-				.get('http://localhost:3001/products?gender=63f3ff99c36bbddba5ec9b3e')
+				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e`)
 				.then((res) => setProducts(res.data));
 		};
 
 		const getBrands = async () => {
-			await axios.get('http://localhost:3001/brands').then((res) => setBrands(res.data));
+			await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => setBrands(res.data));
 		};
 
 		const getStyles = async () => {
 			await axios
-				.get('http://localhost:3001/categoryTypes/63f400e6c36bbddba5ec9b41')
+				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
 				.then((res) => setStyles(res.data));
 		};
 
 		const getMaterial = async () => {
 			await axios
-				.get('http://localhost:3001/categoryTypes/63f40129c36bbddba5ec9b42')
+				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f40129c36bbddba5ec9b42`)
 				.then((res) => setMaterial(res.data));
 		};
 
@@ -60,33 +60,33 @@ function Men() {
 	const handleBrandClick = async (brandName) => {
 		// Get brands
 		let brands;
-		await axios.get('http://localhost:3001/brands').then((res) => (brands = res.data));
+		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
 		brands.map(
 			async (brand) =>
 				brand.name == brandName
 					? await axios
-							.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`)
-							.then((res) => setProducts(res.data))
+						.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`)
+						.then((res) => setProducts(res.data))
 					: ''
 		);
 	};
 
 	const handleStyleClick = async (categoryId) => {
 		await axios
-			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&style=${categoryId}`)
+			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&style=${categoryId}`)
 			.then((res) => setProducts(res.data));
 	};
 
 	const handleMaterialClick = async (categoryId) => {
 		await axios
-			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`)
+			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`)
 			.then((res) => setProducts(res.data));
 	};
 
 	const handleOccasionClick = async (categoryId) => {
 		await axios
-			.get(`http://localhost:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`)
+			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`)
 			.then((res) => setProducts(res.data));
 	};
 
@@ -96,7 +96,7 @@ function Men() {
 	// 		products.map(
 	// 			async (product) =>
 	// 				await axios
-	// 					.get(`http://localhost:3001/products/${product.productId}`)
+	// 					.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
 	// 					.then(
 	// 						async (res) =>
 	// 							(await res.data.categories.includes('63f40179c36bbddba5ec9b44')) && sports.length === 0
@@ -111,7 +111,7 @@ function Men() {
 	// 		products.map(
 	// 			async (product) =>
 	// 				await axios
-	// 					.get(`http://localhost:3001/products/${product.productId}`)
+	// 					.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
 	// 					.then(
 	// 						async (res) =>
 	// 							(await res.data.categories.includes('dressID')) && dress.length === 0
@@ -126,7 +126,7 @@ function Men() {
 	// 		products.map(
 	// 			async (product) =>
 	// 				await axios
-	// 					.get(`http://localhost:3001/products/${product.productId}`)
+	// 					.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
 	// 					.then(
 	// 						async (res) =>
 	// 							(await res.data.categories.includes('casualID')) && casuals.length === 0

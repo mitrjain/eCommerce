@@ -24,7 +24,7 @@ function SellerPage() {
                     }
                 }
                 if (value) {
-                    await axios.get('http://localhost:3001/categoryTypes/' + value)
+                    await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/` + value)
                         .then((res) => {
                             if (res.data.length !== 0) {
                                 for (let i = 0; i < res.data.length; i++) {
@@ -153,7 +153,7 @@ function SellerPage() {
 
     useEffect(() => {
         const getBrands = async () => {
-            await axios.get('http://localhost:3001/brands')
+            await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`)
                 .then((response) => {
                     let brands = [];
                     for (let i = 0; i < response.data.length; i++) {
@@ -168,7 +168,7 @@ function SellerPage() {
         }
 
         const getCategoryTypes = async () => {
-            await axios.get('http://localhost:3001/categoryTypes')
+            await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes`)
                 .then((res) => {
                     var categoryTypes = [];
                     for (var i = 0; i < res.data.length; i++) {
@@ -183,7 +183,7 @@ function SellerPage() {
         }
 
         const getGenders = async () => {
-            await axios.get('http://localhost:3001/genders')
+            await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/genders`)
                 .then((res) => {
                     var gen = [];
                     for (var i = 0; i < res.data.length; i++) {
@@ -389,7 +389,7 @@ function SellerPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:3001/products', {
+        await axios.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/products`, {
             data: {
                 name: productName,
                 brandId: selectedBrand,
