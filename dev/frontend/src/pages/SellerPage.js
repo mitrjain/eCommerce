@@ -211,10 +211,12 @@ function SellerPage() {
     }
 
     const handleFileInput = (e) => {
+        e.preventDefault();
         setSelectedFile(e.target.files[0]);
     }
 
-    const handleUpload = async (file) => {
+    const handleUpload = async (e, file) => {
+        e.preventDefault();
         uploadFile(file, config)
             .then(data => {
                 setSmallTileLocation(data.location);
@@ -238,7 +240,8 @@ function SellerPage() {
         }
     }
 
-    const addDivToSpecsDiv = () => {
+    const addDivToSpecsDiv = (e) => {
+        e.preventDefault();
         if (specsDiv.length === 0) {
             setSpecsDiv([{
                 spec:
@@ -315,7 +318,8 @@ function SellerPage() {
         }
     }
 
-    const removeDivFromSpecsDiv = () => {
+    const removeDivFromSpecsDiv = (e) => {
+        e.preventDefault();
         const specsDivParam = specsDiv.filter(item => specsDiv.indexOf(item) !== specsDiv.length - 1);
         setSpecsDiv(specsDivParam);
     }
@@ -443,7 +447,7 @@ function SellerPage() {
                                     <span className="form-inline py-4">
                                         <label htmlFor="smallImgTile" className="col-md-4"> Upload the small image tile to be displayed: </label>
                                         <input type="file" onChange={handleFileInput} />
-                                        <button onClick={() => handleUpload(selectedFile)}> Upload Image</button>
+                                        <button onClick={(event) => handleUpload(event, selectedFile)}> Upload Image</button>
                                     </span>
                                     <div>
                                         <div className="row">
