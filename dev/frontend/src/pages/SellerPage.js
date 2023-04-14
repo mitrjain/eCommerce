@@ -241,7 +241,9 @@ function SellerPage() {
     }
 
     const addDivToSpecsDiv = (e) => {
-        e.preventDefault();
+        if (e !== undefined) {
+            e.preventDefault();
+        }
         if (specsDiv.length === 0) {
             setSpecsDiv([{
                 spec:
