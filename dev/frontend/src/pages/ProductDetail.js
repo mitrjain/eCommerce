@@ -72,7 +72,7 @@ function ProductDetail() {
 			setQuantityArray((items) => [...items, obj]);
 		}
 	};
-
+	console.log('Quantity', quantity);
 	const handleQuantityPlusClick = () => {
 		if (quantity < apiData.maxQtyLmt) {
 			setQuantity(quantity + 1);
@@ -213,8 +213,8 @@ function ProductDetail() {
 											name="quantity"
 											className="form-control input-number"
 											value={quantity}
-											min="1"
-											max="100"
+											// min="1"
+											// max="100"
 										/>
 										<span className="input-group-btn ml-1">
 											<button
