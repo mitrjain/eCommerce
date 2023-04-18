@@ -16,11 +16,11 @@ import ThankYou from './pages/ThankYou';
 import { CartContext } from './contexts/CartContext';
 
 function App() {
-	const [cartItems, setCartItems] = useState([]);
-	const [quantity, setQuantity] = useState('1');
+	const [ cartItems, setCartItems ] = useState([]);
+	const [ quantity, setQuantity ] = useState(1);
 
 	// A quantity array that maps productId: quantity
-	const [quantityArray, setQuantityArray] = useState([]);
+	const [ quantityArray, setQuantityArray ] = useState([]);
 	return (
 		<div className="App">
 			<CartContext.Provider
@@ -46,10 +46,10 @@ function App() {
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
 						<Route path="/thankyou" element={<ThankYou />} />
-					</Routes >
-				</Router >
-			</CartContext.Provider >
-		</div >
+					</Routes>
+				</Router>
+			</CartContext.Provider>
+		</div>
 	);
 }
 

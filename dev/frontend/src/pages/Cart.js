@@ -10,9 +10,9 @@ import axios from 'axios';
 
 function Cart() {
 	const { cartItems, setCartItems, quantityArray } = useContext(CartContext);
-	const [subtotal, setSubtotal] = useState(0);
-	const [deliveryCharge, setDeliveryCharge] = useState(7);
-	const [discount, setDiscount] = useState(0);
+	const [ subtotal, setSubtotal ] = useState(0);
+	const [ deliveryCharge, setDeliveryCharge ] = useState(7);
+	const [ discount, setDiscount ] = useState(0);
 
 	useEffect(
 		() => {
@@ -28,44 +28,39 @@ function Cart() {
 
 			calculateSubtotal();
 		},
-		[cartItems, subtotal]
+		[ cartItems, subtotal ]
 	);
 
-	// const calculateSubtotal = () => {
-	// 	cartItems.map((item) => setSubtotal(subtotal + item.price));
-	// };
-
 	const handleCheckoutClick = async () => {
-		if (cartItems) {
-			cartItems.map(
-				async (item) =>
-					await axios
-						.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`, {
-							productId: item.productId,
-							brandId: item.brandId,
-							name: item.productName,
-							desc: item.productDesc,
-							sellerId: '1',
-							qty: item.quantityToPass,
-							size: item.selectedSize,
-							color: 'red',
-							price: item.price,
-							smallImgTile: item.image,
-							genderId: item.genderId
-						})
-						.then(
-							async (res) =>
-								await axios
-									.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`)
-									.then((res) => console.log('Get all cart', res.data))
-						)
-						.catch((err) => console.log('AXIOS ERROR PROBLEM'))
-			);
-
-			await axios
-				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`)
-				.then((res) => console.log('Get all cart (Outside)', res.data));
-		}
+		// 	if (cartItems) {
+		// 		cartItems.map(
+		// 			async (item) =>
+		// 				await axios
+		// 					.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`, {
+		// 						productId: item.productId,
+		// 						brandId: item.brandId,
+		// 						name: item.productName,
+		// 						desc: item.productDesc,
+		// 						sellerId: '1',
+		// 						qty: item.quantityToPass,
+		// 						size: item.selectedSize,
+		// 						color: 'red',
+		// 						price: item.price,
+		// 						smallImgTile: item.image,
+		// 						genderId: item.genderId
+		// 					})
+		// 					.then(
+		// 						async (res) =>
+		// 							await axios
+		// 								.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`)
+		// 								.then((res) => console.log('Get all cart', res.data))
+		// 					)
+		// 					.catch((err) => console.log('AXIOS ERROR PROBLEM'))
+		// 		);
+		// 		await axios
+		// 			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`)
+		// 			.then((res) => console.log('Get all cart (Outside)', res.data));
+		// 	}
 	};
 	return (
 		<Fragment>
@@ -156,12 +151,6 @@ function Cart() {
 								)}
 							</div>
 							<div className="col-sm-3">
-								{/* <input
-									onClick={handleCheckoutClick}
-									type="submit"
-									value="Checkout"
-									className="btn btn-primary"
-								/> */}
 								<Link to="/checkout" className="btn btn-primary" onClick={handleCheckoutClick}>
 									Checkout
 								</Link>

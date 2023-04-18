@@ -10,14 +10,14 @@ import axios from 'axios';
 
 function Men() {
 	// Contains the product details for the products rendered on this page
-	const [products, setProducts] = useState([]);
-	const [showAll, setShowAll] = useState(false);
-	const [sports, setSports] = useState([]);
-	const [dress, setDress] = useState([]);
-	const [casuals, setCasuals] = useState([]);
-	const [brands, setBrands] = useState([]);
-	const [styles, setStyles] = useState([]);
-	const [material, setMaterial] = useState([]);
+	const [ products, setProducts ] = useState([]);
+	const [ showAll, setShowAll ] = useState(false);
+	const [ sports, setSports ] = useState([]);
+	const [ dress, setDress ] = useState([]);
+	const [ casuals, setCasuals ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -66,27 +66,39 @@ function Men() {
 			async (brand) =>
 				brand.name == brandName
 					? await axios
-						.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`)
-						.then((res) => setProducts(res.data))
+							.get(
+								`http://${process.env
+									.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
+							)
+							.then((res) => setProducts(res.data))
 					: ''
 		);
 	};
 
 	const handleStyleClick = async (categoryId) => {
 		await axios
-			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&style=${categoryId}`)
+			.get(
+				`http://${process.env
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&style=${categoryId}`
+			)
 			.then((res) => setProducts(res.data));
 	};
 
 	const handleMaterialClick = async (categoryId) => {
 		await axios
-			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`)
+			.get(
+				`http://${process.env
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
+			)
 			.then((res) => setProducts(res.data));
 	};
 
 	const handleOccasionClick = async (categoryId) => {
 		await axios
-			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`)
+			.get(
+				`http://${process.env
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`
+			)
 			.then((res) => setProducts(res.data));
 	};
 

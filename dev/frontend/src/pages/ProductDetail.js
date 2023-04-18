@@ -13,20 +13,20 @@ import axios from 'axios';
  * Users can also add this product to the cart and proceed to checkout.
  */
 function ProductDetail() {
-	const [currentItem, setCurrentItem] = useState({});
-	const [apiData, setApiData] = useState({});
-	const [selectedSize, setSelectedSize] = useState(null);
-	const [selectedColor, setSelectedColor] = useState(null);
+	const [ currentItem, setCurrentItem ] = useState({});
+	const [ apiData, setApiData ] = useState({});
+	const [ selectedSize, setSelectedSize ] = useState(null);
+	const [ selectedColor, setSelectedColor ] = useState(null);
+	const [ sizeColorArray, setSizeColorArray ] = useState([]);
 	const { gender, id } = useParams();
 
 	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
 
 	useEffect(() => {
 		const getProducts = async () => {
-			await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${id}`).then((res) =>
-				// res.data.map((product, idx) => (product.productId === id ? setCurrentItem(product) : ''))
-				setApiData(res.data)
-			);
+			await axios
+				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${id}`)
+				.then((res) => setApiData(res.data));
 		};
 		getProducts();
 	}, []);
@@ -37,15 +37,14 @@ function ProductDetail() {
 				if (Object.keys(apiData).length === 0) {
 					console.log('Hello World');
 				} else {
-					// const quantityToPass = apiData._id;
-					// console.log('QUANTITY TO PASS: ' + quantityToPass);
 					const obj = {
 						productName: apiData.name,
 						productId: apiData._id,
 						brandId: apiData.brandId,
 						genderId: apiData.gender,
 						productDesc: apiData.desc,
-						image: apiData.sizes[0].colors[0].productDetail.smallImgTile,
+						// image: apiData.sizes[0].colors[0].productDetail.smallImgTile,
+						image: apiData.sizes[0].colors[0].productDetail.images[0],
 						price: apiData.sizes[0].colors[0].productDetail.price,
 						sizes: apiData.sizes,
 						selectedSize: selectedSize,
@@ -59,20 +58,67 @@ function ProductDetail() {
 
 			setCurrObj();
 		},
-		[apiData, selectedSize, quantity]
+		[ apiData, selectedSize, quantity ]
 	);
 
 	const handleAddToCartClick = () => {
 		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem) && selectedSize) {
 			console.log(currentItem);
-			setCartItems((cartItems) => [...cartItems, currentItem]);
+			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
 
 			let obj = {};
 			obj[currentItem.productId] = quantity;
-			setQuantityArray((items) => [...items, obj]);
+			setQuantityArray((items) => [ ...items, obj ]);
 		}
 	};
-	console.log('Quantity', quantity);
+
+	useEffect(
+		() => {
+			const sendAddToCartRequest = () => {
+				if (cartItems.length > 0) {
+					cartItems.map(
+						async (item) =>
+							await axios
+								.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`, {
+									productId: item.productId,
+									brandId: item.brandId,
+									name: item.productName,
+									desc: item.productDesc,
+									sellerId: '1',
+									qty: item.quantityToPass,
+									size: item.selectedSize,
+									color: item.selectedColor,
+									price: item.price,
+									smallImgTile: item.image,
+									genderId: item.genderId
+								})
+								.then((res) => console.log('Posted to Add to Cart'))
+					);
+				}
+			};
+
+			sendAddToCartRequest();
+		},
+		[ cartItems ]
+	);
+
+	useEffect(
+		() => {
+			const getColorsObj = () => {
+				if (Object.keys(currentItem).length !== 0 && sizeColorArray.length === 0) {
+					currentItem.sizes.map((product) => {
+						const obj = {};
+						obj[product.size] = product.colors;
+						setSizeColorArray((oldArray) => [ ...oldArray, obj ]);
+					});
+				}
+			};
+
+			getColorsObj();
+		},
+		[ currentItem ]
+	);
+
 	const handleQuantityPlusClick = () => {
 		if (quantity < apiData.maxQtyLmt) {
 			setQuantity(quantity + 1);
@@ -93,13 +139,10 @@ function ProductDetail() {
 	const handleColorClick = (e, inputColor) => {
 		e.currentTarget.classList.toggle('active');
 		setSelectedColor(inputColor);
-		console.log('CLasslist', e.currentTarget.classList);
 	};
 
 	return (
 		<Fragment>
-			{/* <div className="colorlib-loader" /> */}
-
 			<div id="page">
 				<nav className="colorlib-nav" role="navigation">
 					<div className="top-menu">
@@ -134,8 +177,7 @@ function ProductDetail() {
 									<div className="product-entry border">
 										<a href="#" className="prod-img">
 											<img
-												// src="/assets/images/item-1.jpg"
-												src={`/assets/images/item-10.jpg`}
+												src={currentItem.image}
 												className="img-fluid"
 												alt="Free html5 bootstrap 4 template"
 											/>
@@ -179,17 +221,19 @@ function ProductDetail() {
 										<div className="block-26 mb-2">
 											<h4>Color</h4>
 											<ul>
-												{Object.keys(currentItem).length !== 0 ? (
-													currentItem.sizes.map((products) =>
-														products.colors.map((item, idx) => (
-															<li
-																className=""
-																key={idx}
-																onClick={(e) => handleColorClick(e, item.color)}>
-																<a href="#">{item.color}</a>
-															</li>
-														))
-													)
+												{selectedSize !== null ? (
+													sizeColorArray.map((sizes, idx) => {
+														if (sizes[selectedSize] != null) {
+															return sizes[selectedSize].map((item, idx) => (
+																<li
+																	className=""
+																	key={idx}
+																	onClick={(e) => handleColorClick(e, item.color)}>
+																	<a href="#">{item.color}</a>
+																</li>
+															));
+														}
+													})
 												) : (
 													''
 												)}
@@ -232,6 +276,7 @@ function ProductDetail() {
 											<p className="addtocart">
 												<a
 													href="#"
+													to="/cart"
 													className="btn btn-primary btn-addtocart"
 													onClick={handleAddToCartClick}>
 													<i className="icon-shopping-cart" /> Add to Cart

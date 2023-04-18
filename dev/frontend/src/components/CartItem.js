@@ -9,32 +9,33 @@ import axios from 'axios';
 const CartItem = ({ image, productName, price, productId }) => {
 	const { cartItems, setCartItems, quantity, setQuantity, quantityArray, setQuantityArray } = useContext(CartContext);
 
+	const getKeyByValue = (object, value) => {
+		return Object.keys(object).find((key) => object[key] === value);
+	};
 	// Removes item from cart
 	const removeItem = async () => {
 		cartItems.map(
 			async (item) =>
 				item.productId === productId
 					? await axios.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`, {
-						productId: item.productId,
-						brandId: item.brandId,
-						name: item.productName,
-						desc: item.productDesc,
-						sellerId: '1',
-						qty: 0,
-						size: 8,
-						color: 'red',
-						price: item.price,
-						smallImgTile: item.image,
-						genderId: item.genderId
-					})
+							productId: item.productId,
+							brandId: item.brandId,
+							name: item.productName,
+							desc: item.productDesc,
+							sellerId: '1',
+							qty: 0,
+							size: item.selectedSize,
+							color: 'red',
+							price: item.price,
+							smallImgTile: item.image,
+							genderId: item.genderId
+						})
 					: ''
 		);
 		setCartItems((current) => current.filter((item) => item.productId !== productId));
 
-		// POST request to add to cart
+		setQuantityArray((current) => current.filter((arr) => getKeyByValue(arr, arr[productId]) !== productId));
 	};
-
-	// Testing git push command
 
 	return (
 		<div className="product-cart d-flex">
