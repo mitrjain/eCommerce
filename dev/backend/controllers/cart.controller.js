@@ -6,8 +6,10 @@ const CartModel = require('../models/Cart');
 exports.create = async (req, res) => {
     try{
         let key = req.body.brandId + req.body.productId + req.body.genderId + req.body.size + req.body.color + req.body.sellerId + req.body.price;
+        const cartDocTemp = await CartModel.find({cartkey : key});
         const cardDoc = await CartModel.findOneAndDelete({cartKey : key});
-        if(!cardDoc){
+        if(!cartDocTemp){
+            console.log("ENtered here");
             console.log(cardDoc);
             res.json({message: "error due to cart already present"})
         }
