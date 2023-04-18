@@ -8,7 +8,7 @@ import TrustedPartners from '../components/TrustedPartners';
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 
-function Men() {
+const Men = () => {
 	// Contains the product details for the products rendered on this page
 	const [ products, setProducts ] = useState([]);
 	const [ showAll, setShowAll ] = useState(false);
@@ -18,6 +18,7 @@ function Men() {
 	const [ brands, setBrands ] = useState([]);
 	const [ styles, setStyles ] = useState([]);
 	const [ material, setMaterial ] = useState([]);
+
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -27,6 +28,10 @@ function Men() {
 		'assets/images/item-6.jpg',
 		'assets/images/item-7.jpg'
 	];
+
+	axios
+		.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
+		.then((res) => setStyles(res.data));
 
 	useEffect(() => {
 		const getMensProducts = async () => {
@@ -39,21 +44,27 @@ function Men() {
 			await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => setBrands(res.data));
 		};
 
+		getMensProducts();
+		getBrands();
+	}, []);
+
+	useEffect(() => {
 		const getStyles = async () => {
 			await axios
 				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
 				.then((res) => setStyles(res.data));
 		};
 
+		getStyles();
+	}, []);
+
+	useEffect(() => {
 		const getMaterial = async () => {
 			await axios
 				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f40129c36bbddba5ec9b42`)
 				.then((res) => setMaterial(res.data));
 		};
 
-		getMensProducts();
-		getBrands();
-		getStyles();
 		getMaterial();
 	}, []);
 
@@ -101,61 +112,6 @@ function Men() {
 			)
 			.then((res) => setProducts(res.data));
 	};
-
-	// useEffect(() => {
-	// 	const getSports = async () => {
-	// 		// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-	// 		products.map(
-	// 			async (product) =>
-	// 				await axios
-	// 					.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
-	// 					.then(
-	// 						async (res) =>
-	// 							(await res.data.categories.includes('63f40179c36bbddba5ec9b44')) && sports.length === 0
-	// 								? setSports((oldArray) => [ ...oldArray, product ])
-	// 								: ''
-	// 					)
-	// 		);
-	// 	};
-
-	// 	const getDress = async () => {
-	// 		// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-	// 		products.map(
-	// 			async (product) =>
-	// 				await axios
-	// 					.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
-	// 					.then(
-	// 						async (res) =>
-	// 							(await res.data.categories.includes('dressID')) && dress.length === 0
-	// 								? setDress((oldArray) => [ ...oldArray, product ])
-	// 								: ''
-	// 					)
-	// 		);
-	// 	};
-
-	// 	const getCasuals = async () => {
-	// 		// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-	// 		products.map(
-	// 			async (product) =>
-	// 				await axios
-	// 					.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
-	// 					.then(
-	// 						async (res) =>
-	// 							(await res.data.categories.includes('casualID')) && casuals.length === 0
-	// 								? setCasuals((oldArray) => [ ...oldArray, product ])
-	// 								: ''
-	// 					)
-	// 		);
-	// 	};
-
-	// 	// getSports();
-	// 	// getDress();
-	// 	// getCasuals();
-	// });
-
-	// const handleOccasionClick = (input) => {
-	// 	setProducts(input);
-	// };
 
 	return (
 		<Fragment>
@@ -488,6 +444,6 @@ function Men() {
 			<script src="assets/js/main.js" />
 		</Fragment>
 	);
-}
+};
 
 export default Men;

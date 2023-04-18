@@ -10,13 +10,13 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
-	const [products, setProducts] = useState([]);
-	const [sports, setSports] = useState([]);
-	const [dress, setDress] = useState([]);
-	const [casuals, setCasuals] = useState([]);
-	const [brands, setBrands] = useState([]);
-	const [styles, setStyles] = useState([]);
-	const [material, setMaterial] = useState([]);
+	const [ products, setProducts ] = useState([]);
+	const [ sports, setSports ] = useState([]);
+	const [ dress, setDress ] = useState([]);
+	const [ casuals, setCasuals ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -38,84 +38,38 @@ function Women() {
 			await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => setBrands(res.data));
 		};
 
+		getWomensProducts();
+		getBrands();
+	}, []);
+
+	useEffect(() => {
 		const getStyles = async () => {
 			await axios
 				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
 				.then((res) => setStyles(res.data));
 		};
 
+		getStyles();
+	}, []);
+
+	useEffect(() => {
 		const getMaterial = async () => {
 			await axios
 				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f40129c36bbddba5ec9b42`)
 				.then((res) => setMaterial(res.data));
 		};
 
-		getWomensProducts();
-		getBrands();
-		getStyles();
 		getMaterial();
 	}, []);
 
 	const handleOccasionClick = async (categoryId) => {
 		await axios
-			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`)
+			.get(
+				`http://${process.env
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`
+			)
 			.then((res) => setProducts(res.data));
 	};
-
-	useEffect(() => {
-		const getSports = async () => {
-			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-			products.map(
-				async (product) =>
-					await axios
-						.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
-						.then(
-							async (res) =>
-								(await res.data.categories.includes('63f40179c36bbddba5ec9b44')) && sports.length === 0
-									? setSports((oldArray) => [...oldArray, product])
-									: ''
-						)
-			);
-		};
-
-		const getDress = async () => {
-			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-			products.map(
-				async (product) =>
-					await axios
-						.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
-						.then(
-							async (res) =>
-								(await res.data.categories.includes('dressID')) && dress.length === 0
-									? setDress((oldArray) => [...oldArray, product])
-									: ''
-						)
-			);
-		};
-
-		const getCasuals = async () => {
-			// const result = products.filter(async (product) => console.log(await makeApiCall(product.productId)) === true);;
-			products.map(
-				async (product) =>
-					await axios
-						.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products/${product.productId}`)
-						.then(
-							async (res) =>
-								(await res.data.categories.includes('casualID')) && casuals.length === 0
-									? setCasuals((oldArray) => [...oldArray, product])
-									: ''
-						)
-			);
-		};
-
-		// getSports();
-		// getDress();
-		// getCasuals();
-	});
-
-	// const handleOccasionClick = (input) => {
-	// 	setProducts(input);
-	// };
 
 	const handleBrandClick = async (brandName) => {
 		// Get brands
@@ -126,21 +80,30 @@ function Women() {
 			async (brand) =>
 				brand.name == brandName
 					? await axios
-						.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`)
-						.then((res) => setProducts(res.data))
+							.get(
+								`http://${process.env
+									.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
+							)
+							.then((res) => setProducts(res.data))
 					: ''
 		);
 	};
 
 	const handleStyleClick = async (categoryId) => {
 		await axios
-			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&style=${categoryId}`)
+			.get(
+				`http://${process.env
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&style=${categoryId}`
+			)
 			.then((res) => setProducts(res.data));
 	};
 
 	const handleMaterialClick = async (categoryId) => {
 		await axios
-			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&material=${categoryId}`)
+			.get(
+				`http://${process.env
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&material=${categoryId}`
+			)
 			.then((res) => setProducts(res.data));
 	};
 
