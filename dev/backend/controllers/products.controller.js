@@ -7,7 +7,6 @@ const CategoryModel = require("../models/Category");
 
 exports.create = async (req,res) => {
     try{
-
         let newProduct = {
             "brandId" : req.body.data.brandId,
             "name" : req.body.data.name,
@@ -27,7 +26,7 @@ exports.create = async (req,res) => {
                 "productDetail": {
                     "price" : item.price,
                     "qty" : item.qty,
-                    "smallImgTile" : item.url,
+                    "smallImgTile" : item.smallImgTile,
                     "images" : item.images
                 }
             }
