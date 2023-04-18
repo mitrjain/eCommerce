@@ -25,7 +25,7 @@ const CartItem = ({ image, productName, price, productId }) => {
 							sellerId: '1',
 							qty: 0,
 							size: item.selectedSize,
-							color: 'red',
+							color: item.selectedColor,
 							price: item.price,
 							smallImgTile: item.image,
 							genderId: item.genderId

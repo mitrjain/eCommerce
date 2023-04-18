@@ -58,7 +58,7 @@ function ProductDetail() {
 
 			setCurrObj();
 		},
-		[ apiData, selectedSize, quantity ]
+		[ apiData, selectedSize, quantity, selectedColor ]
 	);
 
 	const handleAddToCartClick = () => {
@@ -132,12 +132,15 @@ function ProductDetail() {
 	};
 
 	const handleSizeClick = (e, inputSize) => {
+		e.preventDefault();
 		e.currentTarget.classList.toggle('active');
 		setSelectedSize(inputSize);
 	};
 
 	const handleColorClick = (e, inputColor) => {
+		e.preventDefault();
 		e.currentTarget.classList.toggle('active');
+		console.log('COLORRR: ', inputColor);
 		setSelectedColor(inputColor);
 	};
 
