@@ -79,7 +79,7 @@ const Men = () => {
 					? await axios
 							.get(
 								`http://${process.env
-									.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
+									.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
 							)
 							.then((res) => setProducts(res.data))
 					: ''
