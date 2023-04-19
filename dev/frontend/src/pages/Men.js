@@ -87,10 +87,11 @@ const Men = () => {
 	};
 
 	const handleStyleClick = async (categoryId) => {
+		console.log(categoryId);
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&style=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&style=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -99,7 +100,7 @@ const Men = () => {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&material=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -108,7 +109,7 @@ const Men = () => {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&ocassion=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -367,7 +368,7 @@ const Men = () => {
 											smallImgTile={images[idx]}
 											name={product.productName}
 											price={product.price}
-											key={idx}
+											key={product.productId}
 											productId={product.productId}
 											genderId="63f3ff99c36bbddba5ec9b3e"
 										/>
