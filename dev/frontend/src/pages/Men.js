@@ -16,14 +16,6 @@ const Men = () => {
 	const [ styles, setStyles ] = useState([]);
 	const [ material, setMaterial ] = useState([]);
 
-	const [ open, setOpen ] = useState(false);
-	const handleClose = () => {
-		setOpen(false);
-	};
-	const handleOpen = () => {
-		setOpen(true);
-	};
-
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -110,7 +102,7 @@ const Men = () => {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&ocassion=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&occasion=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -162,7 +154,7 @@ const Men = () => {
 								<div className="featured">
 									<div
 										className="featured-img featured-img-2"
-										style={{ backgroundImage: 'url(assets/images/img_bg_2.jpg)' }}>
+										style={{ backgroundImage: 'url(assets/images/casual-1.jpg)' }}>
 										<h2>Casuals</h2>
 										<p>
 											<a
@@ -179,7 +171,7 @@ const Men = () => {
 								<div className="featured">
 									<div
 										className="featured-img featured-img-2"
-										style={{ backgroundImage: 'url(assets/images/women.jpg)' }}>
+										style={{ backgroundImage: 'url(assets/images/dress-1.jpg)' }}>
 										<h2>Dress</h2>
 										<p>
 											<a
@@ -196,12 +188,29 @@ const Men = () => {
 								<div className="featured">
 									<div
 										className="featured-img featured-img-2"
-										style={{ backgroundImage: 'url(assets/images/item-11.jpg)' }}>
+										style={{ backgroundImage: 'url(assets/images/sports-1.jpg)' }}>
 										<h2>Sports</h2>
 										<p>
 											<a
 												href="#"
 												onClick={() => handleOccasionClick('63f40179c36bbddba5ec9b44')}
+												className="btn btn-primary btn-lg">
+												Shop now
+											</a>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div className="col-sm-4 text-center">
+								<div className="featured">
+									<div
+										className="featured-img featured-img-2"
+										style={{ backgroundImage: 'url(assets/images/formal-1.jpg)' }}>
+										<h2>Formal</h2>
+										<p>
+											<a
+												onClick={() => handleOccasionClick('643757277e6ecce0c965a248')}
+												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
 											</a>
