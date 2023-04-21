@@ -3,8 +3,9 @@ import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import Sale from '../components/Sale';
 import { Link } from 'react-router-dom';
+import Checkout from './checkoutTemplate/Checkout';
 
-function Checkout() {
+function CheckoutPage() {
 	return (
 		<Fragment>
 			<div id="page">
@@ -33,7 +34,7 @@ function Checkout() {
 					</div>
 				</div>
 
-				<div className="colorlib-product">
+				<div className="colorlib-product" style={{ paddingBottom: '0' }}>
 					<div className="container">
 						<div className="row row-pb-lg">
 							<div className="col-md-10 offset-md-1">
@@ -61,9 +62,10 @@ function Checkout() {
 						</div>
 					</div>
 				</div>
+				<Checkout />
 			</div>
 		</Fragment>
 	);
 }
 
-export default Checkout;
+export default CheckoutPage;

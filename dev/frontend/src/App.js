@@ -9,7 +9,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import SellerPage from './pages/SellerPage';
 import ProductDetail from './pages/ProductDetail';
-import Checkout from './pages/Checkout';
+import CheckoutPage from './pages/CheckoutPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ThankYou from './pages/ThankYou';
@@ -42,7 +42,7 @@ function App() {
 						<Route path="/cart" element={<Cart />} />
 						<Route path="/product-detail/:gender/:id" element={<ProductDetail />} />
 						<Route path="/seller" element={<SellerPage />} />
-						<Route path="/checkout" element={<Checkout />} />
+						<Route path="/checkout" element={<CheckoutPage />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
 						<Route path="/thankyou" element={<ThankYou />} />
