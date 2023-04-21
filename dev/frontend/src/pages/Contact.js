@@ -13,7 +13,7 @@ function Contact() {
 					<div className="top-menu">
 						<div className="container">
 							<Header />
-							<NavBar />
+							<NavBar activePage="contact" />
 						</div>
 					</div>
 					<Sale />

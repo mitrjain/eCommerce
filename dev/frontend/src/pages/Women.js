@@ -116,7 +116,7 @@ function Women() {
 					<div className="top-menu">
 						<div className="container">
 							<Header />
-							<NavBar />
+							<NavBar activePage={'women'} />
 						</div>
 					</div>
 					<Sale />

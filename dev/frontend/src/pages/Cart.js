@@ -31,37 +31,7 @@ function Cart() {
 		[ cartItems, subtotal ]
 	);
 
-	const handleCheckoutClick = async () => {
-		// 	if (cartItems) {
-		// 		cartItems.map(
-		// 			async (item) =>
-		// 				await axios
-		// 					.post(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`, {
-		// 						productId: item.productId,
-		// 						brandId: item.brandId,
-		// 						name: item.productName,
-		// 						desc: item.productDesc,
-		// 						sellerId: '1',
-		// 						qty: item.quantityToPass,
-		// 						size: item.selectedSize,
-		// 						color: 'red',
-		// 						price: item.price,
-		// 						smallImgTile: item.image,
-		// 						genderId: item.genderId
-		// 					})
-		// 					.then(
-		// 						async (res) =>
-		// 							await axios
-		// 								.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`)
-		// 								.then((res) => console.log('Get all cart', res.data))
-		// 					)
-		// 					.catch((err) => console.log('AXIOS ERROR PROBLEM'))
-		// 		);
-		// 		await axios
-		// 			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/cart`)
-		// 			.then((res) => console.log('Get all cart (Outside)', res.data));
-		// 	}
-	};
+	const handleCheckoutClick = async () => {};
 	return (
 		<Fragment>
 			<div id="page">
@@ -69,7 +39,7 @@ function Cart() {
 					<div className="top-menu">
 						<div className="container">
 							<Header />
-							<NavBar />
+							<NavBar activePage="cart" />
 						</div>
 					</div>
 					<Sale />

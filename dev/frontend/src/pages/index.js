@@ -9,7 +9,7 @@ import Intro from '../components/Intro';
 import HomeCollection from '../components/HomeCollection';
 import BestSellers from '../components/BestSellers';
 
-function Index() {
+const Index = () => {
 	return (
 		<Fragment>
 			<div id="page">
@@ -17,7 +17,7 @@ function Index() {
 					<div className="top-menu">
 						<div className="container">
 							<Header />
-							<NavBar />
+							<NavBar activePage="home" />
 						</div>
 						<Sale />
 					</div>
@@ -60,6 +60,6 @@ function Index() {
 			</div>
 		</Fragment>
 	);
-}
+};
 
 export default Index;
