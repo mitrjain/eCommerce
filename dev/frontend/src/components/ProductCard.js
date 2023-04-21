@@ -23,7 +23,7 @@ function ProductCard({ smallImgTile, name, price, productId, genderId }) {
 			<div>
 				<div className="product-entry border">
 					<a href="#" className="prod-img">
-						<img src={image} className="img-fluid" alt="Free html5 bootstrap 4 template" />
+						<img src={smallImgTile} className="img-fluid" alt="Free html5 bootstrap 4 template" />
 					</a>
 					<div className="desc">
 						<h2>

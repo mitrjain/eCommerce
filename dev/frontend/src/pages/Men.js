@@ -91,7 +91,7 @@ const Men = () => {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&style=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&styles=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -100,7 +100,7 @@ const Men = () => {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&material=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&materials=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -365,7 +365,7 @@ const Men = () => {
 									{/* Loops through the product details and displays them as a ProductCard component */}
 									{products.map((product, idx) => (
 										<ProductCard
-											smallImgTile={images[idx]}
+											smallImgTile={product.smallImgTile}
 											name={product.productName}
 											price={product.price}
 											key={product.productId}

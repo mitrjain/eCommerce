@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const BestSellers = () => {
-	const [bestSellers, setBestSellers] = useState([]);
+	const [ bestSellers, setBestSellers ] = useState([]);
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -21,7 +21,10 @@ const BestSellers = () => {
 	useEffect(() => {
 		const getBestSellers = async () => {
 			await axios
-				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=63f3fb6ec36bbddba5ec9b3d`)
+				.get(
+					`http://${process.env
+						.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=643f08bf563fecd789d7333b`
+				)
 				.then((res) => setBestSellers(res.data));
 		};
 		getBestSellers();

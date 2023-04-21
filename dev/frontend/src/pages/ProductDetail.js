@@ -44,7 +44,7 @@ function ProductDetail() {
 						genderId: apiData.gender,
 						productDesc: apiData.desc,
 						// image: apiData.sizes[0].colors[0].productDetail.smallImgTile,
-						image: apiData.sizes[0].colors[0].productDetail.images[0],
+						image: apiData.sizes[0].colors[0].productDetail.smallImgTile,
 						price: apiData.sizes[0].colors[0].productDetail.price,
 						sizes: apiData.sizes,
 						selectedSize: selectedSize,

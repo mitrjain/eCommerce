@@ -360,7 +360,7 @@ function Women() {
 									{/* Loops through the product details and displays them as a ProductCard component */}
 									{products.map((product, idx) => (
 										<ProductCard
-											smallImgTile={images[idx]}
+											smallImgTile={product.smallImgTile}
 											name={product.productName}
 											price={product.price}
 											key={idx}
