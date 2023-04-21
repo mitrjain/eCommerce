@@ -41,10 +41,10 @@ const BestSellers = () => {
 					<div className="row row-pb-md">
 						{bestSellers.map((product, idx) => (
 							<ProductCard
-								smallImgTile={images[idx]}
+								smallImgTile={product.smallImgTile}
 								name={product.productName}
 								price={product.price}
-								key={idx}
+								key={product.productId}
 								productId={product.productId}
 								genderId="63f3ff99c36bbddba5ec9b3e"
 							/>

@@ -6,6 +6,7 @@ import Sale from '../components/Sale';
 import Footer from '../components/Footer';
 import TrustedPartners from '../components/TrustedPartners';
 import ProductCard from '../components/ProductCard';
+import SimpleBackdrop from '../components/SimpleBackdrop';
 import axios from 'axios';
 
 function Women() {
@@ -357,8 +358,21 @@ function Women() {
 							</div>
 							<div className="col-lg-9 col-xl-9">
 								<div className="row row-pb-md">
-									{/* Loops through the product details and displays them as a ProductCard component */}
-									{products.map((product, idx) => (
+									{products.length !== 0 ? (
+										products.map((product) => (
+											<ProductCard
+												smallImgTile={product.smallImgTile}
+												name={product.productName}
+												price={product.price}
+												key={product.productId}
+												productId={product.productId}
+												genderId="63f40017c36bbddba5ec9b3f"
+											/>
+										))
+									) : (
+										<SimpleBackdrop />
+									)}
+									{/* {products.map((product, idx) => (
 										<ProductCard
 											smallImgTile={product.smallImgTile}
 											name={product.productName}
@@ -367,7 +381,7 @@ function Women() {
 											productId={product.productId}
 											genderId="63f40017c36bbddba5ec9b3f"
 										/>
-									))}
+									))} */}
 								</div>
 								<div className="row">
 									<div className="col-md-12 text-center">
