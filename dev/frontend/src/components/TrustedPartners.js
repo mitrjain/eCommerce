@@ -36,7 +36,7 @@ function TrustedPartners() {
 					</div>
 					<div className="col partner-col text-center">
 						<img
-							src="assets/images/brand-4.jpg"
+							src="assets/images/prada.jpg"
 							className="img-fluid"
 							alt="Free html4 bootstrap 4 template"
 						/>

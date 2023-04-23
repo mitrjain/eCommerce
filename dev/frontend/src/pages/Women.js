@@ -67,7 +67,7 @@ function Women() {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&ocassion=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&occasion=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -94,7 +94,7 @@ function Women() {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&style=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&styles=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -103,7 +103,7 @@ function Women() {
 		await axios
 			.get(
 				`http://${process.env
-					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&material=${categoryId}`
+					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
 	};
@@ -204,6 +204,23 @@ function Women() {
 									</div>
 								</div>
 							</div>
+							<div className="col-sm-4 text-center">
+								<div className="featured">
+									<div
+										className="featured-img featured-img-2"
+										style={{ backgroundImage: 'url(assets/images/womens-formals.jpg)' }}>
+										<h2>Formals</h2>
+										<p>
+											<a
+												onClick={() => handleOccasionClick('640121a541fd160200141285')}
+												href="#"
+												className="btn btn-primary btn-lg">
+												Shop now
+											</a>
+										</p>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -227,7 +244,7 @@ function Women() {
 											<h3>Brand</h3>
 											<ul>
 												{brands.map((brand, idx) => (
-													<li key={idx}>
+													<li key={brand.name}>
 														<a href="#" onClick={() => handleBrandClick(brand.name)}>
 															{brand.name}
 														</a>
@@ -295,7 +312,7 @@ function Women() {
 											<h3>Style</h3>
 											<ul>
 												{styles.map((style, idx) => (
-													<li key={idx}>
+													<li key={style.name}>
 														<a onClick={() => handleStyleClick(style.categoryId)} href="#">
 															{style.name}
 														</a>
@@ -343,7 +360,7 @@ function Women() {
 											<h3>Material</h3>
 											<ul>
 												{material.map((item, idx) => (
-													<li key={idx}>
+													<li key={item.name}>
 														<a
 															onClick={() => handleMaterialClick(item.categoryId)}
 															href="#">
