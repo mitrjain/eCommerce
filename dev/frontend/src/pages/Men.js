@@ -15,6 +15,7 @@ const Men = () => {
 	const [ brands, setBrands ] = useState([]);
 	const [ styles, setStyles ] = useState([]);
 	const [ material, setMaterial ] = useState([]);
+	const [ alertMessage, setAlertMessage ] = useState([]);
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -61,7 +62,8 @@ const Men = () => {
 		getMaterial();
 	}, []);
 
-	const handleBrandClick = async (brandName) => {
+	const handleBrandClick = async (e, brandName) => {
+		e.preventDefault();
 		// Get brands
 		let brands;
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
@@ -79,32 +81,54 @@ const Men = () => {
 		);
 	};
 
-	const handleStyleClick = async (categoryId) => {
+	const handleStyleClick = async (e, categoryId) => {
+		e.preventDefault();
 		console.log(categoryId);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&styles=${categoryId}`
 			)
-			.then((res) => setProducts(res.data));
+			.then(
+				(res) =>
+					res.data.length > 0
+						? setProducts(res.data)
+						: alert('No products available for the given selection of filters')
+			);
 	};
 
-	const handleMaterialClick = async (categoryId) => {
+	const handleMaterialClick = async (e, categoryId) => {
+		e.preventDefault();
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&materials=${categoryId}`
 			)
-			.then((res) => setProducts(res.data));
+			.then(
+				(res) =>
+					res.data.length > 0
+						? setProducts(res.data)
+						: alert('No products available for the given selection of filters')
+			);
 	};
 
-	const handleOccasionClick = async (categoryId) => {
+	const handleOccasionClick = async (e, categoryId) => {
+		e.preventDefault();
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&occasion=${categoryId}`
 			)
-			.then((res) => setProducts(res.data));
+			.then(
+				(res) =>
+					res.data.length > 0
+						? setProducts(res.data)
+						: alert('No products available for the given selection of filters')
+			);
+	};
+
+	const handleUnderConstructionClick = () => {
+		setAlertMessage(<span style={{ color: 'red' }}>Filter Under Construction</span>);
 	};
 
 	return (
@@ -158,7 +182,7 @@ const Men = () => {
 										<h2>Casuals</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('643758287e6ecce0c965a249')}
+												onClick={(e) => handleOccasionClick(e, '643758287e6ecce0c965a249')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -175,7 +199,7 @@ const Men = () => {
 										<h2>Dress</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('643757277e6ecce0c965a248')}
+												onClick={(e) => handleOccasionClick(e, '643757277e6ecce0c965a248')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -193,7 +217,7 @@ const Men = () => {
 										<p>
 											<a
 												href="#"
-												onClick={() => handleOccasionClick('63f40179c36bbddba5ec9b44')}
+												onClick={(e) => handleOccasionClick(e, '63f40179c36bbddba5ec9b44')}
 												className="btn btn-primary btn-lg">
 												Shop now
 											</a>
@@ -209,7 +233,7 @@ const Men = () => {
 										<h2>Formal</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('643757277e6ecce0c965a248')}
+												onClick={(e) => handleOccasionClick(e, '640121a541fd160200141285')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -242,7 +266,7 @@ const Men = () => {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={idx}>
-														<a href="#" onClick={() => handleBrandClick(brand.name)}>
+														<a href="#" onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
@@ -252,52 +276,52 @@ const Men = () => {
 									</div>
 									<div className="col-sm-12">
 										<div className="side border mb-1">
-											<h3>Size</h3>
+											<h3>Size {alertMessage}</h3>
 											<div className="block-26 mb-2">
 												<ul>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">7</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">7.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">8</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">8.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">9</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">9.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">10</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">10.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">11</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">11.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">12</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">12.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">13</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">13.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">14</a>
 													</li>
 												</ul>
@@ -310,7 +334,9 @@ const Men = () => {
 											<ul>
 												{styles.map((style, idx) => (
 													<li key={idx}>
-														<a onClick={() => handleStyleClick(style.categoryId)} href="#">
+														<a
+															onClick={(e) => handleStyleClick(e, style.categoryId)}
+															href="#">
 															{style.name}
 														</a>
 													</li>
@@ -320,33 +346,33 @@ const Men = () => {
 									</div>
 									<div className="col-sm-12">
 										<div className="side border mb-1">
-											<h3>Colors</h3>
+											<h3>Colors {alertMessage}</h3>
 											<ul>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Black</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">White</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Blue</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Red</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Green</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Grey</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Orange</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Cream</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Brown</a>
 												</li>
 											</ul>
@@ -359,7 +385,7 @@ const Men = () => {
 												{material.map((item, idx) => (
 													<li key={idx}>
 														<a
-															onClick={() => handleMaterialClick(item.categoryId)}
+															onClick={(e) => handleMaterialClick(e, item.categoryId)}
 															href="#">
 															{item.name}
 														</a>

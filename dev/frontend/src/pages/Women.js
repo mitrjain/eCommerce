@@ -18,6 +18,8 @@ function Women() {
 	const [ brands, setBrands ] = useState([]);
 	const [ styles, setStyles ] = useState([]);
 	const [ material, setMaterial ] = useState([]);
+	const [ alertMessage, setAlertMessage ] = useState([]);
+
 	const images = [
 		'assets/images/item-1.jpg',
 		'assets/images/item-2.jpg',
@@ -47,7 +49,10 @@ function Women() {
 		const getStyles = async () => {
 			await axios
 				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
-				.then((res) => setStyles(res.data));
+				.then((res) => {
+					console.log('Styles', res.data);
+					setStyles(res.data);
+				});
 		};
 
 		getStyles();
@@ -106,6 +111,10 @@ function Women() {
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
 			)
 			.then((res) => setProducts(res.data));
+	};
+
+	const handleUnderConstructionClick = () => {
+		setAlertMessage(<span style={{ color: 'red' }}>Filter Under Construction</span>);
 	};
 
 	return (
@@ -255,52 +264,52 @@ function Women() {
 									</div>
 									<div className="col-sm-12">
 										<div className="side border mb-1">
-											<h3>Size</h3>
+											<h3>Size {alertMessage}</h3>
 											<div className="block-26 mb-2">
 												<ul>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">7</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">7.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">8</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">8.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">9</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">9.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">10</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">10.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">11</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">11.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">12</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">12.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">13</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">13.5</a>
 													</li>
-													<li>
+													<li onClick={handleUnderConstructionClick}>
 														<a href="#">14</a>
 													</li>
 												</ul>
@@ -323,33 +332,33 @@ function Women() {
 									</div>
 									<div className="col-sm-12">
 										<div className="side border mb-1">
-											<h3>Colors</h3>
+											<h3>Colors {alertMessage}</h3>
 											<ul>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Black</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">White</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Blue</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Red</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Green</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Grey</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Orange</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Cream</a>
 												</li>
-												<li>
+												<li onClick={handleUnderConstructionClick}>
 													<a href="#">Brown</a>
 												</li>
 											</ul>
