@@ -11,14 +11,15 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
-	const [ products, setProducts ] = useState([]);
-	const [ sports, setSports ] = useState([]);
-	const [ dress, setDress ] = useState([]);
-	const [ casuals, setCasuals ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
-	const [ alertMessage, setAlertMessage ] = useState([]);
+	const [products, setProducts] = useState([]);
+	const [sports, setSports] = useState([]);
+	const [dress, setDress] = useState([]);
+	const [casuals, setCasuals] = useState([]);
+	const [brands, setBrands] = useState([]);
+	const [styles, setStyles] = useState([]);
+	const [material, setMaterial] = useState([]);
+	const [alertMessage, setAlertMessage] = useState([]);
+	const [selectedBrand, setSelectedBrand] = useState("");
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -80,17 +81,22 @@ function Women() {
 	const handleBrandClick = async (brandName) => {
 		// Get brands
 		let brands;
+		// if (brandName == selectedBrand) {
+		// 	setSelectedBrand("");
+		// } else {
+		// 	setSelectedBrand(brandName);
+		// }
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
 		brands.map(
 			async (brand) =>
 				brand.name == brandName
 					? await axios
-							.get(
-								`http://${process.env
-									.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
-							)
-							.then((res) => setProducts(res.data))
+						.get(
+							`http://${process.env
+								.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
+						)
+						.then((res) => setProducts(res.data))
 					: ''
 		);
 	};

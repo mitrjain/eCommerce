@@ -11,11 +11,12 @@ import axios from 'axios';
 
 const Men = () => {
 	// Contains the product details for the products rendered on this page
-	const [ products, setProducts ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
-	const [ alertMessage, setAlertMessage ] = useState([]);
+	const [products, setProducts] = useState([]);
+	const [brands, setBrands] = useState([]);
+	const [styles, setStyles] = useState([]);
+	const [material, setMaterial] = useState([]);
+	const [alertMessage, setAlertMessage] = useState([]);
+	const [selectedBrand, setSelectedBrand] = useState("");
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -66,19 +67,26 @@ const Men = () => {
 		e.preventDefault();
 		// Get brands
 		let brands;
+		// setBrandActive(!brandActive);
+		if (brandName == selectedBrand) {
+			setSelectedBrand("");
+		} else {
+			setSelectedBrand(brandName);
+		}
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
 		brands.map(
 			async (brand) =>
 				brand.name == brandName
 					? await axios
-							.get(
-								`http://${process.env
-									.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
-							)
-							.then((res) => setProducts(res.data))
+						.get(
+							`http://${process.env
+								.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
+						)
+						.then((res) => setProducts(res.data))
 					: ''
 		);
+		console.log(brands);
 	};
 
 	const handleStyleClick = async (e, categoryId) => {
@@ -266,7 +274,9 @@ const Men = () => {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={idx}>
-														<a href="#" onClick={(e) => handleBrandClick(e, brand.name)}>
+														<a href="#" style={{
+															color: selectedBrand === brand.name ? "blue" : ""
+														}} onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
