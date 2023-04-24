@@ -309,6 +309,7 @@ exports.fetch = async(req,res)=>{
             brandId = products[i].brandId;
             brandDoc = await BrandModel.find({_id:brandId})
             brandName = brandDoc.name;
+            // console.log(products[i])
             product = {
                 productId : products[i]._id,
                 smallImgTile : products[i].sizes[0].colors[0].productDetail.smallImgTile,
