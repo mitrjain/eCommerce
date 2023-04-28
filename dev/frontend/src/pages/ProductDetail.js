@@ -62,7 +62,7 @@ function ProductDetail() {
 	);
 
 	const handleAddToCartClick = () => {
-		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem) && selectedSize) {
+		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem) && selectedSize && selectedColor) {
 			console.log(currentItem);
 			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
 
@@ -134,14 +134,22 @@ function ProductDetail() {
 	const handleSizeClick = (e, inputSize) => {
 		e.preventDefault();
 		e.currentTarget.classList.toggle('active');
-		setSelectedSize(inputSize);
+		if (inputSize === selectedSize) {
+			setSelectedSize(null);
+		} else {
+			setSelectedSize(inputSize);
+		}
 	};
 
 	const handleColorClick = (e, inputColor) => {
 		e.preventDefault();
 		e.currentTarget.classList.toggle('active');
 		console.log('COLORRR: ', inputColor);
-		setSelectedColor(inputColor);
+		if (inputColor === selectedColor) {
+			setSelectedColor(null);
+		} else {
+			setSelectedColor(inputColor);
+		}
 	};
 
 	return (

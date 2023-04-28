@@ -109,7 +109,7 @@ function Cart() {
 									(cartItem, idx) =>
 										cartItem ? (
 											<CartItem
-												image="assets/images/item-6.jpg"
+												image={cartItem.image}
 												productName={cartItem.productName}
 												price={cartItem.price}
 												key={idx}
