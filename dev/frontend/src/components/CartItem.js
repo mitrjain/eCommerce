@@ -41,6 +41,7 @@ const CartItem = ({ image, productName, price, productId }) => {
 		<div className="product-cart d-flex">
 			<div className="one-forth">
 				<div className="product-img" style={{ backgroundImage: `url(${image})` }} />
+				{console.log(image)}
 				<div className="display-tc">
 					<h3>{productName}</h3>
 				</div>
