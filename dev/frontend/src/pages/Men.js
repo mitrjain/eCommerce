@@ -83,7 +83,7 @@ const Men = () => {
 							`http://${process.env
 								.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
 						)
-						.then((res) => setProducts(res.data))
+						.then((res) => res.data.length === 0 ? alert('No products found in this brand') : setProducts(res.data))
 					: ''
 		);
 		console.log(brands);
