@@ -6,6 +6,7 @@ const BrandModel = require("../models/Brand")
 const CategoryModel = require("../models/Category");
 
 exports.create = async (req,res) => {
+    
     try{
         let newProduct = {
             "brandId" : req.body.data.brandId,
@@ -330,7 +331,6 @@ exports.fetch = async(req,res)=>{
 
 exports.fetchSingle = async (req, res)=>{
     try{
-        // console.log(req)
         const productId = req.params.id
         
         const product = await ProductModel.findById(productId)
