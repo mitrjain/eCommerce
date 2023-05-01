@@ -75,7 +75,7 @@ function Women() {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&occasion=${categoryId}`
 			)
-			.then((res) => setProducts(res.data));
+			.then((res) => res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data));
 	};
 
 	const handleBrandClick = async (brandName) => {
@@ -96,7 +96,7 @@ function Women() {
 							`http://${process.env
 								.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
 						)
-						.then((res) => setProducts(res.data))
+						.then((res) => res.data.length === 0 ? alert('No products found in this brand') : setProducts(res.data))
 					: ''
 		);
 	};
@@ -107,7 +107,7 @@ function Women() {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&styles=${categoryId}`
 			)
-			.then((res) => setProducts(res.data));
+			.then((res) => res.data.length === 0 ? alert('No products found in this style') : setProducts(res.data));
 	};
 
 	const handleMaterialClick = async (categoryId) => {
@@ -116,7 +116,7 @@ function Women() {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
 			)
-			.then((res) => setProducts(res.data));
+			.then((res) => res.data.length === 0 ? alert('No products found in this material') : setProducts(res.data));
 	};
 
 	const handleUnderConstructionClick = () => {
