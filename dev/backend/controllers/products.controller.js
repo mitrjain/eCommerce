@@ -284,8 +284,8 @@ exports.fetch = async(req,res)=>{
 
         let productIds = genderProductIds
 
-        // console.log(productIds)
-        // console.log(brandProductIds)
+        console.log(productIds)
+        console.log(brandProductIds)
         if(brandProductIds != undefined ){
             productIds = productIds.filter( x => brandProductIds.includes(x));
         }
@@ -302,7 +302,7 @@ exports.fetch = async(req,res)=>{
             productIds = productIds.filter(x => occasionProductIds.includes(x));
         }
 
-        // console.log(productIds)
+        console.log(productIds)
 
         const products = await ProductModel.find({_id:{$in:productIds}})
         const result =[]
@@ -310,7 +310,7 @@ exports.fetch = async(req,res)=>{
             brandId = products[i].brandId;
             brandDoc = await BrandModel.find({_id:brandId})
             brandName = brandDoc.name;
-            // console.log(products[i])
+            console.log(products[i])
             product = {
                 productId : products[i]._id,
                 smallImgTile : products[i].sizes[0].colors[0].productDetail.smallImgTile,
