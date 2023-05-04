@@ -11,12 +11,12 @@ import axios from 'axios';
 
 const Men = () => {
 	// Contains the product details for the products rendered on this page
-	const [products, setProducts] = useState([]);
-	const [brands, setBrands] = useState([]);
-	const [styles, setStyles] = useState([]);
-	const [material, setMaterial] = useState([]);
-	const [alertMessage, setAlertMessage] = useState([]);
-	const [selectedBrand, setSelectedBrand] = useState("");
+	const [ products, setProducts ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
+	const [ alertMessage, setAlertMessage ] = useState([]);
+	const [ selectedBrand, setSelectedBrand ] = useState('');
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -75,34 +75,32 @@ const Men = () => {
 		let brands;
 		// setBrandActive(!brandActive);
 		if (brandName == selectedBrand) {
-			setSelectedBrand("");
+			setSelectedBrand('');
 		} else {
 			setSelectedBrand(brandName);
 		}
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
-		brands.map(
-			async (brand) => {
-				if (brand.name == brandName) {
-					setProducts([]);
-					await axios
-						.get(
-							`http://${process.env
-								.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
-						)
-						.then((res) => {
-							if (res.data.length === 0) {
-								alert('No products found in this brand');
-								setSelectedBrand("");
-								setProducts([]);
-								getMensProducts();
-							} else {
-								setProducts(res.data);
-							}
-						})
-				}
+		brands.map(async (brand) => {
+			if (brand.name == brandName) {
+				setProducts([]);
+				await axios
+					.get(
+						`http://${process.env
+							.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
+					)
+					.then((res) => {
+						if (res.data.length === 0) {
+							alert('No products found in this brand');
+							setSelectedBrand('');
+							setProducts([]);
+							getMensProducts();
+						} else {
+							setProducts(res.data);
+						}
+					});
 			}
-		);
+		});
 		console.log(brands);
 	};
 
@@ -114,12 +112,7 @@ const Men = () => {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&styles=${categoryId}`
 			)
-			.then(
-				(res) =>
-					res.data.length > 0
-						? setProducts(res.data)
-						: alert('No products available for the given selection of filters')
-			);
+			.then((res) => (res.data.length === 0 ? alert('No products found in this style') : setProducts(res.data)));
 	};
 
 	const handleMaterialClick = async (e, categoryId) => {
@@ -130,10 +123,7 @@ const Men = () => {
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&materials=${categoryId}`
 			)
 			.then(
-				(res) =>
-					res.data.length > 0
-						? setProducts(res.data)
-						: alert('No products available for the given selection of filters')
+				(res) => (res.data.length === 0 ? alert('No products found in this material') : setProducts(res.data))
 			);
 	};
 
@@ -145,10 +135,7 @@ const Men = () => {
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&occasion=${categoryId}`
 			)
 			.then(
-				(res) =>
-					res.data.length > 0
-						? setProducts(res.data)
-						: alert('No products available for the given selection of filters')
+				(res) => (res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data))
 			);
 	};
 
@@ -291,9 +278,12 @@ const Men = () => {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={idx}>
-														<a href="#" style={{
-															color: selectedBrand === brand.name ? "blue" : ""
-														}} onClick={(e) => handleBrandClick(e, brand.name)}>
+														<a
+															href="#"
+															style={{
+																color: selectedBrand === brand.name ? 'blue' : ''
+															}}
+															onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
@@ -301,7 +291,7 @@ const Men = () => {
 											</ul>
 										</div>
 									</div>
-									<div className="col-sm-12">
+									{/* <div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Size {alertMessage}</h3>
 											<div className="block-26 mb-2">
@@ -354,7 +344,7 @@ const Men = () => {
 												</ul>
 											</div>
 										</div>
-									</div>
+									</div> */}
 									<div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Style</h3>
@@ -371,7 +361,7 @@ const Men = () => {
 											</ul>
 										</div>
 									</div>
-									<div className="col-sm-12">
+									{/* <div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Colors {alertMessage}</h3>
 											<ul>
@@ -403,8 +393,8 @@ const Men = () => {
 													<a href="#">Brown</a>
 												</li>
 											</ul>
-										</div>
-									</div>
+										</div> */}
+									{/* </div> */}
 									<div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Material</h3>

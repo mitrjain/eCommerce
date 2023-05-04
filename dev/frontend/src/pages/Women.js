@@ -11,15 +11,15 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
-	const [products, setProducts] = useState([]);
-	const [sports, setSports] = useState([]);
-	const [dress, setDress] = useState([]);
-	const [casuals, setCasuals] = useState([]);
-	const [brands, setBrands] = useState([]);
-	const [styles, setStyles] = useState([]);
-	const [material, setMaterial] = useState([]);
-	const [alertMessage, setAlertMessage] = useState([]);
-	const [selectedBrand, setSelectedBrand] = useState("");
+	const [ products, setProducts ] = useState([]);
+	const [ sports, setSports ] = useState([]);
+	const [ dress, setDress ] = useState([]);
+	const [ casuals, setCasuals ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
+	const [ alertMessage, setAlertMessage ] = useState([]);
+	const [ selectedBrand, setSelectedBrand ] = useState('');
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -75,7 +75,9 @@ function Women() {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&occasion=${categoryId}`
 			)
-			.then((res) => res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data));
+			.then(
+				(res) => (res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data))
+			);
 	};
 
 	const getWomensProducts = async () => {
@@ -89,34 +91,32 @@ function Women() {
 		// Get brands
 		let brands;
 		if (brandName == selectedBrand) {
-			setSelectedBrand("");
+			setSelectedBrand('');
 		} else {
 			setSelectedBrand(brandName);
 		}
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
-		brands.map(
-			async (brand) => {
-				if (brandName == brand.name) {
-					setProducts([]);
-					await axios
-						.get(
-							`http://${process.env
-								.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
-						)
-						.then((res) => {
-							if (res.data.length === 0) {
-								alert('No products found in this brand');
-								setSelectedBrand("");
-								setProducts([]);
-								getWomensProducts();
-							} else {
-								setProducts(res.data);
-							}
-						})
-				}
+		brands.map(async (brand) => {
+			if (brandName == brand.name) {
+				setProducts([]);
+				await axios
+					.get(
+						`http://${process.env
+							.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
+					)
+					.then((res) => {
+						if (res.data.length === 0) {
+							alert('No products found in this brand');
+							setSelectedBrand('');
+							setProducts([]);
+							getWomensProducts();
+						} else {
+							setProducts(res.data);
+						}
+					});
 			}
-		);
+		});
 	};
 
 	const handleStyleClick = async (categoryId) => {
@@ -125,7 +125,7 @@ function Women() {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&styles=${categoryId}`
 			)
-			.then((res) => res.data.length === 0 ? alert('No products found in this style') : setProducts(res.data));
+			.then((res) => (res.data.length === 0 ? alert('No products found in this style') : setProducts(res.data)));
 	};
 
 	const handleMaterialClick = async (categoryId) => {
@@ -134,7 +134,9 @@ function Women() {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
 			)
-			.then((res) => res.data.length === 0 ? alert('No products found in this material') : setProducts(res.data));
+			.then(
+				(res) => (res.data.length === 0 ? alert('No products found in this material') : setProducts(res.data))
+			);
 	};
 
 	const handleUnderConstructionClick = () => {
@@ -278,9 +280,12 @@ function Women() {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={brand.name}>
-														<a href="#" style={{
-															color: selectedBrand === brand.name ? "blue" : ""
-														}} onClick={(e) => handleBrandClick(e, brand.name)}>
+														<a
+															href="#"
+															style={{
+																color: selectedBrand === brand.name ? 'blue' : ''
+															}}
+															onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
@@ -288,7 +293,7 @@ function Women() {
 											</ul>
 										</div>
 									</div>
-									<div className="col-sm-12">
+									{/* <div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Size {alertMessage}</h3>
 											<div className="block-26 mb-2">
@@ -340,8 +345,8 @@ function Women() {
 													</li>
 												</ul>
 											</div>
-										</div>
-									</div>
+										</div> */}
+									{/* </div> */}
 									<div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Style</h3>
@@ -356,7 +361,7 @@ function Women() {
 											</ul>
 										</div>
 									</div>
-									<div className="col-sm-12">
+									{/* <div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Colors {alertMessage}</h3>
 											<ul>
@@ -389,7 +394,7 @@ function Women() {
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> */}
 									<div className="col-sm-12">
 										<div className="side border mb-1">
 											<h3>Material</h3>

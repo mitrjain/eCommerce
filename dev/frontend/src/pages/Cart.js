@@ -153,7 +153,7 @@ function Cart() {
 														</span>{' '}
 														<span>
 															${cartItems.length > 0 ? (
-																(subtotal + deliveryCharge + discount).toFixed(2)
+																(subtotal + deliveryCharge - discount).toFixed(2)
 															) : (
 																'0.00'
 															)}
