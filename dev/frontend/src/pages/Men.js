@@ -63,6 +63,12 @@ const Men = () => {
 		getMaterial();
 	}, []);
 
+	const getMensProducts = async () => {
+		await axios
+			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e`)
+			.then((res) => setProducts(res.data));
+	};
+
 	const handleBrandClick = async (e, brandName) => {
 		e.preventDefault();
 		// Get brands
@@ -76,15 +82,26 @@ const Men = () => {
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
 		brands.map(
-			async (brand) =>
-				brand.name == brandName
-					? await axios
+			async (brand) => {
+				if (brand.name == brandName) {
+					setProducts([]);
+					await axios
 						.get(
 							`http://${process.env
 								.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&brands=${brand.brandId}`
 						)
-						.then((res) => res.data.length === 0 ? alert('No products found in this brand') : setProducts(res.data))
-					: ''
+						.then((res) => {
+							if (res.data.length === 0) {
+								alert('No products found in this brand');
+								setSelectedBrand("");
+								setProducts([]);
+								getMensProducts();
+							} else {
+								setProducts(res.data);
+							}
+						})
+				}
+			}
 		);
 		console.log(brands);
 	};
