@@ -78,26 +78,44 @@ function Women() {
 			.then((res) => res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data));
 	};
 
-	const handleBrandClick = async (brandName) => {
+	const getWomensProducts = async () => {
+		await axios
+			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f`)
+			.then((res) => setProducts(res.data));
+	};
+
+	const handleBrandClick = async (e, brandName) => {
+		e.preventDefault();
 		// Get brands
 		let brands;
-		// if (brandName == selectedBrand) {
-		// 	setSelectedBrand("");
-		// } else {
-		// 	setSelectedBrand(brandName);
-		// }
+		if (brandName == selectedBrand) {
+			setSelectedBrand("");
+		} else {
+			setSelectedBrand(brandName);
+		}
 		await axios.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/brands`).then((res) => (brands = res.data));
 
 		brands.map(
-			async (brand) =>
-				brand.name == brandName
-					? await axios
+			async (brand) => {
+				if (brandName == brand.name) {
+					setProducts([]);
+					await axios
 						.get(
 							`http://${process.env
 								.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&brands=${brand.brandId}`
 						)
-						.then((res) => res.data.length === 0 ? alert('No products found in this brand') : setProducts(res.data))
-					: ''
+						.then((res) => {
+							if (res.data.length === 0) {
+								alert('No products found in this brand');
+								setSelectedBrand("");
+								setProducts([]);
+								getWomensProducts();
+							} else {
+								setProducts(res.data);
+							}
+						})
+				}
+			}
 		);
 	};
 
@@ -260,7 +278,9 @@ function Women() {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={brand.name}>
-														<a href="#" onClick={() => handleBrandClick(brand.name)}>
+														<a href="#" style={{
+															color: selectedBrand === brand.name ? "blue" : ""
+														}} onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
