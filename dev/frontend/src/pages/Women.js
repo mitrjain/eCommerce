@@ -11,15 +11,17 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
-	const [ products, setProducts ] = useState([]);
-	const [ sports, setSports ] = useState([]);
-	const [ dress, setDress ] = useState([]);
-	const [ casuals, setCasuals ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
-	const [ alertMessage, setAlertMessage ] = useState([]);
-	const [ selectedBrand, setSelectedBrand ] = useState('');
+	const [products, setProducts] = useState([]);
+	const [sports, setSports] = useState([]);
+	const [dress, setDress] = useState([]);
+	const [casuals, setCasuals] = useState([]);
+	const [styles, setStyles] = useState([]);
+	const [brands, setBrands] = useState([]);
+	const [material, setMaterial] = useState([]);
+	const [alertMessage, setAlertMessage] = useState([]);
+	const [selectedBrand, setSelectedBrand] = useState("");
+	const [selectedStyle, setSelectedStyle] = useState("");
+	const [selectedMaterial, setSelectedMaterial] = useState("");
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -51,7 +53,6 @@ function Women() {
 			await axios
 				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
 				.then((res) => {
-					console.log('Styles', res.data);
 					setStyles(res.data);
 				});
 		};
@@ -69,15 +70,23 @@ function Women() {
 		getMaterial();
 	}, []);
 
-	const handleOccasionClick = async (categoryId) => {
+	const handleOccasionClick = async (e, categoryId) => {
+		e.preventDefault();
+		setProducts([]);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&occasion=${categoryId}`
 			)
-			.then(
-				(res) => (res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data))
-			);
+			.then((res) => {
+				if (res.data.length === 0) {
+					alert('No products found in this occassion');
+					setProducts([]);
+					getWomensProducts();
+				} else {
+					setProducts(res.data);
+				}
+			});
 	};
 
 	const getWomensProducts = async () => {
@@ -119,24 +128,54 @@ function Women() {
 		});
 	};
 
-	const handleStyleClick = async (categoryId) => {
+	const handleStyleClick = async (e, categoryId, styleName) => {
+		e.preventDefault();
+		if (styleName == selectedStyle) {
+			setSelectedStyle("");
+		} else {
+			setSelectedStyle(styleName);
+		}
+		setProducts([]);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&styles=${categoryId}`
 			)
-			.then((res) => (res.data.length === 0 ? alert('No products found in this style') : setProducts(res.data)));
+			.then((res) => {
+				if (res.data.length === 0) {
+					alert('No products found in this style');
+					setSelectedStyle("");
+					setProducts([]);
+					getWomensProducts();
+				} else {
+					setProducts(res.data)
+				}
+			})
 	};
 
-	const handleMaterialClick = async (categoryId) => {
+	const handleMaterialClick = async (e, categoryId, materialName) => {
+		e.preventDefault();
+		if (materialName == selectedMaterial) {
+			setSelectedMaterial("");
+		} else {
+			setSelectedMaterial(materialName);
+		}
+		setProducts([]);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f40017c36bbddba5ec9b3f&material=${categoryId}`
 			)
-			.then(
-				(res) => (res.data.length === 0 ? alert('No products found in this material') : setProducts(res.data))
-			);
+			.then((res) => {
+				if (res.data.length === 0) {
+					alert('No products found in this material');
+					setSelectedMaterial("");
+					setProducts([]);
+					getWomensProducts();
+				} else {
+					setProducts(res.data)
+				}
+			})
 	};
 
 	const handleUnderConstructionClick = () => {
@@ -196,7 +235,7 @@ function Women() {
 										<h2>Casuals</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('643758287e6ecce0c965a249')}
+												onClick={(e) => handleOccasionClick(e, '643758287e6ecce0c965a249')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -213,7 +252,7 @@ function Women() {
 										<h2>Dress</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('643757277e6ecce0c965a248')}
+												onClick={(e) => handleOccasionClick(e, '643757277e6ecce0c965a248')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -230,7 +269,7 @@ function Women() {
 										<h2>Sports</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('63f40179c36bbddba5ec9b44')}
+												onClick={(e) => handleOccasionClick(e, '63f40179c36bbddba5ec9b44')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -247,7 +286,7 @@ function Women() {
 										<h2>Formals</h2>
 										<p>
 											<a
-												onClick={() => handleOccasionClick('640121a541fd160200141285')}
+												onClick={(e) => handleOccasionClick(e, '640121a541fd160200141285')}
 												href="#"
 												className="btn btn-primary btn-lg">
 												Shop now
@@ -280,12 +319,9 @@ function Women() {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={brand.name}>
-														<a
-															href="#"
-															style={{
-																color: selectedBrand === brand.name ? 'blue' : ''
-															}}
-															onClick={(e) => handleBrandClick(e, brand.name)}>
+														<a href="#" style={{
+															color: selectedBrand === brand.name ? "blue" : "", fontWeight: selectedBrand === brand.name ? "bold" : ""
+														}} onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
@@ -353,7 +389,9 @@ function Women() {
 											<ul>
 												{styles.map((style, idx) => (
 													<li key={style.name}>
-														<a onClick={() => handleStyleClick(style.categoryId)} href="#">
+														<a style={{
+															color: selectedStyle === style.name ? "blue" : "", fontWeight: selectedStyle === style.name ? "bold" : ""
+														}} onClick={(e) => handleStyleClick(e, style.categoryId, style.name)} href="#">
 															{style.name}
 														</a>
 													</li>
@@ -402,7 +440,9 @@ function Women() {
 												{material.map((item, idx) => (
 													<li key={item.name}>
 														<a
-															onClick={() => handleMaterialClick(item.categoryId)}
+															onClick={(e) => handleMaterialClick(e, item.categoryId, item.name)} style={{
+																color: selectedMaterial === item.name ? "blue" : "", fontWeight: selectedMaterial === item.name ? "bold" : ""
+															}}
 															href="#">
 															{item.name}
 														</a>
@@ -440,7 +480,7 @@ function Women() {
 										/>
 									))} */}
 								</div>
-								<div className="row">
+								{/* <div className="row">
 									<div className="col-md-12 text-center">
 										<div className="block-27">
 											<ul>
@@ -470,9 +510,9 @@ function Women() {
 													</a>
 												</li>
 											</ul>
-										</div>
-									</div>
-								</div>
+										</div> */}
+								{/* </div> */}
+								{/* </div> */}
 							</div>
 						</div>
 					</div>
