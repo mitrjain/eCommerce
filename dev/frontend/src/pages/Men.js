@@ -11,12 +11,14 @@ import axios from 'axios';
 
 const Men = () => {
 	// Contains the product details for the products rendered on this page
-	const [ products, setProducts ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
-	const [ alertMessage, setAlertMessage ] = useState([]);
-	const [ selectedBrand, setSelectedBrand ] = useState('');
+	const [products, setProducts] = useState([]);
+	const [brands, setBrands] = useState([]);
+	const [styles, setStyles] = useState([]);
+	const [material, setMaterial] = useState([]);
+	const [alertMessage, setAlertMessage] = useState([]);
+	const [selectedBrand, setSelectedBrand] = useState('');
+	const [selectedStyle, setSelectedStyle] = useState('');
+	const [selectedMaterial, setSelectedMaterial] = useState('');
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -104,39 +106,75 @@ const Men = () => {
 		console.log(brands);
 	};
 
-	const handleStyleClick = async (e, categoryId) => {
+	const handleStyleClick = async (e, categoryId, styleName) => {
 		e.preventDefault();
-		console.log(categoryId);
+		if (styleName == selectedStyle) {
+			setSelectedStyle("");
+		} else {
+			setSelectedStyle(styleName);
+		}
+		setProducts([]);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&styles=${categoryId}`
 			)
-			.then((res) => (res.data.length === 0 ? alert('No products found in this style') : setProducts(res.data)));
+			.then((res) => {
+				if (res.data.length === 0) {
+					alert('No products found in this style');
+					setSelectedStyle("");
+					setProducts([]);
+					getMensProducts();
+				} else {
+					setProducts(res.data)
+				}
+			})
 	};
 
-	const handleMaterialClick = async (e, categoryId) => {
+	const handleMaterialClick = async (e, categoryId, materialName) => {
 		e.preventDefault();
+		if (materialName == selectedMaterial) {
+			setSelectedMaterial("");
+		} else {
+			setSelectedMaterial(materialName);
+		}
+		setProducts([]);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&materials=${categoryId}`
 			)
 			.then(
-				(res) => (res.data.length === 0 ? alert('No products found in this material') : setProducts(res.data))
-			);
+				(res) => {
+					if (res.data.length === 0) {
+						alert('No products found in this material');
+						setSelectedMaterial("");
+						setProducts([]);
+						getMensProducts();
+					} else {
+						setProducts(res.data)
+					}
+				})
 	};
 
 	const handleOccasionClick = async (e, categoryId) => {
 		e.preventDefault();
+		setProducts([]);
 		await axios
 			.get(
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&occasion=${categoryId}`
 			)
 			.then(
-				(res) => (res.data.length === 0 ? alert('No products found in this occasion') : setProducts(res.data))
-			);
+				(res) => {
+					if (res.data.length === 0) {
+						alert('No products found in this occassion');
+						setProducts([]);
+						getMensProducts();
+					} else {
+						setProducts(res.data);
+					}
+				});
 	};
 
 	const handleUnderConstructionClick = () => {
@@ -281,7 +319,7 @@ const Men = () => {
 														<a
 															href="#"
 															style={{
-																color: selectedBrand === brand.name ? 'blue' : ''
+																color: selectedBrand === brand.name ? 'blue' : '', fontWeight: selectedBrand === brand.name ? "bold" : ""
 															}}
 															onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
@@ -352,8 +390,9 @@ const Men = () => {
 												{styles.map((style, idx) => (
 													<li key={idx}>
 														<a
-															onClick={(e) => handleStyleClick(e, style.categoryId)}
-															href="#">
+															onClick={(e) => handleStyleClick(e, style.categoryId, style.name)} style={{
+																color: selectedStyle === style.name ? "blue" : "", fontWeight: selectedStyle === style.name ? "bold" : ""
+															}} href="#">
 															{style.name}
 														</a>
 													</li>
@@ -402,8 +441,9 @@ const Men = () => {
 												{material.map((item, idx) => (
 													<li key={idx}>
 														<a
-															onClick={(e) => handleMaterialClick(e, item.categoryId)}
-															href="#">
+															onClick={(e) => handleMaterialClick(e, item.categoryId, item.name)} style={{
+																color: selectedMaterial === item.name ? "blue" : "", fontWeight: selectedMaterial === item.name ? "bold" : ""
+															}} href="#">
 															{item.name}
 														</a>
 													</li>
@@ -430,7 +470,7 @@ const Men = () => {
 										<SimpleBackdrop />
 									)}
 								</div>
-								<div className="row">
+								{/* <div className="row">
 									<div className="col-md-12 text-center">
 										<div className="block-27">
 											<ul>
@@ -461,8 +501,8 @@ const Men = () => {
 												</li>
 											</ul>
 										</div>
-									</div>
-								</div>
+									</div> */}
+								{/* </div> */}
 							</div>
 						</div>
 					</div>
