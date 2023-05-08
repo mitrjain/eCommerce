@@ -11,6 +11,7 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
+<<<<<<< Updated upstream
 	const [ products, setProducts ] = useState([]);
 	const [ sports, setSports ] = useState([]);
 	const [ dress, setDress ] = useState([]);
@@ -22,6 +23,41 @@ function Women() {
 	const [ selectedBrand, setSelectedBrand ] = useState('');
 	const [ selectedStyle, setSelectedStyle ] = useState('');
 	const [ selectedMaterial, setSelectedMaterial ] = useState('');
+=======
+	const [products, setProducts] = useState([]);
+	const [sports, setSports] = useState([]);
+	const [dress, setDress] = useState([]);
+	const [casuals, setCasuals] = useState([]);
+	const [styles, setStyles] = useState([{
+		"categoryId": "6401804560ae984dd3c83a81",
+		"name": "Slip On"
+	},
+	{
+		"categoryId": "6401808b60ae984dd3c83a82",
+		"name": "Sandals"
+	},
+	{
+		"categoryId": "640180aa60ae984dd3c83a83",
+		"name": "Lace Ups"
+	}]);
+	const [brands, setBrands] = useState([]);
+	const [material, setMaterial] = useState([{
+		"categoryId": "63f40593e9561840f51c82b7",
+		"name": "Synthetic"
+	},
+	{
+		"categoryId": "64017ef660ae984dd3c83a7e",
+		"name": "Leather"
+	},
+	{
+		"categoryId": "64017f7a60ae984dd3c83a80",
+		"name": "Seude"
+	}]);
+	const [alertMessage, setAlertMessage] = useState([]);
+	const [selectedBrand, setSelectedBrand] = useState("");
+	const [selectedStyle, setSelectedStyle] = useState("");
+	const [selectedMaterial, setSelectedMaterial] = useState("");
+>>>>>>> Stashed changes
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -48,27 +84,27 @@ function Women() {
 		getBrands();
 	}, []);
 
-	useEffect(() => {
-		const getStyles = async () => {
-			await axios
-				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
-				.then((res) => {
-					setStyles(res.data);
-				});
-		};
+	// useEffect(() => {
+	// 	const getStyles = async () => {
+	// 		await axios
+	// 			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
+	// 			.then((res) => {
+	// 				setStyles(res.data);
+	// 			});
+	// 	};
 
-		getStyles();
-	}, []);
+	// 	getStyles();
+	// }, []);
 
-	useEffect(() => {
-		const getMaterial = async () => {
-			await axios
-				.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f40129c36bbddba5ec9b42`)
-				.then((res) => setMaterial(res.data));
-		};
+	// useEffect(() => {
+	// 	const getMaterial = async () => {
+	// 		await axios
+	// 			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f40129c36bbddba5ec9b42`)
+	// 			.then((res) => setMaterial(res.data));
+	// 	};
 
-		getMaterial();
-	}, []);
+	// 	getMaterial();
+	// }, []);
 
 	const handleOccasionClick = async (e, categoryId) => {
 		e.preventDefault();
@@ -160,6 +196,7 @@ function Women() {
 		} else {
 			setSelectedMaterial(materialName);
 		}
+		console.log(categoryId);
 		setProducts([]);
 		await axios
 			.get(
