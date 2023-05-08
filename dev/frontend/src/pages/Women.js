@@ -182,6 +182,11 @@ function Women() {
 		setAlertMessage(<span style={{ color: 'red' }}>Filter Under Construction</span>);
 	};
 
+	const showAllClick = (e) => {
+		e.preventDefault();
+		window.location.reload(true);
+	};
+
 	return (
 		<Fragment>
 			{/* <div className="colorlib-loader" /> */}

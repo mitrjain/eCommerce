@@ -175,6 +175,11 @@ const Men = () => {
 			});
 	};
 
+	const showAllClick = (e) => {
+		e.preventDefault();
+		window.location.reload(true);
+	};
+
 	const handleUnderConstructionClick = () => {
 		setAlertMessage(<span style={{ color: 'red' }}>Filter Under Construction</span>);
 	};
