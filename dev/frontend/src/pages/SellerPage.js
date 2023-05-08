@@ -7,6 +7,7 @@ import '../styles/seller.css';
 import { uploadFile } from 'react-s3';
 import { Buffer } from "buffer";
 import { Link } from 'react-router-dom';
+// import { time } from "console";
 
 Buffer.from("anything", "base64");
 window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -71,6 +72,8 @@ function SellerPage() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [smallTileLocation, setSmallTileLocation] = useState('');
     const [multipleFileImages, setMultipleFileImages] = useState([]);
+    const [smallUploadComplete, setSmallUploadComplete] = useState(false);
+    const [manyImgUploadComplete, setManyImgUploadComplete] = useState(false);
 
 
     const fileInput = React.useRef();
@@ -203,6 +206,18 @@ function SellerPage() {
         getGenders();
     }, []);
 
+    useEffect(() => {
+        if (smallUploadComplete) {
+            const timeout = setTimeout(function () {
+                setSmallUploadComplete(false);
+            }, 1000);
+
+            return function () {
+                clearTimeout(timeout);
+            }
+        }
+    }, [smallUploadComplete]);
+
     const handleCheck = (event) => {
         if (event.target.checked) {
             setChecked(oldArray => [...oldArray, event.target.value].sort());
@@ -217,10 +232,12 @@ function SellerPage() {
     }
 
     const handleUpload = async (e, file) => {
+        setSmallUploadComplete(false);
         e.preventDefault();
         uploadFile(file, config)
             .then(data => {
                 setSmallTileLocation(data.location);
+                setSmallUploadComplete(true);
             })
             .catch(err => console.error(err))
     }
@@ -229,15 +246,24 @@ function SellerPage() {
         uploadFile(file, config)
             .then(data => {
                 setMultipleFileImages(oldMulFiles => [...oldMulFiles, data.location]);
+                return true;
             })
-            .catch(err => console.error(err))
+            .catch(err => {
+                console.error(err);
+                return false;
+            })
     }
 
     const handleMultipleFileInput = (e) => {
         e.preventDefault();
         let files = fileInput.current.files;
         for (let i = 0; i < files.length; i++) {
-            handleMultipleFileUpload(files[i]);
+            let result = handleMultipleFileUpload(files[i]);
+            if (result) {
+                alert(`Your image ${i + 1} has been uploaded successfully`);
+            } else {
+                alert(`Upload for image ${i + 1} has failed`);
+            }
         }
     }
 
@@ -429,19 +455,19 @@ function SellerPage() {
                             <Header />
                             <NavBar />
                             <div className="breadcrumbs">
-					<div className="container">
-						<div className="row">
-							<div className="col">
-								<p className="bread">
-									<span>
-										<Link to="/">Home</Link>
-									</span>{' '}
-									/ <span>Seller</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col">
+                                            <p className="bread">
+                                                <span>
+                                                    <Link to="/">Home</Link>
+                                                </span>{' '}
+                                                / <span>Seller</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <h1 className="text-center m-5"> Want to sell another product? Add one here </h1>
                             <div>
                                 <form action="#">
@@ -465,6 +491,11 @@ function SellerPage() {
                                         <label htmlFor="smallImgTile" className="col-md-4"> Upload the small image tile to be displayed: </label>
                                         <input type="file" onChange={handleFileInput} />
                                         <button onClick={(event) => handleUpload(event, selectedFile)}> Upload Image</button>
+                                        {
+                                            smallUploadComplete && <span className="mx-2">
+                                                Your image has been uploaded!
+                                            </span>
+                                        }
                                     </span>
                                     <div>
                                         <div className="row">
