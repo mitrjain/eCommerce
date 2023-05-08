@@ -70,28 +70,6 @@ function Women() {
 		getBrands();
 	}, []);
 
-	// useEffect(() => {
-	// 	const getStyles = async () => {
-	// 		await axios
-	// 			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f400e6c36bbddba5ec9b41`)
-	// 			.then((res) => {
-	// 				setStyles(res.data);
-	// 			});
-	// 	};
-
-	// 	getStyles();
-	// }, []);
-
-	// useEffect(() => {
-	// 	const getMaterial = async () => {
-	// 		await axios
-	// 			.get(`http://${process.env.REACT_APP_HOST_NAME}:3001/categoryTypes/63f40129c36bbddba5ec9b42`)
-	// 			.then((res) => setMaterial(res.data));
-	// 	};
-
-	// 	getMaterial();
-	// }, []);
-
 	const handleOccasionClick = async (e, categoryId) => {
 		e.preventDefault();
 		setProducts([]);
