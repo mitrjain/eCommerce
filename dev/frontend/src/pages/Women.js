@@ -11,19 +11,6 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
-<<<<<<< Updated upstream
-	const [ products, setProducts ] = useState([]);
-	const [ sports, setSports ] = useState([]);
-	const [ dress, setDress ] = useState([]);
-	const [ casuals, setCasuals ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
-	const [ alertMessage, setAlertMessage ] = useState([]);
-	const [ selectedBrand, setSelectedBrand ] = useState('');
-	const [ selectedStyle, setSelectedStyle ] = useState('');
-	const [ selectedMaterial, setSelectedMaterial ] = useState('');
-=======
 	const [products, setProducts] = useState([]);
 	const [sports, setSports] = useState([]);
 	const [dress, setDress] = useState([]);
@@ -57,7 +44,6 @@ function Women() {
 	const [selectedBrand, setSelectedBrand] = useState("");
 	const [selectedStyle, setSelectedStyle] = useState("");
 	const [selectedMaterial, setSelectedMaterial] = useState("");
->>>>>>> Stashed changes
 
 	const images = [
 		'assets/images/item-1.jpg',

@@ -11,16 +11,6 @@ import axios from 'axios';
 
 const Men = () => {
 	// Contains the product details for the products rendered on this page
-<<<<<<< Updated upstream
-	const [ products, setProducts ] = useState([]);
-	const [ brands, setBrands ] = useState([]);
-	const [ styles, setStyles ] = useState([]);
-	const [ material, setMaterial ] = useState([]);
-	const [ alertMessage, setAlertMessage ] = useState([]);
-	const [ selectedBrand, setSelectedBrand ] = useState('');
-	const [ selectedStyle, setSelectedStyle ] = useState('');
-	const [ selectedMaterial, setSelectedMaterial ] = useState('');
-=======
 	const [products, setProducts] = useState([]);
 	const [brands, setBrands] = useState([]);
 	const [styles, setStyles] = useState([{
@@ -51,7 +41,6 @@ const Men = () => {
 	const [selectedBrand, setSelectedBrand] = useState('');
 	const [selectedStyle, setSelectedStyle] = useState('');
 	const [selectedMaterial, setSelectedMaterial] = useState('');
->>>>>>> Stashed changes
 
 	const images = [
 		'assets/images/item-1.jpg',
