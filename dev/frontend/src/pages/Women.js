@@ -11,17 +11,17 @@ import axios from 'axios';
 
 function Women() {
 	// Contains the product details for the products rendered on this page
-	const [products, setProducts] = useState([]);
-	const [sports, setSports] = useState([]);
-	const [dress, setDress] = useState([]);
-	const [casuals, setCasuals] = useState([]);
-	const [styles, setStyles] = useState([]);
-	const [brands, setBrands] = useState([]);
-	const [material, setMaterial] = useState([]);
-	const [alertMessage, setAlertMessage] = useState([]);
-	const [selectedBrand, setSelectedBrand] = useState("");
-	const [selectedStyle, setSelectedStyle] = useState("");
-	const [selectedMaterial, setSelectedMaterial] = useState("");
+	const [ products, setProducts ] = useState([]);
+	const [ sports, setSports ] = useState([]);
+	const [ dress, setDress ] = useState([]);
+	const [ casuals, setCasuals ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
+	const [ alertMessage, setAlertMessage ] = useState([]);
+	const [ selectedBrand, setSelectedBrand ] = useState('');
+	const [ selectedStyle, setSelectedStyle ] = useState('');
+	const [ selectedMaterial, setSelectedMaterial ] = useState('');
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -131,7 +131,7 @@ function Women() {
 	const handleStyleClick = async (e, categoryId, styleName) => {
 		e.preventDefault();
 		if (styleName == selectedStyle) {
-			setSelectedStyle("");
+			setSelectedStyle('');
 		} else {
 			setSelectedStyle(styleName);
 		}
@@ -144,19 +144,19 @@ function Women() {
 			.then((res) => {
 				if (res.data.length === 0) {
 					alert('No products found in this style');
-					setSelectedStyle("");
+					setSelectedStyle('');
 					setProducts([]);
 					getWomensProducts();
 				} else {
-					setProducts(res.data)
+					setProducts(res.data);
 				}
-			})
+			});
 	};
 
 	const handleMaterialClick = async (e, categoryId, materialName) => {
 		e.preventDefault();
 		if (materialName == selectedMaterial) {
-			setSelectedMaterial("");
+			setSelectedMaterial('');
 		} else {
 			setSelectedMaterial(materialName);
 		}
@@ -169,13 +169,13 @@ function Women() {
 			.then((res) => {
 				if (res.data.length === 0) {
 					alert('No products found in this material');
-					setSelectedMaterial("");
+					setSelectedMaterial('');
 					setProducts([]);
 					getWomensProducts();
 				} else {
-					setProducts(res.data)
+					setProducts(res.data);
 				}
-			})
+			});
 	};
 
 	const handleUnderConstructionClick = () => {
@@ -308,7 +308,7 @@ function Women() {
 											<a
 												href="#"
 												style={{ color: '#88c8bc', fontWeight: 'bold' }}
-												onClick={() => window.location.reload(true)}>
+												onClick={(e) => showAllClick(e)}>
 												Show All
 											</a>
 										</div>
@@ -319,9 +319,13 @@ function Women() {
 											<ul>
 												{brands.map((brand, idx) => (
 													<li key={brand.name}>
-														<a href="#" style={{
-															color: selectedBrand === brand.name ? "blue" : "", fontWeight: selectedBrand === brand.name ? "bold" : ""
-														}} onClick={(e) => handleBrandClick(e, brand.name)}>
+														<a
+															href="#"
+															style={{
+																color: selectedBrand === brand.name ? 'blue' : '',
+																fontWeight: selectedBrand === brand.name ? 'bold' : ''
+															}}
+															onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
 														</a>
 													</li>
@@ -389,9 +393,14 @@ function Women() {
 											<ul>
 												{styles.map((style, idx) => (
 													<li key={style.name}>
-														<a style={{
-															color: selectedStyle === style.name ? "blue" : "", fontWeight: selectedStyle === style.name ? "bold" : ""
-														}} onClick={(e) => handleStyleClick(e, style.categoryId, style.name)} href="#">
+														<a
+															style={{
+																color: selectedStyle === style.name ? 'blue' : '',
+																fontWeight: selectedStyle === style.name ? 'bold' : ''
+															}}
+															onClick={(e) =>
+																handleStyleClick(e, style.categoryId, style.name)}
+															href="#">
 															{style.name}
 														</a>
 													</li>
@@ -440,8 +449,11 @@ function Women() {
 												{material.map((item, idx) => (
 													<li key={item.name}>
 														<a
-															onClick={(e) => handleMaterialClick(e, item.categoryId, item.name)} style={{
-																color: selectedMaterial === item.name ? "blue" : "", fontWeight: selectedMaterial === item.name ? "bold" : ""
+															onClick={(e) =>
+																handleMaterialClick(e, item.categoryId, item.name)}
+															style={{
+																color: selectedMaterial === item.name ? 'blue' : '',
+																fontWeight: selectedMaterial === item.name ? 'bold' : ''
 															}}
 															href="#">
 															{item.name}

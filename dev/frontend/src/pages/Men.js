@@ -11,14 +11,14 @@ import axios from 'axios';
 
 const Men = () => {
 	// Contains the product details for the products rendered on this page
-	const [products, setProducts] = useState([]);
-	const [brands, setBrands] = useState([]);
-	const [styles, setStyles] = useState([]);
-	const [material, setMaterial] = useState([]);
-	const [alertMessage, setAlertMessage] = useState([]);
-	const [selectedBrand, setSelectedBrand] = useState('');
-	const [selectedStyle, setSelectedStyle] = useState('');
-	const [selectedMaterial, setSelectedMaterial] = useState('');
+	const [ products, setProducts ] = useState([]);
+	const [ brands, setBrands ] = useState([]);
+	const [ styles, setStyles ] = useState([]);
+	const [ material, setMaterial ] = useState([]);
+	const [ alertMessage, setAlertMessage ] = useState([]);
+	const [ selectedBrand, setSelectedBrand ] = useState('');
+	const [ selectedStyle, setSelectedStyle ] = useState('');
+	const [ selectedMaterial, setSelectedMaterial ] = useState('');
 
 	const images = [
 		'assets/images/item-1.jpg',
@@ -109,7 +109,7 @@ const Men = () => {
 	const handleStyleClick = async (e, categoryId, styleName) => {
 		e.preventDefault();
 		if (styleName == selectedStyle) {
-			setSelectedStyle("");
+			setSelectedStyle('');
 		} else {
 			setSelectedStyle(styleName);
 		}
@@ -122,19 +122,19 @@ const Men = () => {
 			.then((res) => {
 				if (res.data.length === 0) {
 					alert('No products found in this style');
-					setSelectedStyle("");
+					setSelectedStyle('');
 					setProducts([]);
 					getMensProducts();
 				} else {
-					setProducts(res.data)
+					setProducts(res.data);
 				}
-			})
+			});
 	};
 
 	const handleMaterialClick = async (e, categoryId, materialName) => {
 		e.preventDefault();
 		if (materialName == selectedMaterial) {
-			setSelectedMaterial("");
+			setSelectedMaterial('');
 		} else {
 			setSelectedMaterial(materialName);
 		}
@@ -144,17 +144,16 @@ const Men = () => {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&materials=${categoryId}`
 			)
-			.then(
-				(res) => {
-					if (res.data.length === 0) {
-						alert('No products found in this material');
-						setSelectedMaterial("");
-						setProducts([]);
-						getMensProducts();
-					} else {
-						setProducts(res.data)
-					}
-				})
+			.then((res) => {
+				if (res.data.length === 0) {
+					alert('No products found in this material');
+					setSelectedMaterial('');
+					setProducts([]);
+					getMensProducts();
+				} else {
+					setProducts(res.data);
+				}
+			});
 	};
 
 	const handleOccasionClick = async (e, categoryId) => {
@@ -165,16 +164,15 @@ const Men = () => {
 				`http://${process.env
 					.REACT_APP_HOST_NAME}:3001/products?gender=63f3ff99c36bbddba5ec9b3e&occasion=${categoryId}`
 			)
-			.then(
-				(res) => {
-					if (res.data.length === 0) {
-						alert('No products found in this occassion');
-						setProducts([]);
-						getMensProducts();
-					} else {
-						setProducts(res.data);
-					}
-				});
+			.then((res) => {
+				if (res.data.length === 0) {
+					alert('No products found in this occassion');
+					setProducts([]);
+					getMensProducts();
+				} else {
+					setProducts(res.data);
+				}
+			});
 	};
 
 	const handleUnderConstructionClick = () => {
@@ -305,7 +303,7 @@ const Men = () => {
 											<a
 												href="#"
 												style={{ color: '#88c8bc', fontWeight: 'bold' }}
-												onClick={() => window.location.reload(true)}>
+												onClick={(e) => showAllClick(e)}>
 												Show All
 											</a>
 										</div>
@@ -319,7 +317,8 @@ const Men = () => {
 														<a
 															href="#"
 															style={{
-																color: selectedBrand === brand.name ? 'blue' : '', fontWeight: selectedBrand === brand.name ? "bold" : ""
+																color: selectedBrand === brand.name ? 'blue' : '',
+																fontWeight: selectedBrand === brand.name ? 'bold' : ''
 															}}
 															onClick={(e) => handleBrandClick(e, brand.name)}>
 															{brand.name}
@@ -390,9 +389,13 @@ const Men = () => {
 												{styles.map((style, idx) => (
 													<li key={idx}>
 														<a
-															onClick={(e) => handleStyleClick(e, style.categoryId, style.name)} style={{
-																color: selectedStyle === style.name ? "blue" : "", fontWeight: selectedStyle === style.name ? "bold" : ""
-															}} href="#">
+															onClick={(e) =>
+																handleStyleClick(e, style.categoryId, style.name)}
+															style={{
+																color: selectedStyle === style.name ? 'blue' : '',
+																fontWeight: selectedStyle === style.name ? 'bold' : ''
+															}}
+															href="#">
 															{style.name}
 														</a>
 													</li>
@@ -441,9 +444,13 @@ const Men = () => {
 												{material.map((item, idx) => (
 													<li key={idx}>
 														<a
-															onClick={(e) => handleMaterialClick(e, item.categoryId, item.name)} style={{
-																color: selectedMaterial === item.name ? "blue" : "", fontWeight: selectedMaterial === item.name ? "bold" : ""
-															}} href="#">
+															onClick={(e) =>
+																handleMaterialClick(e, item.categoryId, item.name)}
+															style={{
+																color: selectedMaterial === item.name ? 'blue' : '',
+																fontWeight: selectedMaterial === item.name ? 'bold' : ''
+															}}
+															href="#">
 															{item.name}
 														</a>
 													</li>

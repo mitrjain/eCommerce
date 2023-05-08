@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar';
 import '../styles/seller.css';
 import { uploadFile } from 'react-s3';
 import { Buffer } from "buffer";
+import { Link } from 'react-router-dom';
 
 Buffer.from("anything", "base64");
 window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -427,6 +428,20 @@ function SellerPage() {
                         <div className="container">
                             <Header />
                             <NavBar />
+                            <div className="breadcrumbs">
+					<div className="container">
+						<div className="row">
+							<div className="col">
+								<p className="bread">
+									<span>
+										<Link to="/">Home</Link>
+									</span>{' '}
+									/ <span>Seller</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
                             <h1 className="text-center m-5"> Want to sell another product? Add one here </h1>
                             <div>
                                 <form action="#">

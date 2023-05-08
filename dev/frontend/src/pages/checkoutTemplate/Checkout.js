@@ -110,7 +110,7 @@ export default function Checkout() {
 
 								<Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>
 									{activeStep === steps.length - 1 ? (
-										<Link style={{ color: 'white' }} to="/">
+										<Link style={{ color: 'white' }} to="/order-complete">
 											Place Order
 										</Link>
 									) : (

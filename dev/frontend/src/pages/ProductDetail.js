@@ -61,7 +61,7 @@ function ProductDetail() {
 		[ apiData, selectedSize, quantity, selectedColor ]
 	);
 
-	const handleAddToCartClick = () => {
+	const handleAddToCartClick = (e) => {
 		if (Object.keys(currentItem).length > 0 && !cartItems.includes(currentItem) && selectedSize && selectedColor) {
 			console.log(currentItem);
 			setCartItems((cartItems) => [ ...cartItems, currentItem ]);
@@ -69,6 +69,11 @@ function ProductDetail() {
 			let obj = {};
 			obj[currentItem.productId] = quantity;
 			setQuantityArray((items) => [ ...items, obj ]);
+		}
+		if (selectedSize === null) {
+			alert('Please select a size!');
+		} else if (selectedColor === null) {
+			alert('Please select a color!');
 		}
 	};
 
@@ -222,7 +227,9 @@ function ProductDetail() {
 											</ul>
 										</div>
 										<div className="block-26 mb-2">
-											<h4>Color</h4>
+											<h4>
+												Color <span>(Select Size to view Color)</span>
+											</h4>
 											<ul>
 												{selectedSize !== null ? (
 													sizeColorArray.map((sizes, idx) => {
@@ -281,7 +288,7 @@ function ProductDetail() {
 													href="#"
 													to="/cart"
 													className="btn btn-primary btn-addtocart"
-													onClick={handleAddToCartClick}>
+													onClick={(e) => handleAddToCartClick(e)}>
 													<i className="icon-shopping-cart" /> Add to Cart
 												</a>
 											</p>

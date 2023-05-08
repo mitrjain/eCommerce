@@ -47,10 +47,6 @@ const Index = () => {
 				<HomeCollection />
 
 				<BestSellers />
-
-				<TrustedPartners />
-
-				<Footer />
 			</div>
 
 			<div className="gototop js-top">
