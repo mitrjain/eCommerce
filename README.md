@@ -1,4 +1,11 @@
-Team Gladiators - Shivani Asokumar, Akash Narang, Mit Jain, Juhi Malkani Project title: Ecommerce
+Team Gladiators:
+- Shivani Asokumar
+- Akash Narang
+- Mit Jain
+- Rohit Yadav
+- Juhi Malkani
+
+Project title: Ecommerce
 
 Github URL: https://github.com/mitrjain/eCommerce
 
